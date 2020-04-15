@@ -6,9 +6,7 @@ import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
 import nl.han.ica.oopg.griddefence.Tower.Tower1;
-import nl.han.ica.oopg.dashboard.Dashboard;
 import nl.han.ica.oopg.engine.GameEngine;
-import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import nl.han.ica.oopg.tile.Tile;
 import nl.han.ica.oopg.tile.TileMap;
@@ -50,7 +48,7 @@ public class GridDefence extends GameEngine {
         Tower1 towerOne = new Tower1(((worldWidth / 2) - 240), (worldHeight - 160), 80, 40);
         UserInterface towerUI = new UserInterface(((worldWidth / 2) - 200), (worldHeight - 120), 400, 120);
         towerUI.setBackground(85, 85, 85);
-        towerOne.setBackground(255, 0, 0);
+        // towerOne.setBackground(255, 0, 0);
         
         // addDashboard(towerOne);
         towerUI.addGameObject(towerOne);
