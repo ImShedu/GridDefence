@@ -1,7 +1,7 @@
 package nl.han.ica.oopg.griddefence;
 
-
 import nl.han.ica.oopg.griddefence.Tiles.BoardsTile;
+import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.engine.GameEngine;
 import nl.han.ica.oopg.objects.Sprite;
 import nl.han.ica.oopg.tile.TileMap;
@@ -38,21 +38,28 @@ public class GridDefence extends GameEngine {
 
     private void generateTileMap() {
         /* TILES */
-        Sprite testSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Reptile1.jpg");
-        TileType<BoardsTile> boardTileType = new TileType<>(BoardsTile.class, testSprite);
+        Sprite boardSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Reptile1.jpg");
+        Sprite pathSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Path1.jpg");
+        Sprite towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Tower1.jpg");
+        Sprite enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Enemy1.jpg");
+        Sprite castleSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Castle1.jpg");
+        Sprite spawnSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Spawn1.jpg");
 
-        TileType[] tileTypes = {boardTileType};
+        TileType<BoardsTile> boardTileType = new TileType<>(BoardsTile.class, boardSprite);
+        TileType<PathTile> pathTileType = new TileType<>(PathTile.class, pathSprite);
+
+        TileType[] tileTypes = {boardTileType, pathTileType};
         int tileSize = 50;
         int tilesMap[][] = {
+            {-1 , 0 , 0},
             {0 , 0 , 0},
+            {0 , -1 , 0},
             {0 , 0 , 0},
-            {0 , 0 , 0},
-            {0 , 0 , 0},
-            {0 , 0 , 0},
-            {0 , 0 , 0},
-            {0 , 0 , 0},
-            {0 , 0 , 0},
-            {0 , 0 , 0}
+            {0 , 0 , -1},
+            {0 , 1 , 0},
+            {0 , 0 , 1},
+            {0 , 1 , 0},
+            {0 , 0 , 1}
         };
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }
