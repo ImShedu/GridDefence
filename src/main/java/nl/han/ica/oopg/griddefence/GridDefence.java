@@ -5,7 +5,6 @@ import nl.han.ica.oopg.griddefence.Tiles.CastleTile;
 import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
-import nl.han.ica.oopg.griddefence.Tower.Tower1;
 import nl.han.ica.oopg.engine.GameEngine;
 import nl.han.ica.oopg.objects.Sprite;
 import nl.han.ica.oopg.tile.Tile;
@@ -45,71 +44,55 @@ public class GridDefence extends GameEngine {
     }
 
     private void createDashboard() {
-        Tower1 towerOne = new Tower1(((worldWidth / 2) - 240), (worldHeight - 160), 80, 40);
+        UserInterface towerOne = new UserInterface(((worldWidth / 2) - 160), (worldHeight - 80), 80, 40);
         UserInterface towerUI = new UserInterface(((worldWidth / 2) - 200), (worldHeight - 120), 400, 120);
         towerUI.setBackground(85, 85, 85);
-        // towerOne.setBackground(255, 0, 0);
-        
-        // addDashboard(towerOne);
-        towerUI.addGameObject(towerOne);
-        addDashboard(towerUI);
+        towerOne.setBackground(255, 0, 0);
 
-        // UserInterface ui = new UserInterface(200, 200, 200, 200);
-        // ui.setBackground(0, 255, 0);
-        // addDashboard(ui);
+        addDashboard(towerUI);
+        addDashboard(towerOne);
     }
 
-    // Check of tile geselecteerd is en veranderd geselecteerde tile naar een
-    // geselecteerde sprite
-    // vernaderd daarbij ook de voorgaand geselecteerde tile terug naar een normale
-    // tile
     @Override
     public void mouseClicked() {
         TileMap TM = getTileMap();
         Tile currentTile = TM.getTileOnPosition(mouseX, mouseY);
 
-        // Eerste IF test kijkt of de geselecteerd tile gelijk is aan een normale tile
-        // waar op gebouwd kan worden
-        // De tweede IF test kijkt of er een voorgaand geselecteerde tile was
-        // Indien er een voorgaand geselecteerde tile aanwezig is, dan verandere we de
-        // huidige tile naar een geselecteerde sprite
-        // en de voorgaand geselecteerde tile naar een normale sprite
+        Sprite selectedSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Selected1.jpg");
+        Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
+
+        // Eerste IF test checkt of geselecteerde tile = bouwbare tile
+        // Tweede IF test deselect huidige tile
+        // Derde IF test veranderd geselecteerde tile naar selectedSprite & deselect vorige tile
         if (TM.findTileTypeIndex(currentTile) == 0) {
-                System.out.println("test1");
-            if (previousTile != null) {
-                    System.out.println("Test2");
-
-                    Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
-                previousTile.setSprite(resetSprite);
-
-                Sprite selectedSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Selected1.jpg");
-                currentTile.setSprite(selectedSprite);
-
-                // Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
-                // previousTile.setSprite(resetSprite);
-
-                previousTile = currentTile;
+            if (previousTile == currentTile) {
+                currentTile.setSprite(resetSprite);
+                previousTile = null;
+                return;
             } else {
-                previousTile = currentTile;
-                Sprite selectedSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Selected1.jpg");
-                previousTile.setSprite(selectedSprite);
+                if (previousTile != null) {
+                    currentTile.setSprite(selectedSprite);
+                    previousTile.setSprite(resetSprite);
+                    previousTile = currentTile;
+                } else {
+                    previousTile = currentTile;
+                    previousTile.setSprite(selectedSprite);
+                }
             }
         }
     }
 
     private void generateTileMap() {
-        // TILES Sprites
+        // Sprites van de tiles
         Sprite boardSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
         Sprite pathSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Path1.jpg");
         Sprite noBuildSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/NoBuild.jpg");
-
         Sprite castleSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Castle1.jpg");
         Sprite spawnSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Spawn1.jpg");
 
         TileType<BoardsTile> boardTileType = new TileType<>(BoardsTile.class, boardSprite);
         TileType<PathTile> pathTileType = new TileType<>(PathTile.class, pathSprite);
         TileType<NoBuildTile> noBuildTileType = new TileType<>(NoBuildTile.class, noBuildSprite);
-
         TileType<CastleTile> castleTileType = new TileType<>(CastleTile.class, castleSprite);
         TileType<SpawnTile> spawnTileType = new TileType<>(SpawnTile.class, spawnSprite);
 
