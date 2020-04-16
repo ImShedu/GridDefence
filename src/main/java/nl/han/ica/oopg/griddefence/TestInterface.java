@@ -40,7 +40,5 @@ public class TestInterface extends GameObject {
         g.rect(640, 720, 80, 40);
         g.rect(760, 720, 80, 40);
         g.rect(880, 720, 80, 40);
-
-
     }
 }
