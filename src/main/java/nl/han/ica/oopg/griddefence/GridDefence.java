@@ -33,7 +33,8 @@ public class GridDefence extends GameEngine {
 
         generateTileMap();
         createViewWithoutViewport(worldWidth, worldHeight);
-        createDashboard();
+        // createDashboard();
+        createUI();
     }
 
     private void createViewWithoutViewport(int screenWidth, int screenHeight) {
@@ -43,18 +44,23 @@ public class GridDefence extends GameEngine {
         size(screenWidth, screenHeight);
     }
 
-    private void createDashboard() {
-        UserInterface towerOne = new UserInterface(((worldWidth / 2) - 160), (worldHeight - 80), 80, 40);
-        UserInterface towerUI = new UserInterface(((worldWidth / 2) - 200), (worldHeight - 120), 400, 120);
-        towerUI.setBackground(85, 85, 85);
-        towerOne.setBackground(255, 0, 0);
-
-        addDashboard(towerUI);
-        addDashboard(towerOne);
+    private void createUI() {
+        TestInterface testUI = new TestInterface();
+        addGameObject(testUI, 1);
     }
 
+    // private void createDashboard() {
+    //     UserInterface towerOne = new UserInterface(((worldWidth / 2) - 160), (worldHeight - 80), 80, 40);
+    //     UserInterface towerUI = new UserInterface(((worldWidth / 2) - 200), (worldHeight - 120), 400, 120);
+    //     towerUI.setBackground(85, 85, 85);
+    //     towerOne.setBackground(255, 0, 0);
+
+    //     addDashboard(towerUI);
+    //     addDashboard(towerOne);
+    // }
+
     @Override
-    public void mouseClicked() {
+    public void mouseClicked() {        
         TileMap TM = getTileMap();
         Tile currentTile = TM.getTileOnPosition(mouseX, mouseY);
 
