@@ -15,8 +15,8 @@ import nl.han.ica.oopg.view.View;
 
 public class GridDefence extends GameEngine {
     private Tile previousTile;
-    private int worldWidth = 1600;
-    private int worldHeight = 800;
+    // private int worldWidth = 1600;
+    // private int worldHeight = 800;
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -28,8 +28,8 @@ public class GridDefence extends GameEngine {
     @Override
     public void setupGame() {
         // TODO Auto-generated method stub
-        // int worldWidth = 1600;
-        // int worldHeight = 800;
+        int worldWidth = 1600;
+        int worldHeight = 800;
 
         generateTileMap();
         createViewWithoutViewport(worldWidth, worldHeight);
