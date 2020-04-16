@@ -75,13 +75,18 @@ public class GridDefence extends GameEngine {
         // huidige tile naar een geselecteerde sprite
         // en de voorgaand geselecteerde tile naar een normale sprite
         if (TM.findTileTypeIndex(currentTile) == 0) {
+                System.out.println("test1");
             if (previousTile != null) {
+                    System.out.println("Test2");
+
+                    Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
+                previousTile.setSprite(resetSprite);
 
                 Sprite selectedSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Selected1.jpg");
                 currentTile.setSprite(selectedSprite);
 
-                Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
-                previousTile.setSprite(resetSprite);
+                // Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
+                // previousTile.setSprite(resetSprite);
 
                 previousTile = currentTile;
             } else {
