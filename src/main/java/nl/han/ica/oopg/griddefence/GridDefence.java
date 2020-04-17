@@ -6,7 +6,9 @@ import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
 import nl.han.ica.oopg.griddefence.Tiles.TowerTile;
+import nl.han.ica.oopg.griddefence.Tower.Tower1;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import nl.han.ica.oopg.engine.GameEngine;
@@ -15,12 +17,13 @@ import nl.han.ica.oopg.tile.Tile;
 import nl.han.ica.oopg.tile.TileMap;
 import nl.han.ica.oopg.tile.TileType;
 import processing.core.PApplet;
+import processing.core.PVector;
 import nl.han.ica.oopg.view.View;
 
 public class GridDefence extends GameEngine {
+    private final int tileSize = 40;
     private Tile previousTile;
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
-    private Sprite towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Tower1.jpg");
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -34,11 +37,11 @@ public class GridDefence extends GameEngine {
         // TODO Auto-generated method stub
         int worldWidth = 1600;
         int worldHeight = 800;
-        
+
         generateTileMap();
         createViewWithoutViewport(worldWidth, worldHeight);
         createUI();
-        testMouse(); 
+        testMouse();
     }
 
     private void createViewWithoutViewport(int screenWidth, int screenHeight) {
@@ -54,9 +57,12 @@ public class GridDefence extends GameEngine {
     }
 
     private void testMouse() {
-        ClickableObject uiTowerOne = new ClickableObject(640, 720, 80, 40, 1);
-        ClickableObject uiTowerTwo = new ClickableObject(760, 720, 80, 40, 2);
-        ClickableObject uiTowerThree = new ClickableObject(880, 720, 80, 40, 3);
+        ClickableObject uiTowerOne = new ClickableObject(640, 720, 80, 40);
+        uiTowerOne.setTowerNumber(1);
+        ClickableObject uiTowerTwo = new ClickableObject(760, 720, 80, 40);
+        uiTowerTwo.setTowerNumber(2);
+        ClickableObject uiTowerThree = new ClickableObject(880, 720, 80, 40);
+        uiTowerThree.setTowerNumber(3);
 
         addGameObject(uiTowerOne, 1);
         addGameObject(uiTowerTwo, 1);
@@ -66,7 +72,6 @@ public class GridDefence extends GameEngine {
         cObjects.add(uiTowerTwo);
         cObjects.add(uiTowerThree);
 
-
         ClickableObject temp = null;
         for (ClickableObject bo : cObjects) {
             if (bo.mouseClicked(mouseX, mouseY)) {
@@ -74,29 +79,41 @@ public class GridDefence extends GameEngine {
             }
         }
 
-        if (temp != null) {
-            temp.printLine();
+        if (temp != null && previousTile != null) {
+            if (temp.checkTowerNumber()) {
+                createTower(temp.getTowerNumber());
+            }
         }
-        
+
+    }
+
+    // TODO create building logic
+    public void createTower(int towerNumber) {
+        TileMap testTM = getTileMap();
+        float[] test = testTM.getTilePixelLocation(previousTile).array();
+
+        Tower1 testTowerOne = new Tower1(test[0], test[1], tileSize, tileSize, 0, 0, 0, 0);
+        addGameObject(testTowerOne);
+        cObjects.add(testTowerOne);
+        System.out.println("TeSTSE");
     }
 
     // private void createDashboard() {
-    //     Dashboard testCB = new Dashboard(600, 600, 200, 200);
-    //     ClickableObject test2 = new ClickableObject(600, 600, 400, 100);
-    //     testCB.addGameObject(test2);
-    //     testCB.setBackground(250, 0, 0);
-    //     addDashboard(testCB);
+    // Dashboard testCB = new Dashboard(600, 600, 200, 200);
+    // ClickableObject test2 = new ClickableObject(600, 600, 400, 100);
+    // testCB.addGameObject(test2);
+    // testCB.setBackground(250, 0, 0);
+    // addDashboard(testCB);
 
-    //     ClickableObject test2 = new ClickableObject(550, 600, 100, 100);
-    //     addGameObject(test2, 1);
-    //     cObjects.add(test2);
-    //     testCB.addGameObject(test2, 2);
+    // ClickableObject test2 = new ClickableObject(550, 600, 100, 100);
+    // addGameObject(test2, 1);
+    // cObjects.add(test2);
+    // testCB.addGameObject(test2, 2);
     // }
 
     @Override
     public void mouseClicked() {
         testMouse();
-
 
         TileMap TM = getTileMap();
         Tile currentTile = TM.getTileOnPosition(mouseX, mouseY);
@@ -106,8 +123,7 @@ public class GridDefence extends GameEngine {
 
         // Eerste IF test checkt of geselecteerde tile = bouwbare tile
         // Tweede IF test deselect huidige tile
-        // Derde IF test veranderd geselecteerde tile naar selectedSprite & deselect
-        // vorige tile
+        // Derde IF test veranderd geselecteerde tile naar selectedSprite
         if (TM.findTileTypeIndex(currentTile) == 0) {
             if (previousTile == currentTile) {
                 currentTile.setSprite(resetSprite);
@@ -133,7 +149,6 @@ public class GridDefence extends GameEngine {
         Sprite noBuildSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/NoBuild.jpg");
         Sprite castleSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Castle1.jpg");
         Sprite spawnSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Spawn1.jpg");
-        
 
         TileType<BoardsTile> boardTileType = new TileType<>(BoardsTile.class, boardSprite);
         TileType<PathTile> pathTileType = new TileType<>(PathTile.class, pathSprite);
@@ -143,10 +158,10 @@ public class GridDefence extends GameEngine {
 
         // TILEMAP
         TileType[] tileTypes = { boardTileType, pathTileType, noBuildTileType, castleTileType, spawnTileType };
-        int tileSize = 40;
+        // int tileSize = 40;
         int tilesMap[][] = {
-                { 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0 },
+                { 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0 },
                 { 2, 4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 2, 2, 2 },
                 { 2, 2, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -179,12 +194,13 @@ public class GridDefence extends GameEngine {
                         0, 0, 0, 0, 0, 0 },
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                        0, 0, 0, 0, 0, 0 } };
+                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1 } };
+
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }
 

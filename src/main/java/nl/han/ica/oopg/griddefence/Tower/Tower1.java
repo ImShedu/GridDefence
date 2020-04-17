@@ -1,15 +1,12 @@
 package nl.han.ica.oopg.griddefence.Tower;
 
-public class Tower1 extends Tower implements ITower {
+import nl.han.ica.oopg.objects.Sprite;
+import nl.han.ica.oopg.objects.SpriteObject;
+import processing.core.PGraphics;
 
-    public Tower1(int cost, int range, int damage, int rate) {
-        super(cost, range, damage, rate);
+public class Tower1 extends Tower {  
+    public Tower1(float x, float y, float width, float height, int cost, int range, int damage, int rate) {
+        super(x, y, width, height, cost, range, damage, rate);
         // TODO Auto-generated constructor stub
-    }
-
-    @Override
-    public void shootProjectile() {
-        // TODO Auto-generated method stub
-
     }
 }
