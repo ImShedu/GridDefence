@@ -21,6 +21,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     private GridDefence world;
 
     public Enemy(int speed, int hp, int damage, TileMap enemyTileMap) {
+        super(0,0,40,40);
         this.speed = speed;
         this.hp = hp;
         this.damage = damage;
@@ -35,8 +36,9 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
         // TODO Auto-generated method stub
-        System.out.println(collidedTiles);
-        System.out.println("TESSTS");
+        if(world.getTileMap().findTileTypeIndex(collidedTiles.get(1).getTile()) == 1) {
+            System.out.println("TESTESTSET");
+        }
     }
 
     @Override

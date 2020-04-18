@@ -39,7 +39,7 @@ public class EnemySpawner implements IAlarmListener {
 
     public void spawnEnemy(TileMap enemyTileMap) {
         Enemy testEnemy1 = new Enemy(2,2,1,enemyTileMap);
-        world.addGameObject(testEnemy1, 120, 120);
+        world.addGameObject(testEnemy1, 40, 40);
         testEnemy1.setDirectionSpeed(90, 2);
         enemyList.add(testEnemy1);
     }
