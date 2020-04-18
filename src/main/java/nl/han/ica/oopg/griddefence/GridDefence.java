@@ -1,14 +1,14 @@
 package nl.han.ica.oopg.griddefence;
 
+import nl.han.ica.oopg.griddefence.Enemy.Enemy;
+import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.griddefence.Tiles.BoardsTile;
 import nl.han.ica.oopg.griddefence.Tiles.CastleTile;
 import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
-import nl.han.ica.oopg.griddefence.Tiles.TowerTile;
 import nl.han.ica.oopg.griddefence.Tower.Tower1;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import nl.han.ica.oopg.engine.GameEngine;
@@ -17,13 +17,14 @@ import nl.han.ica.oopg.tile.Tile;
 import nl.han.ica.oopg.tile.TileMap;
 import nl.han.ica.oopg.tile.TileType;
 import processing.core.PApplet;
-import processing.core.PVector;
 import nl.han.ica.oopg.view.View;
 
 public class GridDefence extends GameEngine {
     private final int tileSize = 40;
     private Tile previousTile;
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
+    private EnemySpawner enemySpawner;
+    private TileMap globalTileMap;
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -42,6 +43,7 @@ public class GridDefence extends GameEngine {
         createViewWithoutViewport(worldWidth, worldHeight);
         createUI();
         testMouse();
+        createEnemySpawner();
     }
 
     private void createViewWithoutViewport(int screenWidth, int screenHeight) {
@@ -95,7 +97,22 @@ public class GridDefence extends GameEngine {
         Tower1 testTowerOne = new Tower1(test[0], test[1], tileSize, tileSize, 0, 0, 0, 0);
         addGameObject(testTowerOne);
         cObjects.add(testTowerOne);
-        System.out.println("TeSTSE");
+        createEnemy();
+        System.out.println(getGameObjectItems());
+    }
+
+    public void createEnemySpawner() {
+        enemySpawner = new EnemySpawner(this, 1);
+    }
+
+    public void createEnemy() {
+        enemySpawner.spawnEnemy(globalTileMap);
+        
+        // Print out all enemy currently in a list
+        // System.out.println(enemySpawner.getEnemyList());
+        ArrayList<Enemy> testDirectionList = enemySpawner.getEnemyList();
+        Enemy changeDirection = testDirectionList.get(0);
+        float direction = changeDirection.getDirection();
     }
 
     // private void createDashboard() {
@@ -202,6 +219,7 @@ public class GridDefence extends GameEngine {
                         0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1 } };
 
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
+        globalTileMap = getTileMap();
     }
 
     @Override
