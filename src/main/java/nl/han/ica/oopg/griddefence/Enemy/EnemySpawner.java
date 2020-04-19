@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import nl.han.ica.oopg.alarm.Alarm;
 import nl.han.ica.oopg.alarm.IAlarmListener;
 import nl.han.ica.oopg.griddefence.GridDefence;
-import nl.han.ica.oopg.tile.TileMap;
 
 public class EnemySpawner implements IAlarmListener {
 
@@ -37,8 +36,8 @@ public class EnemySpawner implements IAlarmListener {
         // enemyList.add(testEnemy);
     }
 
-    public void spawnEnemy(TileMap enemyTileMap) {
-        Enemy testEnemy1 = new Enemy(2,2,1,enemyTileMap);
+    public void spawnEnemy(int x, int y) {
+        Enemy testEnemy1 = new Enemy(x, y, 40, 2, 2, 1, world);
         world.addGameObject(testEnemy1, 40, 40);
         testEnemy1.setDirectionSpeed(90, 2);
         enemyList.add(testEnemy1);

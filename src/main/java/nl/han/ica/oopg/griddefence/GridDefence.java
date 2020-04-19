@@ -97,8 +97,6 @@ public class GridDefence extends GameEngine {
         Tower1 testTowerOne = new Tower1(test[0], test[1], tileSize, tileSize, 0, 0, 0, 0);
         addGameObject(testTowerOne);
         cObjects.add(testTowerOne);
-        createEnemy();
-        System.out.println(getGameObjectItems());
     }
 
     public void createEnemySpawner() {
@@ -106,13 +104,13 @@ public class GridDefence extends GameEngine {
     }
 
     public void createEnemy() {
-        enemySpawner.spawnEnemy(globalTileMap);
-        
+        enemySpawner.spawnEnemy(40, 40);
+
         // Print out all enemy currently in a list
         // System.out.println(enemySpawner.getEnemyList());
-        ArrayList<Enemy> testDirectionList = enemySpawner.getEnemyList();
-        Enemy changeDirection = testDirectionList.get(0);
-        float direction = changeDirection.getDirection();
+        // ArrayList<Enemy> testDirectionList = enemySpawner.getEnemyList();
+        // Enemy changeDirection = testDirectionList.get(0);
+        // float direction = changeDirection.getDirection();
     }
 
     // private void createDashboard() {
@@ -127,6 +125,17 @@ public class GridDefence extends GameEngine {
     // cObjects.add(test2);
     // testCB.addGameObject(test2, 2);
     // }
+
+    @Override
+    public void keyTyped() {
+        if (key == 'a') {
+            createEnemy();
+        }
+
+        if (key == 's') {
+            createTower(1);
+        }
+    }
 
     @Override
     public void mouseClicked() {
@@ -179,7 +188,7 @@ public class GridDefence extends GameEngine {
         int tilesMap[][] = {
                 { 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0 },
-                { 2, 4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                { 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 2, 2, 2 },
                 { 2, 2, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                         1, 1, 1, 1, 3, 2 },
