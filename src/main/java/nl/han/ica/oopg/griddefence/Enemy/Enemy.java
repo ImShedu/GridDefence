@@ -72,6 +72,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         // Checks if next tile is castle (endtile)
         if (world.getTileMap().findTileTypeIndex(tile0) == 3 || world.getTileMap().findTileTypeIndex(tile1) == 3) {
             world.deleteGameObject(this);
+            EnemySpawner.handleEnemyDeath(this);
         }
 
         // Checking current position tile equal to 1 (Path tile)

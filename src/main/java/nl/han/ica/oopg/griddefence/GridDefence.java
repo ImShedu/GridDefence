@@ -112,7 +112,8 @@ public class GridDefence extends GameEngine {
     // Create enemy spawner from spawntile (Actual gamemechanic)
     public void createEnemySpawner() {
         // TODO Create spawner in combination with timer
-        enemySpawner = new EnemySpawner(this, 2); // # = amount of enemies per second
+    	
+        enemySpawner = new EnemySpawner(this, 12); // Number of waves
     }
 
     // Create enemy spawner from button (Testing purpose)
@@ -233,4 +234,5 @@ public class GridDefence extends GameEngine {
         // TODO Auto-generated method stub
 
     }
+    
 }
