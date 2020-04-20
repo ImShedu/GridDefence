@@ -41,6 +41,7 @@ public class EnemySpawner implements IAlarmListener {
         return enemyList;
     }
 
+    // Automated enemyspawner (not working as intended)
     @Override
     public void triggerAlarm(String alarmName) {
         // TODO Auto-generated method stub
@@ -51,6 +52,7 @@ public class EnemySpawner implements IAlarmListener {
         startAlarm();
     }
 
+    // Enemyspawner for testing purpose only
     public void spawnEnemy(int x, int y) {
         Enemy testEnemy1 = new Enemy(x, y, 40, 2, 2, 1, world);
         world.addGameObject(testEnemy1, 40, 40);

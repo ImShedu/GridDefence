@@ -33,6 +33,9 @@ public class Tower1 extends Tower {
     //start point center tower // endpoint center enemy > collision enemy object = remove projectile
     public void shootProjectile() {
         eDetect.getEnemyInAreaList();
+        // int testX = eDetect.getEnemyInAreaList().get(0);
+        
+        // proj = new Projectile(x, y, 20, 20, xxxxxxx, 1);
 
     }
 }

@@ -25,7 +25,6 @@ public class GridDefence extends GameEngine {
     private Tile previousTile;
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
     private EnemySpawner enemySpawner;
-    private TileMap globalTileMap;
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -47,6 +46,7 @@ public class GridDefence extends GameEngine {
         createEnemySpawner();
     }
 
+    // Birds-eye view
     private void createViewWithoutViewport(int screenWidth, int screenHeight) {
         View view = new View(screenWidth, screenHeight);
 
@@ -54,11 +54,13 @@ public class GridDefence extends GameEngine {
         size(screenWidth, screenHeight);
     }
 
+    // Non-clickable UserInterface
     private void createUI() {
         UserInterface testUI = new UserInterface();
         addGameObject(testUI, 1);
     }
 
+    // Clickable UserInterface (GameObjects)
     private void testMouse() {
         ClickableObject uiTowerOne = new ClickableObject(640, 720, 80, 40);
         uiTowerOne.setTowerNumber(1);
@@ -90,48 +92,35 @@ public class GridDefence extends GameEngine {
 
     }
 
+    // Return tilesize for easier calculation purpose
     public int getTileSize() {
         return tileSize;
     }
 
-    // TODO create building logic
+    // Create tower
     public void createTower(int towerNumber) {
+        // TODO create building logic
         TileMap testTM = getTileMap();
         float[] test = testTM.getTilePixelLocation(previousTile).array();
 
+        // (X position, Y position, Width, Height, World, Cost, Range, Dmg, Rate)
         Tower1 testTowerOne = new Tower1(test[0], test[1], tileSize, tileSize, this, 1, 3, 1, 1);
         addGameObject(testTowerOne);
         cObjects.add(testTowerOne);
     }
 
+    // Create enemy spawner from spawntile (Actual gamemechanic)
     public void createEnemySpawner() {
-        //# = amount of enemies per second
-        enemySpawner = new EnemySpawner(this, 2);
+        // TODO Create spawner in combination with timer
+        enemySpawner = new EnemySpawner(this, 2); // # = amount of enemies per second
     }
 
+    // Create enemy spawner from button (Testing purpose)
     public void createEnemy() {
         enemySpawner.spawnEnemy(40, 40);
-
-        // Print out all enemy currently in a list
-        // System.out.println(enemySpawner.getEnemyList());
-        // ArrayList<Enemy> testDirectionList = enemySpawner.getEnemyList();
-        // Enemy changeDirection = testDirectionList.get(0);
-        // float direction = changeDirection.getDirection();
     }
 
-    // private void createDashboard() {
-    // Dashboard testCB = new Dashboard(600, 600, 200, 200);
-    // ClickableObject test2 = new ClickableObject(600, 600, 400, 100);
-    // testCB.addGameObject(test2);
-    // testCB.setBackground(250, 0, 0);
-    // addDashboard(testCB);
-
-    // ClickableObject test2 = new ClickableObject(550, 600, 100, 100);
-    // addGameObject(test2, 1);
-    // cObjects.add(test2);
-    // testCB.addGameObject(test2, 2);
-    // }
-
+    // Testing purpose
     @Override
     public void keyTyped() {
         if (key == 'a') {
@@ -145,6 +134,7 @@ public class GridDefence extends GameEngine {
 
     @Override
     public void mouseClicked() {
+        // Clickable objects (Testing phasse)
         testMouse();
 
         TileMap TM = getTileMap();
@@ -153,15 +143,17 @@ public class GridDefence extends GameEngine {
         Sprite selectedSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Selected1.jpg");
         Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
 
-        // Eerste IF test checkt of geselecteerde tile = bouwbare tile
-        // Tweede IF test deselect huidige tile
-        // Derde IF test veranderd geselecteerde tile naar selectedSprite
+        // Checks selectedtile = buildtile
         if (TM.findTileTypeIndex(currentTile) == 0) {
+
+            // Deselects current tile
             if (previousTile == currentTile) {
                 currentTile.setSprite(resetSprite);
                 previousTile = null;
                 return;
             } else {
+
+                // Change sprite of selected tile
                 if (previousTile != null) {
                     currentTile.setSprite(selectedSprite);
                     previousTile.setSprite(resetSprite);
@@ -234,7 +226,6 @@ public class GridDefence extends GameEngine {
                         0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1 } };
 
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
-        globalTileMap = getTileMap();
     }
 
     @Override

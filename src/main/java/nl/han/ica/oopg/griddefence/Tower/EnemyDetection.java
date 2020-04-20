@@ -23,7 +23,7 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
 		// TODO Auto-generated method stub
 		for (GameObject g : collidedGameObjects) {
             if (g instanceof Enemy) {
-                System.out.println("Enemy detected");
+                System.out.println();
                 enemyInArea.add(g);
             }
         }
