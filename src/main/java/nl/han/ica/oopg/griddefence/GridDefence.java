@@ -118,7 +118,7 @@ public class GridDefence extends GameEngine {
 
     // Create enemy spawner from button (Testing purpose)
     public void createEnemy() {
-        enemySpawner.spawnEnemy(40, 40);
+        //enemySpawner.spawnEnemy(40, 40);
     }
 
     // Testing purpose
