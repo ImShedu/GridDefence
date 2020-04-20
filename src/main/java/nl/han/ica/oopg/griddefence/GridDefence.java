@@ -7,6 +7,7 @@ import nl.han.ica.oopg.griddefence.Tiles.CastleTile;
 import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
+import nl.han.ica.oopg.griddefence.Tower.Tower;
 import nl.han.ica.oopg.griddefence.Tower.Tower1;
 
 import java.util.ArrayList;
@@ -89,18 +90,23 @@ public class GridDefence extends GameEngine {
 
     }
 
+    public int getTileSize() {
+        return tileSize;
+    }
+
     // TODO create building logic
     public void createTower(int towerNumber) {
         TileMap testTM = getTileMap();
         float[] test = testTM.getTilePixelLocation(previousTile).array();
 
-        Tower1 testTowerOne = new Tower1(test[0], test[1], tileSize, tileSize, 0, 0, 0, 0);
+        Tower1 testTowerOne = new Tower1(test[0], test[1], tileSize, tileSize, this, 1, 3, 1, 1);
         addGameObject(testTowerOne);
         cObjects.add(testTowerOne);
     }
 
     public void createEnemySpawner() {
-        enemySpawner = new EnemySpawner(this, 1);
+        //# = amount of enemies per second
+        enemySpawner = new EnemySpawner(this, 2);
     }
 
     public void createEnemy() {
@@ -188,7 +194,7 @@ public class GridDefence extends GameEngine {
         int tilesMap[][] = {
                 { 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0 },
-                { 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                { 2, 4, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 2, 2, 2 },
                 { 2, 2, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                         1, 1, 1, 1, 3, 2 },
