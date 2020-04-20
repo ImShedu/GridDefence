@@ -16,6 +16,16 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     private Sprite enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Enemy1.jpg");
     private GridDefence world;
 
+    /**
+     * 
+     * @param x int	X coordinate for the enemy
+     * @param y int Y coordinate for the enemy
+     * @param size int size for the enemy
+     * @param speed int of the enemy
+     * @param hp int health points fo the enemy
+     * @param damage int Damage inflicted by the enemy
+     * @param GridDefence World the world for the enemy to be in
+     */
     public Enemy(int x, int y, int size, int speed, int hp, int damage, GridDefence world) {
         super(x, y, size, size);
         this.speed = speed;
