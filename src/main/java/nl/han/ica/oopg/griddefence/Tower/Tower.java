@@ -7,11 +7,13 @@ import nl.han.ica.oopg.objects.SpriteObject;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+
+//TODO remake tower
 public class Tower extends ClickableObject {
 
     private Sprite towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Tower1.jpg");
     private int cost, range, damage, rate;
-    private GridDefence world;
+    protected GridDefence world;
     private EnemyDetection eDetect;
 
     public Tower(float x, float y, float width, float height, int cost, int range, int damage, int rate, GridDefence world) {
