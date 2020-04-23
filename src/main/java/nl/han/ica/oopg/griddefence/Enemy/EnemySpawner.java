@@ -3,6 +3,8 @@ package nl.han.ica.oopg.griddefence.Enemy;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import nl.han.ica.oopg.alarm.Alarm;
+import nl.han.ica.oopg.alarm.IAlarmListener;
 import nl.han.ica.oopg.griddefence.GridDefence;
 
 public class EnemySpawner {
@@ -46,7 +48,7 @@ public class EnemySpawner {
     	} else {
     		if(currentWave <= waves) {
     			currentWave++;
-    			startWave(); // Start hte next wave
+    			startWave(); // Start the next wave
     		} else {
     			wavesDone();
     		}
@@ -75,17 +77,17 @@ public class EnemySpawner {
     	HashMap<String, Integer> output = new HashMap<String, Integer>();
     	switch(type) {
     	case "soldier":
-    		output.put("speed",(int)(1+0.2*currentWave));
+    		output.put("speed",(int)((1+0.8*currentWave)*10));
     		output.put("resistance",(int)(10+0.5*currentWave));
     		output.put("damage",(int)(5+0.1*currentWave));
     		break;
 		case "car":
-    		output.put("speed",(int)(1.3+0.2*currentWave));
+    		output.put("speed",(int)((1.3+0.2*currentWave)*10));
     		output.put("resistance",(int)(25+0.5*currentWave));
     		output.put("damage",(int)(20+0.1*currentWave));
     		break;
     	case "tank":
-    		output.put("speed",(int)(1.1+0.2*currentWave));
+    		output.put("speed",(int)((1.1+0.2*currentWave)*10));
     		output.put("resistance",(int)(100+0.5*currentWave));
     		output.put("damage",(int)(33+0.1*currentWave));
     		break;
@@ -100,10 +102,6 @@ public class EnemySpawner {
     	announceWave();
     	HashMap<String, Integer> enemies = getEnemies(currentWave);
     	
-    	int soldiers = enemies.get("soldier");
-    	int cars = enemies.get("car");
-    	int tanks = enemies.get("tank");
-    	
     	System.out.println("Wave "+currentWave+" is starting with:");
     	for(String key : enemies.keySet()) {
     	    int value = enemies.get(key);
@@ -112,7 +110,7 @@ public class EnemySpawner {
     	    HashMap<String, Integer> properties = getEnemyProperties(key);
         	System.out.println("Stats this wave:"+properties);
         	spawnEnemies(value, key, 1000, 500);
-    	}   	
+    	}    	
     }
     
     public void wavesDone() {
@@ -131,8 +129,7 @@ public class EnemySpawner {
      * @param random int The amount of milliseconds to randomise the spawner by.
      */
     public void spawnEnemies(int amount, String type, int interval, int random) {
-    	HashMap<String, Integer> properties = getEnemyProperties("soldier");
-    	//System.out.println("Stats this wave:"+properties);
+    	HashMap<String, Integer> properties = getEnemyProperties(type);
     	if(spawnedEnemies < amount) {
     		spawnEnemy(1,1, type, properties.get("resistance"), properties.get("speed"), properties.get("damage"));
     		setTimeout(() -> spawnEnemies(amount, type, interval, random), (int) (interval+random*Math.random()));
@@ -163,13 +160,16 @@ public class EnemySpawner {
 	 * Spawns a new enemy into the world.
 	 * @param x	int The X coordinate for the new enemy
 	 * @param y int The Y coordinate for the new enemy
+	 * @param type String the type of enemy to create [soldier, car, tank]
+	 * @param resistance int the amount of health points the enemy will be created with
+	 * @param speed int the speed of the enemy
+	 * @param damage int the amount of damage the enemy inflicts to the castle 
 	 */
     public void spawnEnemy(int x, int y, String type, int resistance, int speed, int damage) {
     	spawnedEnemies++;
-    	System.out.println("spawning new enemy :)");
-        Enemy temp = new Enemy(x, y, 40, speed*10, resistance, damage, world);
+        Enemy temp = new Enemy(x, y, 40, speed, resistance, damage, type, world);
         world.addGameObject(temp, 40, 40);
-        temp.setDirectionSpeed(90, speed*10);
+        temp.setDirectionSpeed(90, (float)(speed/10));
         enemyList.add(temp);
     }
 
