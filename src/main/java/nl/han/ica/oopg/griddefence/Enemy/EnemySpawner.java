@@ -26,31 +26,46 @@ public class EnemySpawner {
     public void runGame() {
 		announceWave();
 		startWave();
-		//spawnEnemies(getEnemiesForWave("soldier"), 1000, 400);
+    }
+    
+    public static void handleEnemyDeath(Enemy temp) {
+    	enemyList.remove(temp);
     }
     
     public void spawnerDoneHandler() {
-    	currentWave++;
     	spawnedEnemies = 0;
-    	waveDoneHandler();
+    	waveDoneHandler(); // Start running the waveDoneHandler
     }
     
     /**
-     * Returns the number of a certain enemy type to spawn for a certain wave
-     * @param String type The type of enemy you want to check
-     * @return int the amount of enemies to be spawned
+     * This handles the waves, checks every second if there are still enemies.I
+     * If there are none, the next wave is started.
      */
-    
-    public int getEnemies(String type) {
-    	switch(type) {
-    	case "soldier":
-    		return (int) (currentWave*1.5+Math.random());
-		case "car":
-    		return (int)((currentWave-3)*0.5+Math.random()*0.02*currentWave);
-    	case "tank":
-    		return (int)((currentWave)*0.4+Math.random()*0.01*currentWave);
+    public void waveDoneHandler () { // Would be nice to do this event based
+    	if(enemyList.size() != 0) {
+    		//System.out.println("The wave is not done yet, waiting another second");
+    		setTimeout(() -> waveDoneHandler(), 1000);
+    	} else {
+    		if(currentWave <= waves) {
+    			currentWave++;
+    			startWave(); // Start hte next wave
+    		} else {
+    			wavesDone();
+    		}
     	}
-		return 0; // fallback
+    }  
+    
+    /**
+     * Returns the number of a certain enemy type to spawn for a certain wave
+     * @param wave int The wave for which to get the amounts
+     * @return HashMap<String, Integer> soldier, car, tank
+     */
+    public HashMap<String, Integer> getEnemies(int wave) {
+    	HashMap<String, Integer> output = new HashMap<String, Integer>();
+    	output.put("soldier", (int) (wave*1.5+Math.random()));
+    	output.put("car", (int)((wave-3)*0.5+Math.random()*0.02*wave));
+    	output.put("tank",(int)((wave)*0.4+Math.random()*0.01*wave));
+		return output; 
     }
     
     /**
@@ -81,47 +96,33 @@ public class EnemySpawner {
     }
     
     /**
-     * This handles the waves, checks every second if there are still enemies.I
-     * If there are none, the next wave is started.
+     * Starts a wave uses the currentWave integer to get which enemies should be created
      */
-    public void waveDoneHandler () { // Would be nice to do this event based
-    	if(enemyList.size() != 0) {
-    		//System.out.println("The wave is not done yet, waiting another second");
-    		setTimeout(() -> waveDoneHandler(), 1000);
-    	} else {
-    		if(currentWave <= waves) {
-    			startWave();
-    		} else {
-    			wavesDone();
-    		}
-    	}
-    }
-    
     public void startWave() {
     	announceWave();
-    	int soldiers = getEnemies("soldier");
-    	int cars = getEnemies("car");
-    	int tanks = getEnemies("tank");
+    	HashMap<String, Integer> enemies = getEnemies(currentWave);
+    	
+    	int soldiers = enemies.get("soldier");
+    	int cars = enemies.get("car");
+    	int tanks = enemies.get("tank");
     	
     	System.out.println("Wave "+currentWave+" is starting with:");
-    	System.out.println("Soldiers: "+soldiers);
-    	System.out.println("Cars:"+cars);
-    	System.out.println("Tanks:"+tanks);
-    	HashMap<String, Integer> properties = getEnemyProperties("soldier");
-    	System.out.println("Stats this wave:"+properties);
-    	spawnEnemies(soldiers, "soldier", 1000, 500);
+    	for(String key : enemies.keySet()) {
+    	    int value = enemies.get(key);
+    	    System.out.println(key+": "+value);
+    	    
+    	    HashMap<String, Integer> properties = getEnemyProperties(key);
+        	System.out.println("Stats this wave:"+properties);
+        	spawnEnemies(value, key, 1000, 500);
+    	}   	
     }
     
     public void wavesDone() {
     	System.out.println("All ("+waves+") waves have been completed.");
     }
     
-    public static void handleEnemyDeath(Enemy temp) {
-    	enemyList.remove(temp);
-    }
-    
     public void announceWave() {
-    	//System.out.println("Staring wave "+currentWave+"!");
+    	System.out.println("Staring wave "+currentWave+"!");
     }
     
     /**
