@@ -97,9 +97,6 @@ public class EnemySpawner {
      * This handles the waves, checks every second if there are still enemies.
      * If there are none, the next wave is started.
      * Starts a wave uses the currentWave integer to get which enemies should be created
-=======
-     * Starts a wave uses the currentWave integer to get which enemies should be created
->>>>>>> ca6ad7b28ef74c670cfd18a70d9cf23271173120
      */
     public void startWave() {
     	announceWave();
