@@ -1,6 +1,8 @@
 package nl.han.ica.oopg.griddefence.Tower;
 
 import nl.han.ica.oopg.griddefence.GridDefence;
+import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
+import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import nl.han.ica.oopg.objects.SpriteObject;
 import processing.core.PGraphics;
@@ -13,9 +15,7 @@ import processing.core.PGraphics;
 
 public class Tower1 extends Tower {
 
-    private GridDefence world;
     private EnemyDetection eDetect;
-    private Projectile proj;
     private int offSet = 15;
     private int offSet2 = 10;
 
@@ -30,12 +30,20 @@ public class Tower1 extends Tower {
         world.addGameObject(eDetect);
     }
 
-    //start point center tower // endpoint center enemy > collision enemy object = remove projectile
-    public void shootProjectile() {
-        eDetect.getEnemyInAreaList();
-        // int testX = eDetect.getEnemyInAreaList().get(0);
-        
-        // proj = new Projectile(x, y, 20, 20, xxxxxxx, 1);
+    // start point center tower // endpoint center enemy > collision enemy object =
+    // remove projectile
+    public void shootProjectile(GameObject enemy) {
+        Projectile proj = new Projectile(x, y, 20, 20, enemy, 1, world);
+        super.world.addGameObject(proj);
+        System.out.println("pewpewpew");
+    }
 
+    @Override
+    public void update() {
+        if (!eDetect.getEnemyInAreaList().isEmpty()) {
+            GameObject enemy = eDetect.getEnemyInAreaList().get(0);
+            shootProjectile(enemy);
+            eDetect.emptyList();
+        }
     }
 }

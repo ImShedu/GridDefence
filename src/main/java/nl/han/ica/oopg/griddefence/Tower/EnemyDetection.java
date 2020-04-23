@@ -22,14 +22,17 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
 		// TODO Auto-generated method stub
 		for (GameObject g : collidedGameObjects) {
-            if (g instanceof Enemy) {
-                System.out.println();
+            if (g instanceof Enemy && !enemyInArea.contains(g)) {
                 enemyInArea.add(g);
             }
         }
     }
+
+    public void emptyList() {
+        enemyInArea.clear();
+    }
     
-    public ArrayList getEnemyInAreaList() {
+    public ArrayList<GameObject> getEnemyInAreaList() {
         return enemyInArea;
     }
 
