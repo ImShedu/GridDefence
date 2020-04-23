@@ -5,7 +5,6 @@ import java.util.List;
 import nl.han.ica.oopg.collision.CollidedTile;
 import nl.han.ica.oopg.collision.ICollidableWithTiles;
 import nl.han.ica.oopg.griddefence.GridDefence;
-import nl.han.ica.oopg.griddefence.Tower.EnemyDetection;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import nl.han.ica.oopg.tile.Tile;
@@ -39,7 +38,6 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/"+enemyType+".jpg");
     }
 
-<<<<<<< HEAD
     public void doDamage(int damage) {
         if (this.hp - damage <= 0) {
             // System.out.println("Enemy died");
@@ -55,11 +53,6 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     public void setDirection(int degree, int speed) {
         setDirectionSpeed(degree, speed);
     }
-=======
-    //public void setDirection(int degree, int speed) {
-     //   setDirectionSpeed(degree, speed);
-    //}
->>>>>>> c53f95e9d0581a6ed65dd50c4ea3dfdae3fda7eb
 
     public void changeDirection(Tile tile) {
 
