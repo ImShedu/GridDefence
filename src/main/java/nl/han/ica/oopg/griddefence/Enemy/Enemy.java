@@ -13,8 +13,9 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class Enemy extends GameObject implements ICollidableWithTiles {
-    private int speed, hp, damage;
-    private Sprite enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Enemy1.jpg");
+    private int hp, damage;
+    private float speed;
+    private Sprite enemySprite;
     private GridDefence world;
     public boolean isAlive = true;
 
@@ -28,15 +29,17 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
      * @param damage      int Damage inflicted by the enemy
      * @param GridDefence World the world for the enemy to be in
      */
-    public Enemy(int x, int y, int size, int speed, int hp, int damage, GridDefence world) {
+    public Enemy(int x, int y, int size, int speed, int hp, int damage, String enemyType, GridDefence world) {
         super(x, y, size, size);
-        this.speed = speed;
+        this.speed = (float) (speed/10.0);
         this.hp = hp;
         this.damage = damage;
-        setDirection(speed);
+        //setDirection(speed);
         this.world = world;
+        enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/"+enemyType+".jpg");
     }
 
+<<<<<<< HEAD
     public void doDamage(int damage) {
         if (this.hp - damage <= 0) {
             // System.out.println("Enemy died");
@@ -52,6 +55,11 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     public void setDirection(int degree, int speed) {
         setDirectionSpeed(degree, speed);
     }
+=======
+    //public void setDirection(int degree, int speed) {
+     //   setDirectionSpeed(degree, speed);
+    //}
+>>>>>>> c53f95e9d0581a6ed65dd50c4ea3dfdae3fda7eb
 
     public void changeDirection(Tile tile) {
 
@@ -89,8 +97,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
 
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
-
-        Tile tile0 = collidedTiles.get(0).getTile();
+    	Tile tile0 = collidedTiles.get(0).getTile();
         Tile tile1 = collidedTiles.get(1).getTile();
 
         // Checks if next tile is castle (endtile)
