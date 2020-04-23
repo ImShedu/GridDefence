@@ -15,23 +15,18 @@ public class UserInterface extends GameObject {
     @Override
     public void draw(PGraphics g) {
         // TODO Auto-generated method stub
-        // g.fill(255, 255, 255);
+        g.fill(255, 255, 255);
         g.rect(1000, 720, 120, 40);
         g.rect(1000, 760, 120, 40);
         g.rect(0, 680, 240, 120);
         g.rect(720, 0, 160, 40);
-
-        g.fill(110, 110, 110);
         g.rect(600, 680, 400, 120);
 
-        g.fill(0, 0, 250);
+        g.fill(110, 110, 110);
         g.rect(1480, 760, 120, 40);
         g.rect(0, 680, 40, 40);
         g.rect(200, 680, 40, 40);
 
-        // g.fill(250, 0, 0);
-        // g.rect(640, 720, 80, 40);
-        // g.rect(760, 720, 80, 40);
-        // g.rect(880, 720, 80, 40);
+        g.fill(255, 255, 255);
     }
 }

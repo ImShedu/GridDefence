@@ -60,8 +60,10 @@ public class ClickableObject extends GameObject {
     @Override
     public void draw(PGraphics g) {
         // TODO Auto-generated method stub]
-        g.fill(0, 0, 250);
+        g.fill(110, 110, 110);
         g.rect(x, y, width, height);
+
+        g.fill(255, 255, 255);
         
 
     }

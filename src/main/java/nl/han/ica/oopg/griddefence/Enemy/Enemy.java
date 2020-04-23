@@ -5,6 +5,7 @@ import java.util.List;
 import nl.han.ica.oopg.collision.CollidedTile;
 import nl.han.ica.oopg.collision.ICollidableWithTiles;
 import nl.han.ica.oopg.griddefence.GridDefence;
+import nl.han.ica.oopg.griddefence.Tower.EnemyDetection;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import nl.han.ica.oopg.tile.Tile;
@@ -15,15 +16,16 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     private int speed, hp, damage;
     private Sprite enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Enemy1.jpg");
     private GridDefence world;
+    public boolean isAlive = true;
 
     /**
      * 
-     * @param x int	X coordinate for the enemy
-     * @param y int Y coordinate for the enemy
-     * @param size int size for the enemy
-     * @param speed int of the enemy
-     * @param hp int health points fo the enemy
-     * @param damage int Damage inflicted by the enemy
+     * @param x           int X coordinate for the enemy
+     * @param y           int Y coordinate for the enemy
+     * @param size        int size for the enemy
+     * @param speed       int of the enemy
+     * @param hp          int health points fo the enemy
+     * @param damage      int Damage inflicted by the enemy
      * @param GridDefence World the world for the enemy to be in
      */
     public Enemy(int x, int y, int size, int speed, int hp, int damage, GridDefence world) {
@@ -33,6 +35,18 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         this.damage = damage;
         setDirection(speed);
         this.world = world;
+    }
+
+    public void doDamage(int damage) {
+        if (this.hp - damage <= 0) {
+            // System.out.println("Enemy died");
+            isAlive = false;
+            world.deleteGameObject(this);
+            EnemySpawner.handleEnemyDeath(this);
+        } else {
+            this.hp -= damage;
+            // System.out.println("Enemy has "+hp+" hp left");
+        }
     }
 
     public void setDirection(int degree, int speed) {
