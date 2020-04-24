@@ -1,12 +1,10 @@
 package nl.han.ica.oopg.griddefence.Tower;
 
-import java.util.HashMap;
 import java.util.List;
 
 import nl.han.ica.oopg.collision.ICollidableWithGameObjects;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
-import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.objects.GameObject;
 import processing.core.PGraphics;
 

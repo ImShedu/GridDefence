@@ -13,6 +13,8 @@ public class Castle extends GameObject {
         this.world = world;
     }
 
+    // Perhaps static method??
+    // Check if castle is still alive
     public void castleHP(int damage) {
         if (this.hp - damage <= 0) {
             world.pauseGame();
@@ -24,10 +26,12 @@ public class Castle extends GameObject {
         }
     }
 
+    // Return HP for text
     public int getHP() {
         return this.hp;
     }
 
+    // Return boolean for castle
     public boolean getCastleIsAlive() {
         return castleIsAlive;
     }

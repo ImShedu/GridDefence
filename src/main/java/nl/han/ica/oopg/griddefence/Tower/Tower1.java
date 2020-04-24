@@ -2,11 +2,7 @@ package nl.han.ica.oopg.griddefence.Tower;
 
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
-import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.objects.GameObject;
-import nl.han.ica.oopg.objects.Sprite;
-import nl.han.ica.oopg.objects.SpriteObject;
-import processing.core.PGraphics;
 
 /**
  * Tower1 is the core of the game.
@@ -31,9 +27,7 @@ public class Tower1 extends Tower {
         world.addGameObject(eDetect);
     }
 
-    // start point center tower // endpoint center enemy > collision enemy object =
-    // remove projectile
-    // public void shootProjectile(GameObject enemy) {
+    // Shoot projectile at enemy >>>> check Projectile class!! Projectile needs a full rewrite together with Tower.
     public void shootProjectile(Enemy enemy) {
         // X position, Y position, Width, Height, GameObject, Damage, World
         Projectile proj = new Projectile(x, y, 20, 20, enemy, 1, world);
