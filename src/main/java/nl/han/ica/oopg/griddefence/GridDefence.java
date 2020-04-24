@@ -1,13 +1,11 @@
 package nl.han.ica.oopg.griddefence;
 
-import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.griddefence.Tiles.BoardsTile;
 import nl.han.ica.oopg.griddefence.Tiles.CastleTile;
 import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
-import nl.han.ica.oopg.griddefence.Tower.Tower;
 import nl.han.ica.oopg.griddefence.Tower.Tower1;
 
 import java.util.ArrayList;
@@ -24,7 +22,9 @@ public class GridDefence extends GameEngine {
     private final int tileSize = 40;
     private Tile previousTile;
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
+    private Castle castle;
     private EnemySpawner enemySpawner;
+
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -41,9 +41,10 @@ public class GridDefence extends GameEngine {
 
         generateTileMap();
         createViewWithoutViewport(worldWidth, worldHeight);
+        createCastle();
+        createEnemySpawner();
         createUI();
         testMouse();
-        createEnemySpawner();
     }
 
     // Birds-eye view
@@ -56,8 +57,14 @@ public class GridDefence extends GameEngine {
 
     // Non-clickable UserInterface
     private void createUI() {
-        UserInterface testUI = new UserInterface();
+        UserInterface testUI = new UserInterface(castle, enemySpawner, this);
         addGameObject(testUI, 1);
+
+    }
+
+    // Create Castle
+    private void createCastle() {
+        castle = new Castle(this);
     }
 
     // Clickable UserInterface (GameObjects)
@@ -113,24 +120,7 @@ public class GridDefence extends GameEngine {
     public void createEnemySpawner() {
         // TODO Create spawner in combination with timer
     	
-        enemySpawner = new EnemySpawner(this, 12); // Number of waves
-    }
-
-    // Create enemy spawner from button (Testing purpose)
-    public void createEnemy() {
-        //enemySpawner.spawnEnemy(40, 40);
-    }
-
-    // Testing purpose
-    @Override
-    public void keyTyped() {
-        if (key == 'a') {
-            createEnemy();
-        }
-
-        if (key == 's') {
-            createTower(1);
-        }
+        enemySpawner = new EnemySpawner(this, 12, castle); // Number of waves
     }
 
     @Override

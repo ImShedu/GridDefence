@@ -3,7 +3,6 @@ package nl.han.ica.oopg.griddefence.Tower;
 import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.objects.Sprite;
-import nl.han.ica.oopg.objects.SpriteObject;
 import processing.core.PGraphics;
 import processing.core.PImage;
 

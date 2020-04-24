@@ -5,7 +5,17 @@ import nl.han.ica.oopg.objects.GameObject;
 import processing.core.PGraphics;
 
 public class UserInterface extends GameObject {
+
     private int x, y;
+    private EnemySpawner enemySpawner;
+    private Castle castle;
+    private GridDefence world;
+
+    public UserInterface(Castle castle, EnemySpawner enemySpawner, GridDefence world) {
+        this.castle = castle;
+        this.enemySpawner = enemySpawner;
+        this.world = world;
+    }
 
     @Override
     public void update() {
@@ -33,13 +43,13 @@ public class UserInterface extends GameObject {
 
         g.fill(0, 0, 0);
         g.textAlign(LEFT, CENTER); // Align text to leftside
-        g.text("HP: "+Castle.hp, 1020, 740); // Castle HP text
+        g.text("HP: "+castle.getHP(), 1020, 740); // Castle HP text
         g.text("Currency: €156", 1020, 780); // Currency text
 
         g.textAlign(CENTER, CENTER); // Align text to center
-        g.text("Wave: "+EnemySpawner.getCurrentWave(), 800, 20); // Wave number text
+        g.text("Wave: "+enemySpawner.getCurrentWave(), 800, 20); // Wave number text
 
-        if (!Castle.castleIsAlive) {
+        if (!castle.getCastleIsAlive()) {
             g.fill(250, 0, 0);
             g.textSize(60);
             g.text("The castle has fallen!", 800, 400);

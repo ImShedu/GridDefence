@@ -17,7 +17,8 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     private float speed;
     private Sprite enemySprite;
     private GridDefence world;
-    public boolean enemyIsAlive = true;
+    private Castle castle;
+    private boolean enemyIsAlive = true;
 
     /**
      * 
@@ -29,13 +30,14 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
      * @param damage      int Damage inflicted by the enemy
      * @param GridDefence World the world for the enemy to be in
      */
-    public Enemy(int x, int y, int size, int speed, int hp, int damage, String enemyType, GridDefence world) {
+    public Enemy(int x, int y, int size, int speed, int hp, int damage, String enemyType, GridDefence world, Castle castle) {
         super(x, y, size, size);
         this.speed = (float) (speed/10.0);
         this.hp = hp;
         this.damage = damage;
         //setDirection(speed);
         this.world = world;
+        this.castle = castle;
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/"+enemyType+".jpg");
     }
 
@@ -49,6 +51,10 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
             this.hp -= damage;
             // System.out.println("Enemy has "+hp+" hp left");
         }
+    }
+
+    public boolean getEnemyIsAlive() {
+        return enemyIsAlive;
     }
 
     public void setDirection(int degree, int speed) {
@@ -98,7 +104,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         if (world.getTileMap().findTileTypeIndex(tile0) == 3 || world.getTileMap().findTileTypeIndex(tile1) == 3) {
             world.deleteGameObject(this);
             EnemySpawner.handleEnemyDeath(this);
-            Castle.castleHP(damage);
+            castle.castleHP(damage);
         }
 
         // Checking current position tile equal to 1 (Path tile)

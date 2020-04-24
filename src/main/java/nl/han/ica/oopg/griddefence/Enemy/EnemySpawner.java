@@ -3,6 +3,7 @@ package nl.han.ica.oopg.griddefence.Enemy;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import nl.han.ica.oopg.griddefence.Castle;
 import nl.han.ica.oopg.griddefence.GridDefence;
 
 public class EnemySpawner {
@@ -12,12 +13,14 @@ public class EnemySpawner {
     private int x, y;
     private int currentWave = 1;
     private int waves;
-    private int spawnedEnemies = 0;
+	private int spawnedEnemies = 0;
+	private Castle castle;
        
-    public EnemySpawner(GridDefence world, int waves) {
+    public EnemySpawner(GridDefence world, int waves, Castle castle) {
         this.world = world;
         this.enemiesPerSecond = 2;
-        this.waves = waves;
+		this.waves = waves;
+		this.castle = castle;
         runGame();
 	}
     
@@ -171,7 +174,7 @@ public class EnemySpawner {
 	 */
     public void spawnEnemy(int x, int y, String type, int resistance, int speed, int damage) {
     	spawnedEnemies++;
-        Enemy temp = new Enemy(x, y, 40, speed, resistance, damage, type, world);
+        Enemy temp = new Enemy(x, y, 40, speed, resistance, damage, type, world, castle);
         world.addGameObject(temp, 40, 40);
         temp.setDirectionSpeed(90, (float)(speed/10));
         enemyList.add(temp);

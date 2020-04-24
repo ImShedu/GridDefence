@@ -5,19 +5,31 @@ import processing.core.PGraphics;
 
 public class Castle extends GameObject {
 
-    public static int hp = 10;
-    private static GridDefence world;
-    public static boolean castleIsAlive = true;
+    private int hp = 100;
+    private GridDefence world;
+    private boolean castleIsAlive = true;
 
-    public static void castleHP(int damage) {
-        if (hp - damage <= 0) {
+    public Castle(GridDefence world) {
+        this.world = world;
+    }
+
+    public void castleHP(int damage) {
+        if (this.hp - damage <= 0) {
             world.pauseGame();
             System.out.println("The castle has fallen.");
             castleIsAlive = false;
         } else {
-            hp -= damage;
-            System.out.println("Castle has "+hp+" hp left.");
+            this.hp -= damage;
+            System.out.println("Castle has "+this.hp+" hp left.");
         }
+    }
+
+    public int getHP() {
+        return this.hp;
+    }
+
+    public boolean getCastleIsAlive() {
+        return castleIsAlive;
     }
 
     @Override
