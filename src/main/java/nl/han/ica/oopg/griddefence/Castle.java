@@ -22,7 +22,7 @@ public class Castle extends GameObject {
             castleIsAlive = false;
         } else {
             this.hp -= damage;
-            System.out.println("Castle has "+this.hp+" hp left.");
+            System.out.println("Castle has " + this.hp + " hp left.");
         }
     }
 

@@ -10,7 +10,7 @@ import processing.core.PImage;
 //TODO rewrite Tower together with Projectile, EnemyDetection and TowerNumber
 public abstract class Tower extends ClickableObject {
 
-    private Sprite towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Tower1.jpg");
+    private Sprite towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower1upgrade1.png");
     private int cost, range, damage, rate;
     protected GridDefence world;
     private EnemyDetection eDetect;
