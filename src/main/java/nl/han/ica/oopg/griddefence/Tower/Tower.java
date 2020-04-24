@@ -24,16 +24,20 @@ public abstract class Tower extends ClickableObject {
         this.world = world;
     }
 
+    //TODO methods > shootprojectile, upgrade, sell
+
     @Override
     public void update() {
         // TODO Auto-generated method stub
 
     }
 
+    //Draw towersprite
     public void draw(PGraphics g) {
         g.image(towerSprite.getPImage(), x, y);
     }
 
+    //Return towersprite
     public PImage getImage() {
         return towerSprite.getPImage();
     }

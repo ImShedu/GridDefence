@@ -38,7 +38,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         //setDirection(speed);
         this.world = world;
         this.castle = castle;
-        enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/"+enemyType+".jpg");
+        enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/"+enemyType+".png");
     }
 
     public void doDamage(int damage) {

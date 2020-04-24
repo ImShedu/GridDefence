@@ -176,8 +176,7 @@ public class EnemySpawner {
     	spawnedEnemies++;
         Enemy temp = new Enemy(x, y, 40, speed, resistance, damage, type, world, castle);
         world.addGameObject(temp, 40, 40);
-        temp.setDirectionSpeed(90, (float)(speed/10));
+        temp.setDirectionSpeed(90, (float)(speed/1));
         enemyList.add(temp);
     }
-
 }
