@@ -8,7 +8,7 @@ import processing.core.PImage;
 
 
 //TODO remake tower
-public class Tower extends ClickableObject {
+public abstract class Tower extends ClickableObject {
 
     private Sprite towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Tower1.jpg");
     private int cost, range, damage, rate;
