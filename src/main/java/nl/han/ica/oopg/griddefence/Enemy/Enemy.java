@@ -4,6 +4,7 @@ import java.util.List;
 
 import nl.han.ica.oopg.collision.CollidedTile;
 import nl.han.ica.oopg.collision.ICollidableWithTiles;
+import nl.han.ica.oopg.griddefence.Castle;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
@@ -16,7 +17,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     private float speed;
     private Sprite enemySprite;
     private GridDefence world;
-    public boolean isAlive = true;
+    public boolean enemyIsAlive = true;
 
     /**
      * 
@@ -41,7 +42,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     public void doDamage(int damage) {
         if (this.hp - damage <= 0) {
             // System.out.println("Enemy died");
-            isAlive = false;
+            enemyIsAlive = false;
             world.deleteGameObject(this);
             EnemySpawner.handleEnemyDeath(this);
         } else {
@@ -97,6 +98,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         if (world.getTileMap().findTileTypeIndex(tile0) == 3 || world.getTileMap().findTileTypeIndex(tile1) == 3) {
             world.deleteGameObject(this);
             EnemySpawner.handleEnemyDeath(this);
+            Castle.castleHP(damage);
         }
 
         // Checking current position tile equal to 1 (Path tile)

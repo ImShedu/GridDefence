@@ -16,7 +16,6 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     private int damage;
     // private GameObject enemy;
     private Enemy enemy;
-    private EnemySpawner eSpawn;
 
     public Projectile(float x, float y, int width, int height, /* GameObject enemy */ Enemy enemy, int damage,
             GridDefence world) {
@@ -26,6 +25,7 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
         this.world = world;
     }
 
+    //TODO Projectile needs to be completly rewritten due to not working as intended
     //TODO Calculate projectile damage at same time as animation > prevent tower from overshooting (After basegame)
     //TODO Implement projectile accuracy outside of tower range (Possibility)
     @Override
@@ -44,7 +44,7 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     }
 
     public void deleteProjectile() {
-        if (enemy.isAlive == false) {
+        if (enemy.enemyIsAlive == false) {
             world.deleteGameObject(this);
         }
     }

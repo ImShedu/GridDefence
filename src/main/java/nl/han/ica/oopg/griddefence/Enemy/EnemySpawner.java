@@ -3,8 +3,6 @@ package nl.han.ica.oopg.griddefence.Enemy;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import nl.han.ica.oopg.alarm.Alarm;
-import nl.han.ica.oopg.alarm.IAlarmListener;
 import nl.han.ica.oopg.griddefence.GridDefence;
 
 public class EnemySpawner {
@@ -29,13 +27,17 @@ public class EnemySpawner {
     }
     
     public static void handleEnemyDeath(Enemy temp) {
-    	enemyList.remove(temp);
+		enemyList.remove(temp);
     }
     
     public void spawnerDoneHandler() {
     	spawnedEnemies = 0;
     	waveDoneHandler(); // Start running the waveDoneHandler
-    }
+	}
+	
+	public int getCurrentWave() {
+		return currentWave;
+	}
     
     /**
      * This handles the waves, checks every second if there are still enemies.I
