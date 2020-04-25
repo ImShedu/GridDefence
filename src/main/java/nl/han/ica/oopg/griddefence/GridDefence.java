@@ -95,7 +95,6 @@ public class GridDefence extends GameEngine {
                 createTower(temp.getTowerNumber());
             }
         }
-
     }
 
     // Return tilesize for easier calculation purpose
@@ -117,7 +116,7 @@ public class GridDefence extends GameEngine {
 
     // Create enemy spawner from spawntile (Actual gamemechanic)
     public void createEnemySpawner() {
-        enemySpawner = new EnemySpawner(this, 12, castle); // Number of waves
+        enemySpawner = new EnemySpawner(this, 100, castle); // Number of waves
     }
 
     @Override

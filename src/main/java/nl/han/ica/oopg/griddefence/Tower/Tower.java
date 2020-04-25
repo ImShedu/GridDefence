@@ -56,7 +56,8 @@ public class Tower extends ClickableObject {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
 
         enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
-        System.out.println("Damage done to enemy" + Math.round((properties.get("damage"))));
+        // System.out.println("Damage done to enemy" +
+        // Math.round((properties.get("damage"))));
 
         // X position, Y position, Width, Height, GameObject, Damage, World
         Projectile proj = new Projectile(x, y, 20, 20, enemy, world);
@@ -196,13 +197,15 @@ public class Tower extends ClickableObject {
 
     @Override
     public void update() {
-        if (!eDetect.getEnemyInAreaList().isEmpty()) {
-            Enemy enemy = (Enemy) eDetect.getEnemyInAreaList().get(0); // Casting to Enemy from GameObject
+        if (!eDetect.getEnemyInAreaList().isEmpty()) { // InAreaList is not empty
 
-            if (enemy.getEnemyIsAlive()) {
+            // Get first enemy in list >> Casting to Enemy from GameObject
+            Enemy enemy = (Enemy) eDetect.getEnemyInAreaList().get(0);
+
+            while (enemy.getEnemyIsAlive()) {
                 shootProjectile(enemy);
             }
-            eDetect.emptyList();
+            eDetect.getEnemyInAreaList().remove(0);
         }
     }
 

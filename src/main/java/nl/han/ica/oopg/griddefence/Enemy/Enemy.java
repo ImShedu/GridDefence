@@ -44,8 +44,8 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     public void enemyTakeDamage(int damage) {
         if (this.hp - damage <= 0) {
             enemyIsAlive = false;
-            world.deleteGameObject(this);
-            EnemySpawner.handleEnemyDeath(this);
+            // world.deleteGameObject(this);
+            // EnemySpawner.handleEnemyDeath(this);
         } else {
             this.hp -= damage;
         }

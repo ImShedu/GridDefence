@@ -5,6 +5,7 @@ import java.util.List;
 import nl.han.ica.oopg.collision.ICollidableWithGameObjects;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
+import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.objects.GameObject;
 import processing.core.PGraphics;
 
@@ -22,17 +23,23 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     // TODO Implement projectile accuracy outside of tower range (Possibility)
     @Override
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
-        // TODO Auto-generated method stub
         for (GameObject g : collidedGameObjects) {
             if (g == enemy) {
                 world.deleteGameObject(this);
+
+                if (!enemy.getEnemyIsAlive()) {
+                    world.deleteGameObject(enemy);
+                    EnemySpawner.handleEnemyDeath(enemy);
+                } else {
+                    world.deleteGameObject(this);
+                }
             }
         }
     }
 
     @Override
     public void update() {
-        setDirectionSpeed(getAngleFrom(enemy), 2);
+        setDirectionSpeed(getAngleFrom(enemy), 4);
     }
 
     @Override
