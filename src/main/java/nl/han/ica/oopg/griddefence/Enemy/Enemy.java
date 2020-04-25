@@ -41,15 +41,13 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/"+enemyType+".png");
     }
 
-    public void doDamage(int damage) {
+    public void enemyTakeDamage(int damage) {
         if (this.hp - damage <= 0) {
-            // System.out.println("Enemy died");
             enemyIsAlive = false;
             world.deleteGameObject(this);
             EnemySpawner.handleEnemyDeath(this);
         } else {
             this.hp -= damage;
-            // System.out.println("Enemy has "+hp+" hp left");
         }
     }
 

@@ -12,14 +12,12 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
 
     private ArrayList<GameObject> enemyInArea = new ArrayList<>();
 
-    public EnemyDetection(float x, float y, int width, int height) {
+    public EnemyDetection(float x, float y, float width, float height) {
         super(x, y, width, height);
     }
 
-    //if (enemy(all) collide with enemydetectionbox, add gameobject to enemyinarealist > remove if no collision??)
 	@Override
 	public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
-		// TODO Auto-generated method stub
 		for (GameObject g : collidedGameObjects) {
             if (g instanceof Enemy && !enemyInArea.contains(g)) {
                 enemyInArea.add(g);
@@ -37,13 +35,11 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void draw(PGraphics g) {
-        // TODO Auto-generated method stub
         g.fill(0, 250, 0, 50);
         g.rect(getX(), getY(), getWidth(), getHeight());
         g.fill(255, 255, 255);

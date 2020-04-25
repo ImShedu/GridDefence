@@ -6,7 +6,7 @@ import nl.han.ica.oopg.griddefence.Tiles.CastleTile;
 import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
-import nl.han.ica.oopg.griddefence.Tower.Tower1;
+import nl.han.ica.oopg.griddefence.Tower.Tower;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,6 @@ public class GridDefence extends GameEngine {
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
     private Castle castle;
     private EnemySpawner enemySpawner;
-
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -107,25 +106,23 @@ public class GridDefence extends GameEngine {
     // Create tower
     public void createTower(int towerNumber) {
         // TODO create building logic
-        TileMap testTM = getTileMap();
-        float[] test = testTM.getTilePixelLocation(previousTile).array();
+        TileMap TM = getTileMap();
+        float[] location = TM.getTilePixelLocation(previousTile).array();
 
-        // (X position, Y position, Width, Height, World, Cost, Range, Dmg, Rate)
-        Tower1 testTowerOne = new Tower1(test[0], test[1], tileSize, tileSize, this, 1, 3, 1, 1);
-        addGameObject(testTowerOne);
-        cObjects.add(testTowerOne);
+        // X & Y position on grid, Width & Height (tileSize), World, Towernumber, Upgradenumber
+        Tower newTower = new Tower(location[0], location[1], tileSize, tileSize, this, towerNumber);
+        addGameObject(newTower);
+        cObjects.add(newTower);
     }
 
     // Create enemy spawner from spawntile (Actual gamemechanic)
     public void createEnemySpawner() {
-        // TODO Create spawner in combination with timer
-    	
         enemySpawner = new EnemySpawner(this, 12, castle); // Number of waves
     }
 
     @Override
     public void mouseClicked() {
-        // Clickable objects (Testing phasse)
+        // Clickable objects (Testing phase)
         testMouse();
 
         TileMap TM = getTileMap();
@@ -224,5 +221,5 @@ public class GridDefence extends GameEngine {
         // TODO Auto-generated method stub
 
     }
-    
+
 }

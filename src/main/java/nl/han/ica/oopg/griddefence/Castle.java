@@ -18,11 +18,11 @@ public class Castle extends GameObject {
     public void castleHP(int damage) {
         if (this.hp - damage <= 0) {
             world.pauseGame();
-            System.out.println("The castle has fallen.");
+            // System.out.println("The castle has fallen.");
             castleIsAlive = false;
         } else {
             this.hp -= damage;
-            System.out.println("Castle has " + this.hp + " hp left.");
+            // System.out.println("Castle has " + this.hp + " hp left.");
         }
     }
 

@@ -29,9 +29,15 @@ public class UserInterface extends GameObject {
         g.fill(255, 255, 255); // White background
         g.rect(1000, 720, 120, 40); // Castle HP information
         g.rect(1000, 760, 120, 40); // Currency information
-        g.rect(0, 680, 240, 120); // Tower information window
         g.rect(720, 0, 160, 40); // Wave number counter
         g.rect(600, 680, 400, 120); //Tower choice window
+
+        //Tower information window
+        g.rect(0, 680, 240, 120); // Window outlining
+        g.rect(0, 720, 120, 40); // Current level box
+        g.rect(0, 760, 120, 40); // Current range box
+        g.rect(120, 720, 120, 40); // Current damage box
+        g.rect(120, 760, 120, 40); // Current rate box
 
 
         g.fill(110, 110, 110); // Grey background

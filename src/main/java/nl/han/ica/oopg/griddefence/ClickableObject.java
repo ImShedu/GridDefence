@@ -11,11 +11,6 @@ public class ClickableObject extends GameObject {
         super(x, y, width, height);
     }
 
-    // public ClickableObject(float x, float y, float width, float height, int towerNumber) {
-    //     super(x, y, width, height);
-    //     this.towerNumber = towerNumber;
-    // }
-
     public boolean checkTowerNumber() {
         if (towerNumber > 0) {
             return true;
@@ -46,10 +41,6 @@ public class ClickableObject extends GameObject {
     public void printLine() {
         System.out.println(towerNumber);
     }
-    
-    // public boolean isMouseClicked() {
-    //     System.out.println("test");
-    // }
 
     @Override
     public void update() {
@@ -64,8 +55,5 @@ public class ClickableObject extends GameObject {
         g.rect(x, y, width, height);
 
         g.fill(255, 255, 255);
-        
-
     }
-
 }
