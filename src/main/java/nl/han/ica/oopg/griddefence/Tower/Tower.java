@@ -6,7 +6,6 @@ import java.util.Iterator;
 import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
-import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -57,15 +56,12 @@ public class Tower extends ClickableObject {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
 
         enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
-        // System.out.println("Damage done to enemy
-        // "+Math.round((properties.get("damage"))));
+        System.out.println("Damage done to enemy" + Math.round((properties.get("damage"))));
 
         // X position, Y position, Width, Height, GameObject, Damage, World
-        if (enemy.getEnemyIsAlive()) {
-            Projectile proj = new Projectile(x, y, 20, 20, enemy, world);
-            world.addGameObject(proj);
-        }
-        
+        Projectile proj = new Projectile(x, y, 20, 20, enemy, world);
+        world.addGameObject(proj);
+
     }
 
     public float getUpgrade(int towerNumber, int upgradeNumber) {
@@ -202,7 +198,10 @@ public class Tower extends ClickableObject {
     public void update() {
         if (!eDetect.getEnemyInAreaList().isEmpty()) {
             Enemy enemy = (Enemy) eDetect.getEnemyInAreaList().get(0); // Casting to Enemy from GameObject
-            shootProjectile(enemy);
+
+            if (enemy.getEnemyIsAlive()) {
+                shootProjectile(enemy);
+            }
             eDetect.emptyList();
         }
     }
