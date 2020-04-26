@@ -11,9 +11,11 @@ import processing.core.PGraphics;
 public class EnemyDetection extends GameObject implements ICollidableWithGameObjects{
 
     private ArrayList<GameObject> enemyInArea = new ArrayList<>();
+    private Tower tower;
 
-    public EnemyDetection(float x, float y, float width, float height) {
+    public EnemyDetection(float x, float y, float width, float height, Tower tower) {
         super(x, y, width, height);
+        this.tower = tower;
     }
 
 	@Override
@@ -21,6 +23,7 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
 		for (GameObject g : collidedGameObjects) {
             if (g instanceof Enemy && !enemyInArea.contains(g)) {
                 enemyInArea.add(g);
+                tower.shootEnemy();
             }
         }
     }
