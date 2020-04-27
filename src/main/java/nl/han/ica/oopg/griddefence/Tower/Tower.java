@@ -245,6 +245,7 @@ public class Tower extends ClickableObject {
                     startTime = world.millis();
                 }
             }
+            enemyDetection.emptyList();
         }
     }
 
