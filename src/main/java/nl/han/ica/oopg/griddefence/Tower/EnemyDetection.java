@@ -11,11 +11,9 @@ import processing.core.PGraphics;
 public class EnemyDetection extends GameObject implements ICollidableWithGameObjects{
 
     private ArrayList<GameObject> enemyInArea = new ArrayList<>();
-    private Tower tower;
 
-    public EnemyDetection(float x, float y, float width, float height, Tower tower) {
+    public EnemyDetection(float x, float y, float width, float height) {
         super(x, y, width, height);
-        this.tower = tower;
     }
 
 	@Override
@@ -23,9 +21,29 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
 		for (GameObject g : collidedGameObjects) {
             if (g instanceof Enemy && !enemyInArea.contains(g)) {
                 enemyInArea.add(g);
-                tower.shootEnemy();
             }
         }
+    }
+
+    public Enemy getEnemy() {
+        if (!enemyInArea.isEmpty()) {
+            return (Enemy) enemyInArea.get(0);
+        }
+        
+
+        // if (!enemyInArea.isEmpty()) {
+        //     return (Enemy) enemyInArea.get(0);
+        // } else {
+        //     return null;
+        // }
+
+        //     Enemy enemy = (Enemy) getEnemyInAreaList().get(0);
+        //     if (enemy.getEnemyIsAlive()) { // >> shooting multiple projectile because enemy survives 1, but 1> proj are bugged
+        //         shootProjectile(enemy);
+        //     }
+        //     // enemyDetection.getEnemyInAreaList().remove(enemy);
+        //     emptyList();
+        // }
     }
 
     public void emptyList() {

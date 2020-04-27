@@ -6,7 +6,6 @@ import java.util.Iterator;
 import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
-import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -14,9 +13,10 @@ import processing.core.PImage;
 public class Tower extends ClickableObject {
 
     protected GridDefence world;
-    private EnemyDetection eDetect;
+    private EnemyDetection enemyDetection;
     private Sprite towerSprite;
     private int towerNumber, upgradeNumber;
+    private int startTime;
 
     /**
      * 
@@ -35,6 +35,7 @@ public class Tower extends ClickableObject {
         enemyDetection(towerNumber, upgradeNumber);
         towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber + "upgrade"
                 + upgradeNumber + ".png");
+        startTime = 0;
     }
 
     /**
@@ -46,48 +47,57 @@ public class Tower extends ClickableObject {
      */
     public void enemyDetection(int towerNumber, int upgradeNumber) {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
-        this.eDetect = new EnemyDetection(((x - (properties.get("range") * world.getTileSize())) + 15),
+        this.enemyDetection = new EnemyDetection(((x - (properties.get("range") * world.getTileSize())) + 15),
                 ((y - (properties.get("range") * world.getTileSize())) + 15),
                 (((properties.get("range") * world.getTileSize()) * 2) + 10),
-                (((properties.get("range") * world.getTileSize()) * 2) + 10), this);
-        world.addGameObject(eDetect);
+                (((properties.get("range") * world.getTileSize()) * 2) + 10));
+        world.addGameObject(enemyDetection);
     }
 
-    // Projectile & Enemy selection >> WIP
     public void shootProjectile(Enemy enemy) {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
-
         enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
-        // System.out.println("Damage done to enemy" +
-        // Math.round((properties.get("damage"))));
 
         // X position, Y position, Width, Height, GameObject, Damage, World
-        Projectile proj = new Projectile(x, y, 20, 20, enemy, world);
-        world.addGameObject(proj);
+        Projectile projectile = new Projectile(x, y, 20, 20, enemy, world);
+
+        world.addGameObject(projectile);
     }
 
-    public void chooseEnemy() {
-        HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
+    // public void shootEnemy() {
+    // if (!enemyDetection.getEnemyInAreaList().isEmpty()) {
+    // Enemy enemy = (Enemy) enemyDetection.getEnemyInAreaList().get(0);
+    // if (enemy.getEnemyIsAlive()) { // >> shooting multiple projectile because
+    // enemy survives 1, but 1> proj are bugged
+    // shootProjectile(enemy);
+    // }
+    // // enemyDetection.getEnemyInAreaList().remove(enemy);
+    // enemyDetection.emptyList();
+    // }
 
-        EnemySpawner.setTimeout(() -> chooseEnemy(), (int) (properties.get("rate") * 1000));
-        shootEnemy();
-    }
+    // // if (!enemyDetection.getEnemyInAreaList().isEmpty()) { // InAreaList is not
+    // // empty
 
-    public void shootEnemy() {
-        if (!eDetect.getEnemyInAreaList().isEmpty()) { // InAreaList is not empty
+    // // // Get first enemy in list >> Casting to Enemy from GameObject
+    // // Enemy enemy = (Enemy) enemyDetection.getEnemyInAreaList().get(0);
+    // // HashMap<String, Float> properties = getTowerProperties(towerNumber,
+    // // upgradeNumber);
 
-            // Get first enemy in list >> Casting to Enemy from GameObject
-            Enemy enemy = (Enemy) eDetect.getEnemyInAreaList().get(0);
-
-            while (enemy.getEnemyIsAlive()) {
-                // EnemySpawner.setTimeout(() -> chooseEnemy(), (int)
-                // (properties.get("rate")*1000));
-                // System.out.println("shoot "+enemy);
-                shootProjectile(enemy);
-            }
-            eDetect.getEnemyInAreaList().remove(0);
-        }
-    }
+    // // // while (enemy.getEnemyIsAlive()) {
+    // // // // EnemySpawner.setTimeout(() -> chooseEnemy(), (int)
+    // // // // (properties.get("rate")*1000));
+    // // // // System.out.println("shoot "+enemy);
+    // // // // EnemySpawner.setTimeout(() -> shootProjectile(enemy), (int)
+    // // // (properties.get("rate") * 1000));
+    // // // shootProjectile(enemy);
+    // // // }
+    // // if (enemy.getEnemyIsAlive()) {
+    // // shootProjectile(enemy);
+    // // }
+    // // enemyDetection.emptyList();
+    // // // enemyDetection.getEnemyInAreaList().remove(0);
+    // // }
+    // }
 
     public float getUpgrade(int towerNumber, int upgradeNumber) {
         return getTowerProperties(towerNumber, upgradeNumber).get("upgrade");
@@ -220,9 +230,22 @@ public class Tower extends ClickableObject {
         return output;
     }
 
+    public boolean globalCD() {
+        HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
+        return world.millis() - startTime > ((properties.get("rate") * 1000));
+    }
+
     @Override
     public void update() {
-
+        if (enemyDetection.getEnemy() != null) {
+            if (enemyDetection.getEnemy().getEnemyIsAlive()) {
+                if (globalCD()) {
+                    shootProjectile(enemyDetection.getEnemy());
+                    enemyDetection.emptyList();
+                    startTime = world.millis();
+                }
+            }
+        }
     }
 
     // Draw towerSprite according to towerNumber & upgradeNumber

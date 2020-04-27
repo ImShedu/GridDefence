@@ -29,7 +29,7 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
 
                 if (!enemy.getEnemyIsAlive()) {
                     world.deleteGameObject(enemy);
-                    EnemySpawner.handleEnemyDeath(enemy);
+                    EnemySpawner.handleEnemyDeath(enemy); 
                 } else {
                     world.deleteGameObject(this);
                 }
