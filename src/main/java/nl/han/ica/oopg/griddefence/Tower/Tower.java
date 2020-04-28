@@ -6,7 +6,6 @@ import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.objects.Sprite;
-import nl.han.ica.oopg.tile.Tile;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -43,8 +42,7 @@ public class Tower extends ClickableObject {
     }
 
     /**
-     * Draws the enemyDetection box around the tower.Returns the number of a certain
-     * enemy type to spawn for a certain wave
+     * Draws the enemyDetection box around the tower.
      * 
      * @param towerNumber   int towerNumber of the tower
      * @param upgradeNumber int upgradeNumber of the tower
@@ -61,7 +59,7 @@ public class Tower extends ClickableObject {
     /**
      * Shoots a projectile towards the enemy.
      * 
-     * @param enemy Enemy that we shoot at
+     * @param enemy Enemy that we shoot a projectile at
      */
     public void shootProjectile(Enemy enemy) {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
@@ -89,7 +87,7 @@ public class Tower extends ClickableObject {
     /**
      * Upgrades the tower to the next level.
      * 
-     * @param towerNumber   int towerNumber of the tower
+     * @param towerNumber int towerNumber of the tower
      */
     public void upgradeTower(int towerNumber) {
         getUpgradeNumber(towerNumber); // >> upgradeNumber
@@ -106,6 +104,11 @@ public class Tower extends ClickableObject {
         }
     }
 
+    /**
+     * Get the upgradenumber of the tower.
+     * 
+     * @param towerNumber int towerNumber of the tower
+     */
     public int getUpgradeNumber(int towerNumber) {
         return upgradeNumber;
     }
@@ -262,10 +265,8 @@ public class Tower extends ClickableObject {
 
     @Override
     public void update() {
-        // sellTower(3,1);
         if (globalCD()) {
             targetEnemy();
-            upgradeTower(towerNumber);
             startTime = world.millis();
         }
         enemyDetection.emptyList();
