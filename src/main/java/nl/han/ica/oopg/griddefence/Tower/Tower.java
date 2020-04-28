@@ -1,7 +1,6 @@
 package nl.han.ica.oopg.griddefence.Tower;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.GridDefence;
@@ -33,12 +32,12 @@ public class Tower extends ClickableObject {
         this.world = world;
         this.towerNumber = towerNumber;
         upgradeNumber = 0;
-        towerSprite(upgradeNumber);
+        towerSprite(towerNumber, upgradeNumber);
         enemyDetection(towerNumber, upgradeNumber);
         startTime = 0;
     }
 
-    public void towerSprite(int upgradeNumber) {
+    public void towerSprite(int towerNumber, int upgradeNumber) {
         towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber + "upgrade"
                 + upgradeNumber + ".png");
     }
@@ -87,38 +86,31 @@ public class Tower extends ClickableObject {
         }
     }
 
-    public float getUpgrade(int towerNumber, int upgradeNumber) {
-        return getTowerProperties(towerNumber, upgradeNumber).get("upgrade");
-    }
+    /**
+     * Upgrades the tower to the next level.
+     * 
+     * @param towerNumber   int towerNumber of the tower
+     */
+    public void upgradeTower(int towerNumber) {
+        getUpgradeNumber(towerNumber); // >> upgradeNumber
 
-    // Upgrade >> WIP
-    public void upgradeTower(int towerNumber, int upgradeNumber) {
-        // Get current towernumber & upgradenumber, check cost and upgrade to next
-        HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
+        if (getUpgradeNumber(towerNumber) < 3) {
+            int nextUpgrade = ((int) getUpgradeNumber(towerNumber) + 1);
+            setUpgradeNumber(nextUpgrade);
 
-        // Not sure if required?
-        Iterator towerIterator = getTowerProperties(towerNumber, upgradeNumber).entrySet().iterator();
-
-        if (properties.get("upgrade") < 3) {
-            // Check if you have enough currency to upgrade >> Requires currency system in
-            // place
-            int nextUpgrade = (int) (properties.get("upgrade") + 1);
-            int newUpgradeNumber = nextUpgrade;
-            // upgradeNumber = nextUpgrade;
-            towerSprite(newUpgradeNumber);
-            System.out.println("You have upgraded your tower to level "+newUpgradeNumber);
+            towerSprite(towerNumber, nextUpgrade);
+            System.out.println("You have upgraded your tower to level " + nextUpgrade);
         } else {
-            System.out.println("Max upgrade reached.");
+            System.out.println("You have already reached max upgrade.");
         }
     }
 
-    public void changeTower(int upgradeNumber) {
-        Tile selectedTile;
-        Sprite newTower = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber
-                + "upgrade" + upgradeNumber + ".png");
+    public int getUpgradeNumber(int towerNumber) {
+        return upgradeNumber;
+    }
 
-        selectedTile = world.getTileMap().getTileOnPosition((int) x, (int) y);
-        selectedTile.setSprite(newTower);
+    public void setUpgradeNumber(int nextUpgrade) {
+        this.upgradeNumber = nextUpgrade;
     }
 
     /**
@@ -143,7 +135,7 @@ public class Tower extends ClickableObject {
     }
 
     /**
-     * Gets the upgrade, cost, range, damage and rate of the towers.
+     * Gets the upgrade, cost, range, damage, rate and refund of the towers.
      * 
      * @param towerNumber   int towerNumber of the tower
      * @param upgradeNumber int upgradeNumber of the tower
@@ -276,7 +268,7 @@ public class Tower extends ClickableObject {
         // sellTower(3,1);
         if (globalCD()) {
             targetEnemy();
-            // upgradeTower(towerNumber, upgradeNumber);
+            upgradeTower(towerNumber);
             startTime = world.millis();
         }
         enemyDetection.emptyList();

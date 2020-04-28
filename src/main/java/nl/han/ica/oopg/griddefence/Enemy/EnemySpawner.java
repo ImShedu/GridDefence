@@ -84,17 +84,20 @@ public class EnemySpawner {
     	case "soldier":
     		output.put("speed",(int)((1+0.8*currentWave)*10));
     		output.put("resistance",(int)(10+0.5*currentWave));
-    		output.put("damage",(int)(5+0.1*currentWave));
+			output.put("damage",(int)(5+0.1*currentWave));
+			output.put("currency",(int) 1);
     		break;
 		case "car":
     		output.put("speed",(int)((1.3+0.2*currentWave)*10));
     		output.put("resistance",(int)(25+0.5*currentWave));
-    		output.put("damage",(int)(20+0.1*currentWave));
+			output.put("damage",(int)(20+0.1*currentWave));
+			output.put("currency",(int) 2);
     		break;
     	case "tank":
     		output.put("speed",(int)((1.1+0.2*currentWave)*10));
     		output.put("resistance",(int)(100+0.5*currentWave));
-    		output.put("damage",(int)(33+0.1*currentWave));
+			output.put("damage",(int)(33+0.1*currentWave));
+			output.put("currency",(int) 5);
     		break;
     	}
 		return output;
