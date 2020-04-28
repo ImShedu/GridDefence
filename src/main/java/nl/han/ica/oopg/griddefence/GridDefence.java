@@ -49,6 +49,7 @@ public class GridDefence extends GameEngine {
     // Birds-eye view
     private void createViewWithoutViewport(int screenWidth, int screenHeight) {
         View view = new View(screenWidth, screenHeight);
+        view.setBackground(255, 255, 255);
 
         setView(view);
         size(screenWidth, screenHeight);
@@ -127,8 +128,8 @@ public class GridDefence extends GameEngine {
         TileMap TM = getTileMap();
         Tile currentTile = TM.getTileOnPosition(mouseX, mouseY);
 
-        Sprite selectedSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Selected1.jpg");
-        Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
+        Sprite selectedSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Selected.jpg");
+        Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board.jpg");
 
         // Checks selectedtile = buildtile
         if (TM.findTileTypeIndex(currentTile) == 0) {
@@ -155,11 +156,11 @@ public class GridDefence extends GameEngine {
 
     private void generateTileMap() {
         // Sprites van de tiles
-        Sprite boardSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board1.jpg");
-        Sprite pathSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Path1.jpg");
+        Sprite boardSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board.jpg");
+        Sprite pathSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Path.jpg");
         Sprite noBuildSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/NoBuild.png");
-        Sprite castleSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Castle1.png");
-        Sprite spawnSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Spawn1.png");
+        Sprite castleSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Castle.png");
+        Sprite spawnSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Spawn.png");
 
         TileType<BoardsTile> boardTileType = new TileType<>(BoardsTile.class, boardSprite);
         TileType<PathTile> pathTileType = new TileType<>(PathTile.class, pathSprite);

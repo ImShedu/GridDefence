@@ -7,6 +7,7 @@ import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.objects.Sprite;
+import nl.han.ica.oopg.tile.Tile;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -32,10 +33,14 @@ public class Tower extends ClickableObject {
         this.world = world;
         this.towerNumber = towerNumber;
         upgradeNumber = 0;
+        towerSprite(upgradeNumber);
         enemyDetection(towerNumber, upgradeNumber);
+        startTime = 0;
+    }
+
+    public void towerSprite(int upgradeNumber) {
         towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber + "upgrade"
                 + upgradeNumber + ".png");
-        startTime = 0;
     }
 
     /**
@@ -54,50 +59,33 @@ public class Tower extends ClickableObject {
         world.addGameObject(enemyDetection);
     }
 
+    /**
+     * Shoots a projectile towards the enemy.
+     * 
+     * @param enemy Enemy that we shoot at
+     */
     public void shootProjectile(Enemy enemy) {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
         enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
 
         // X position, Y position, Width, Height, GameObject, Damage, World
-        Projectile projectile = new Projectile(x, y, 20, 20, enemy, world);
-
+        Projectile projectile = new Projectile(x, y, world.getTileSize(), world.getTileSize(), enemy, world);
         world.addGameObject(projectile);
     }
 
-    // public void shootEnemy() {
-    // if (!enemyDetection.getEnemyInAreaList().isEmpty()) {
-    // Enemy enemy = (Enemy) enemyDetection.getEnemyInAreaList().get(0);
-    // if (enemy.getEnemyIsAlive()) { // >> shooting multiple projectile because
-    // enemy survives 1, but 1> proj are bugged
-    // shootProjectile(enemy);
-    // }
-    // // enemyDetection.getEnemyInAreaList().remove(enemy);
-    // enemyDetection.emptyList();
-    // }
-
-    // // if (!enemyDetection.getEnemyInAreaList().isEmpty()) { // InAreaList is not
-    // // empty
-
-    // // // Get first enemy in list >> Casting to Enemy from GameObject
-    // // Enemy enemy = (Enemy) enemyDetection.getEnemyInAreaList().get(0);
-    // // HashMap<String, Float> properties = getTowerProperties(towerNumber,
-    // // upgradeNumber);
-
-    // // // while (enemy.getEnemyIsAlive()) {
-    // // // // EnemySpawner.setTimeout(() -> chooseEnemy(), (int)
-    // // // // (properties.get("rate")*1000));
-    // // // // System.out.println("shoot "+enemy);
-    // // // // EnemySpawner.setTimeout(() -> shootProjectile(enemy), (int)
-    // // // (properties.get("rate") * 1000));
-    // // // shootProjectile(enemy);
-    // // // }
-    // // if (enemy.getEnemyIsAlive()) {
-    // // shootProjectile(enemy);
-    // // }
-    // // enemyDetection.emptyList();
-    // // // enemyDetection.getEnemyInAreaList().remove(0);
-    // // }
-    // }
+    /**
+     * Selects an enemy that is within the list and is alive, calls the method
+     * shootProjectile and give the enemy as target.
+     */
+    public void targetEnemy() {
+        for (int i = 0; i < enemyDetection.getEnemyInAreaList().size(); i++) {
+            Enemy target = (Enemy) enemyDetection.getEnemyInAreaList().get(i);
+            if (target.getEnemyIsAlive()) {
+                shootProjectile(target);
+                break;
+            }
+        }
+    }
 
     public float getUpgrade(int towerNumber, int upgradeNumber) {
         return getTowerProperties(towerNumber, upgradeNumber).get("upgrade");
@@ -107,18 +95,51 @@ public class Tower extends ClickableObject {
     public void upgradeTower(int towerNumber, int upgradeNumber) {
         // Get current towernumber & upgradenumber, check cost and upgrade to next
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
+
+        // Not sure if required?
         Iterator towerIterator = getTowerProperties(towerNumber, upgradeNumber).entrySet().iterator();
 
-        if (properties.get("upgrade") <= 3) {
+        if (properties.get("upgrade") < 3) {
             // Check if you have enough currency to upgrade >> Requires currency system in
             // place
-            float nextUpgrade = properties.get("upgrade") + 1;
-            upgradeNumber = (int) nextUpgrade;
+            int nextUpgrade = (int) (properties.get("upgrade") + 1);
+            int newUpgradeNumber = nextUpgrade;
+            // upgradeNumber = nextUpgrade;
+            towerSprite(newUpgradeNumber);
+            System.out.println("You have upgraded your tower to level "+newUpgradeNumber);
+        } else {
+            System.out.println("Max upgrade reached.");
         }
     }
 
-    public void sellTower() {
+    public void changeTower(int upgradeNumber) {
+        Tile selectedTile;
+        Sprite newTower = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber
+                + "upgrade" + upgradeNumber + ".png");
 
+        selectedTile = world.getTileMap().getTileOnPosition((int) x, (int) y);
+        selectedTile.setSprite(newTower);
+    }
+
+    /**
+     * Refunds 40% of the paid amount and deletes the tower.
+     * 
+     * @param towerNumber   int towerNumber of the tower
+     * @param upgradeNumber int upgradeNumber of the tower
+     */
+    public int sellTower(int towerNumber, int upgradeNumber) {
+        HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
+        int refund = 0;
+
+        // Refund amount
+        refund = Math.round(properties.get("refund"));
+
+        // Add refund amount to currency
+        // currency.increaseCurrency(refund);
+
+        // world.deleteGameObject(this);
+        System.out.println("You have sold your tower for €" + refund + ".");
+        return refund;
     }
 
     /**
@@ -139,6 +160,7 @@ public class Tower extends ClickableObject {
                     output.put("range", (float) 3);
                     output.put("damage", (float) 15);
                     output.put("rate", (float) 1.0);
+                    output.put("refund", (float) 8);
                     break;
                 case 1:
                     output.put("upgrade", (float) 1);
@@ -146,6 +168,7 @@ public class Tower extends ClickableObject {
                     output.put("range", (float) 5);
                     output.put("damage", (float) 15);
                     output.put("rate", (float) 1.5);
+                    output.put("refund", (float) 16);
                     break;
                 case 2:
                     output.put("upgrade", (float) 2);
@@ -153,6 +176,7 @@ public class Tower extends ClickableObject {
                     output.put("range", (float) 5);
                     output.put("damage", (float) 25);
                     output.put("rate", (float) 2.0);
+                    output.put("refund", (float) 36);
                     break;
                 case 3:
                     output.put("upgrade", (float) 3);
@@ -160,6 +184,7 @@ public class Tower extends ClickableObject {
                     output.put("range", (float) 6);
                     output.put("damage", (float) 35);
                     output.put("rate", (float) 5.0);
+                    output.put("refund", (float) 110);
                     break;
             }
         } else {
@@ -171,6 +196,7 @@ public class Tower extends ClickableObject {
                         output.put("range", (float) 10);
                         output.put("damage", (float) 35);
                         output.put("rate", (float) 0.5);
+                        output.put("refund", (float) 20);
                         break;
                     case 1:
                         output.put("upgrade", (float) 1);
@@ -178,6 +204,7 @@ public class Tower extends ClickableObject {
                         output.put("range", (float) 12);
                         output.put("damage", (float) 35);
                         output.put("rate", (float) 0.5);
+                        output.put("refund", (float) 32);
                         break;
                     case 2:
                         output.put("upgrade", (float) 2);
@@ -185,6 +212,7 @@ public class Tower extends ClickableObject {
                         output.put("range", (float) 15);
                         output.put("damage", (float) 35);
                         output.put("rate", (float) 1.0);
+                        output.put("refund", (float) 54);
                         break;
                     case 3:
                         output.put("upgrade", (float) 3);
@@ -192,6 +220,7 @@ public class Tower extends ClickableObject {
                         output.put("range", (float) 20);
                         output.put("damage", (float) 50);
                         output.put("rate", (float) 1.5);
+                        output.put("refund", (float) 138);
                         break;
                 }
             } else {
@@ -202,6 +231,7 @@ public class Tower extends ClickableObject {
                         output.put("range", (float) 6);
                         output.put("damage", (float) 85);
                         output.put("rate", (float) 0.3);
+                        output.put("refund", (float) 30);
                         break;
                     case 1:
                         output.put("upgrade", (float) 1);
@@ -209,6 +239,7 @@ public class Tower extends ClickableObject {
                         output.put("range", (float) 10);
                         output.put("damage", (float) 85);
                         output.put("rate", (float) 0.3);
+                        output.put("refund", (float) 70);
                         break;
                     case 2:
                         output.put("upgrade", (float) 2);
@@ -216,6 +247,7 @@ public class Tower extends ClickableObject {
                         output.put("range", (float) 10);
                         output.put("damage", (float) 85);
                         output.put("rate", (float) 0.9);
+                        output.put("refund", (float) 118);
                         break;
                     case 3:
                         output.put("upgrade", (float) 3);
@@ -223,6 +255,7 @@ public class Tower extends ClickableObject {
                         output.put("range", (float) 12);
                         output.put("damage", (float) 100);
                         output.put("rate", (float) 1.0);
+                        output.put("refund", (float) 218);
                         break;
                 }
             }
@@ -230,23 +263,24 @@ public class Tower extends ClickableObject {
         return output;
     }
 
+    /**
+     * Cooldown timer for tower firerate.
+     */
     public boolean globalCD() {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
-        return world.millis() - startTime > ((properties.get("rate") * 1000));
+        return world.millis() - startTime > (1000 / (properties.get("rate")));
     }
 
     @Override
     public void update() {
-        if (enemyDetection.getEnemy() != null) {
-            if (enemyDetection.getEnemy().getEnemyIsAlive()) {
-                if (globalCD()) {
-                    shootProjectile(enemyDetection.getEnemy());
-                    enemyDetection.emptyList();
-                    startTime = world.millis();
-                }
-            }
-            enemyDetection.emptyList();
+        // sellTower(3,1);
+        if (globalCD()) {
+            targetEnemy();
+            // upgradeTower(towerNumber, upgradeNumber);
+            startTime = world.millis();
         }
+        enemyDetection.emptyList();
+
     }
 
     // Draw towerSprite according to towerNumber & upgradeNumber

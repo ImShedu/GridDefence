@@ -31,15 +31,6 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
         } else {
             return null;
         }
-
-        // Enemy enemy = (Enemy) getEnemyInAreaList().get(0);
-        // if (enemy.getEnemyIsAlive()) { // >> shooting multiple projectile because
-        // enemy survives 1, but 1> proj are bugged
-        // shootProjectile(enemy);
-        // }
-        // // enemyDetection.getEnemyInAreaList().remove(enemy);
-        // emptyList();
-        // }
     }
 
     public void emptyList() {
