@@ -34,7 +34,6 @@ public class GridDefence extends GameEngine {
 
     @Override
     public void setupGame() {
-        // TODO Auto-generated method stub
         int worldWidth = 1600;
         int worldHeight = 800;
 
