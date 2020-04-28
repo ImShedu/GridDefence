@@ -38,10 +38,6 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
                     world.deleteGameObject(this);
                 }
             }
-
-            if (enemy == null) {
-                world.deleteGameObject(this);
-            }
         }
     }
 

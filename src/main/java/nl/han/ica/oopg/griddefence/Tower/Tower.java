@@ -31,12 +31,18 @@ public class Tower extends ClickableObject {
         this.world = world;
         this.towerNumber = towerNumber;
         upgradeNumber = 0;
-        towerSprite(towerNumber, upgradeNumber);
-        enemyDetection(towerNumber, upgradeNumber);
+        towerSprite();
+        enemyDetection();
         startTime = 0;
     }
 
-    public void towerSprite(int towerNumber, int upgradeNumber) {
+    /**
+     * Selects the sprite with the given towerNumber and upgradeNumber.
+     * 
+     * @param towerNumber   int towerNumber of the tower
+     * @param upgradeNumber int upgradeNumber of the tower
+     */
+    public void towerSprite() {
         towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber + "upgrade"
                 + upgradeNumber + ".png");
     }
@@ -47,7 +53,7 @@ public class Tower extends ClickableObject {
      * @param towerNumber   int towerNumber of the tower
      * @param upgradeNumber int upgradeNumber of the tower
      */
-    public void enemyDetection(int towerNumber, int upgradeNumber) {
+    public void enemyDetection() {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
         this.enemyDetection = new EnemyDetection(((x - (properties.get("range") * world.getTileSize())) + 15),
                 ((y - (properties.get("range") * world.getTileSize())) + 15),
@@ -64,6 +70,7 @@ public class Tower extends ClickableObject {
     public void shootProjectile(Enemy enemy) {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
         enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
+        System.out.println(properties.get("damage"));
 
         // X position, Y position, Width, Height, GameObject, Damage, World
         Projectile projectile = new Projectile(x, y, world.getTileSize(), world.getTileSize(), enemy, world);
@@ -86,18 +93,18 @@ public class Tower extends ClickableObject {
 
     /**
      * Upgrades the tower to the next level.
-     * 
-     * @param towerNumber int towerNumber of the tower
      */
-    public void upgradeTower(int towerNumber) {
-        getUpgradeNumber(towerNumber); // >> upgradeNumber
+    public void upgradeTower() {
+        getUpgradeNumber(); // >> upgradeNumber
 
-        if (getUpgradeNumber(towerNumber) < 3) {
-            int nextUpgrade = ((int) getUpgradeNumber(towerNumber) + 1);
+        if (getUpgradeNumber() < 3) {
+            int nextUpgrade = ((int) getUpgradeNumber() + 1);
             // setUpgradeNumber(nextUpgrade);
             this.upgradeNumber = nextUpgrade;
 
-            towerSprite(towerNumber, nextUpgrade);
+            towerSprite();
+            world.deleteGameObject(enemyDetection);
+            enemyDetection();
             System.out.println("You have upgraded your tower to level " + nextUpgrade);
         } else {
             System.out.println("You have already reached max upgrade.");
@@ -105,11 +112,9 @@ public class Tower extends ClickableObject {
     }
 
     /**
-     * Get the upgradenumber of the tower.
-     * 
-     * @param towerNumber int towerNumber of the tower
+     * Get the upgradeNumber of the tower.
      */
-    public int getUpgradeNumber(int towerNumber) {
+    public int getUpgradeNumber() {
         return upgradeNumber;
     }
 
@@ -119,7 +124,7 @@ public class Tower extends ClickableObject {
      * @param towerNumber   int towerNumber of the tower
      * @param upgradeNumber int upgradeNumber of the tower
      */
-    public int sellTower(int towerNumber, int upgradeNumber) {
+    public int sellTower() {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
         int refund = 0;
 
@@ -267,6 +272,7 @@ public class Tower extends ClickableObject {
     public void update() {
         if (globalCD()) {
             targetEnemy();
+            upgradeTower();
             startTime = world.millis();
         }
         enemyDetection.emptyList();
