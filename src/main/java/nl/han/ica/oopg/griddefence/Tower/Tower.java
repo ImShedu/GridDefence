@@ -96,7 +96,8 @@ public class Tower extends ClickableObject {
 
         if (getUpgradeNumber(towerNumber) < 3) {
             int nextUpgrade = ((int) getUpgradeNumber(towerNumber) + 1);
-            setUpgradeNumber(nextUpgrade);
+            // setUpgradeNumber(nextUpgrade);
+            this.upgradeNumber = nextUpgrade;
 
             towerSprite(towerNumber, nextUpgrade);
             System.out.println("You have upgraded your tower to level " + nextUpgrade);
@@ -107,10 +108,6 @@ public class Tower extends ClickableObject {
 
     public int getUpgradeNumber(int towerNumber) {
         return upgradeNumber;
-    }
-
-    public void setUpgradeNumber(int nextUpgrade) {
-        this.upgradeNumber = nextUpgrade;
     }
 
     /**
