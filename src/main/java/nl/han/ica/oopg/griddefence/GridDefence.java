@@ -9,6 +9,7 @@ import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
 import nl.han.ica.oopg.griddefence.Tower.Tower;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import nl.han.ica.oopg.engine.GameEngine;
 import nl.han.ica.oopg.objects.Sprite;
@@ -24,6 +25,8 @@ public class GridDefence extends GameEngine {
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
     private Castle castle;
     private EnemySpawner enemySpawner;
+    private Tower towerUI = null;
+    private boolean towerClicked = false;
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -41,8 +44,8 @@ public class GridDefence extends GameEngine {
         createViewWithoutViewport(worldWidth, worldHeight);
         createCastle();
         createEnemySpawner();
-        createUI();
         testMouse();
+        createUI();
     }
 
     // Birds-eye view
@@ -56,9 +59,8 @@ public class GridDefence extends GameEngine {
 
     // Non-clickable UserInterface
     private void createUI() {
-        UserInterface testUI = new UserInterface(castle, enemySpawner, this);
+        UserInterface testUI = new UserInterface(enemySpawner, this, towerUI);
         addGameObject(testUI, 1);
-
     }
 
     // Create Castle
@@ -75,25 +77,93 @@ public class GridDefence extends GameEngine {
         ClickableObject uiTowerThree = new ClickableObject(880, 720, 80, 40);
         uiTowerThree.setTowerNumber(3);
 
-        addGameObject(uiTowerOne, 1);
-        addGameObject(uiTowerTwo, 1);
-        addGameObject(uiTowerThree, 1);
+        ClickableObject upgradeButton = new ClickableObject(200, 680, 40, 40);
+        ClickableObject sellButton = new ClickableObject(0, 680, 40, 40);
+        ClickableObject settingsButton = new ClickableObject(1480, 760, 120, 40);
+
+        addGameObject(uiTowerOne);
+        addGameObject(uiTowerTwo);
+        addGameObject(uiTowerThree);
+        addGameObject(upgradeButton);
+        addGameObject(sellButton);
+        addGameObject(settingsButton);
 
         cObjects.add(uiTowerOne);
         cObjects.add(uiTowerTwo);
         cObjects.add(uiTowerThree);
+        cObjects.add(upgradeButton);
+        cObjects.add(sellButton);
+        cObjects.add(settingsButton);
 
+        Tower towerTemp = null;
         ClickableObject temp = null;
         for (ClickableObject bo : cObjects) {
             if (bo.mouseClicked(mouseX, mouseY)) {
                 temp = bo;
             }
+
+            // Check if click is on tower
+            if (bo instanceof Tower && bo.mouseClicked(mouseX, mouseY)) {
+                towerTemp = (Tower) bo;
+            }
+
+            if (bo == upgradeButton && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
+                if (towerUI.getUpgradeNumber() != 3) {
+                    towerUI.upgradeTower();
+                }
+            }
+
+            if (bo == sellButton && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
+                towerUI.sellTower();
+                cObjects.remove(towerUI);
+            }
+
+            if (bo == settingsButton && bo.mouseClicked(mouseX, mouseY)) {
+                System.out.println("Settings");
+            }
         }
 
-        if (temp != null && previousTile != null) {
+        // Build tower on empty cell & previousTile needs to be active
+        if (temp != null && previousTile != null && towerClicked == false) {
             if (temp.checkTowerNumber()) {
-                createTower(temp.getTowerNumber());
+                // if (affordTower() == true) {
+                if (Currency.getCurrency() >= towerCost(temp.getTowerNumber())) {
+                    createTower(temp.getTowerNumber());
+                    Currency.setCurrency(Currency.getCurrency() - towerCost(temp.getTowerNumber()));
+                    towerClicked = true; // >> Doesn't refresh tower info >> Need refresh method?
+                    System.out.println("Build");
+                } else {
+                    System.out.println("You do not have enough money.");
+                }
             }
+        }
+
+        // Active click on tower & previousTile needs to be inactive
+        if (towerTemp != null) {
+            towerClicked = true;
+            towerUI = towerTemp;
+        } else {
+            towerClicked = false;
+        }
+    }
+
+    public int towerCost(int towerNumber) {
+        if (towerNumber == 1) {
+            return (int) 20;
+        } else {
+            if (towerNumber == 2) {
+                return (int) 50;
+            } else {
+                return (int) 75;
+            }
+        }
+    }
+
+    public Tower getTowerClicked() {
+        if (towerClicked) {
+            return towerUI;
+        } else {
+            return null;
         }
     }
 
@@ -108,7 +178,8 @@ public class GridDefence extends GameEngine {
         TileMap TM = getTileMap();
         float[] location = TM.getTilePixelLocation(previousTile).array();
 
-        // X & Y position on grid, Width & Height (tileSize), World, Towernumber, Upgradenumber
+        // X & Y position on grid, Width & Height (tileSize), World, Towernumber,
+        // Upgradenumber
         Tower newTower = new Tower(location[0], location[1], tileSize, tileSize, this, towerNumber);
         addGameObject(newTower);
         cObjects.add(newTower);
@@ -116,7 +187,7 @@ public class GridDefence extends GameEngine {
 
     // Create enemy spawner from spawntile (Actual gamemechanic)
     public void createEnemySpawner() {
-        enemySpawner = new EnemySpawner(this, 100, castle); // Number of waves
+        enemySpawner = new EnemySpawner(this, 100); // Number of waves
     }
 
     @Override
@@ -136,6 +207,7 @@ public class GridDefence extends GameEngine {
             // Deselects current tile
             if (previousTile == currentTile) {
                 currentTile.setSprite(resetSprite);
+                towerClicked = false;
                 previousTile = null;
                 return;
             } else {
@@ -220,5 +292,4 @@ public class GridDefence extends GameEngine {
         // TODO Auto-generated method stub
 
     }
-
 }

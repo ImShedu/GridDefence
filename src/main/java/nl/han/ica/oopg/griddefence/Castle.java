@@ -5,9 +5,9 @@ import processing.core.PGraphics;
 
 public class Castle extends GameObject {
 
-    private int hp = 100;
-    private GridDefence world;
-    private boolean castleIsAlive = true;
+    private static int hp = 100;
+    private static GridDefence world;
+    private static boolean castleIsAlive = true;
 
     public Castle(GridDefence world) {
         this.world = world;
@@ -15,24 +15,24 @@ public class Castle extends GameObject {
 
     // Perhaps static method??
     // Check if castle is still alive
-    public void castleHP(int damage) {
-        if (this.hp - damage <= 0) {
+    public static void castleHP(int damage) {
+        if (hp - damage <= 0) {
             world.pauseGame();
             // System.out.println("The castle has fallen.");
             castleIsAlive = false;
         } else {
-            this.hp -= damage;
+            hp -= damage;
             // System.out.println("Castle has " + this.hp + " hp left.");
         }
     }
 
     // Return HP for text
-    public int getHP() {
-        return this.hp;
+    public static int getHP() {
+        return hp;
     }
 
     // Return boolean for castle
-    public boolean getCastleIsAlive() {
+    public static boolean getCastleIsAlive() {
         return castleIsAlive;
     }
 

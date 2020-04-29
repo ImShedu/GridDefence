@@ -3,6 +3,7 @@ package nl.han.ica.oopg.griddefence.Tower;
 import java.util.List;
 
 import nl.han.ica.oopg.collision.ICollidableWithGameObjects;
+import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
@@ -34,6 +35,7 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
                 if (!enemy.getEnemyIsAlive()) {
                     world.deleteGameObject(enemy);
                     EnemySpawner.handleEnemyDeath(enemy);
+                    Currency.setCurrency(Currency.getCurrency()+5);
                 } else {
                     world.deleteGameObject(this);
                 }

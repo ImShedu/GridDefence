@@ -3,6 +3,7 @@ package nl.han.ica.oopg.griddefence.Tower;
 import java.util.HashMap;
 
 import nl.han.ica.oopg.griddefence.ClickableObject;
+import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.objects.Sprite;
@@ -86,26 +87,6 @@ public class Tower extends ClickableObject {
     }
 
     /**
-     * Upgrades the tower to the next level.
-     */
-    public void upgradeTower() {
-        getUpgradeNumber(); // >> upgradeNumber
-
-        if (getUpgradeNumber() < 3) {
-            int nextUpgrade = ((int) getUpgradeNumber() + 1);
-            // setUpgradeNumber(nextUpgrade);
-            this.upgradeNumber = nextUpgrade;
-
-            towerSprite();
-            world.deleteGameObject(enemyDetection); // Temp solution
-            enemyDetection();
-            System.out.println("You have upgraded your tower to level " + nextUpgrade);
-        } else {
-            System.out.println("You have already reached max upgrade.");
-        }
-    }
-
-    /**
      * Get the upgradeNumber of the tower.
      */
     public int getUpgradeNumber() {
@@ -113,9 +94,55 @@ public class Tower extends ClickableObject {
     }
 
     /**
+     * Get the towerNumber of the tower.
+     */
+    public int getTowerNumber() {
+        return towerNumber;
+    }
+
+    // public boolean affordTower() {
+    //     HashMap<String, Float> properties = getTowerProperties(towerNumber, 0);
+    //     if (Currency.getCurrency() >= properties.get("cost")) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    /**
+     * Upgrades the tower to the next level.
+     */
+    public void upgradeTower() {
+        int nextUpgrade = ((int) getUpgradeNumber() + 1);
+        this.upgradeNumber = nextUpgrade;
+
+        HashMap<String, Float> properties = getTowerProperties(towerNumber, nextUpgrade);
+        if (upgradeNumber < 4) {
+            if (Currency.getCurrency() >= properties.get("cost")) {
+                Currency.setCurrency(Currency.getCurrency() - Math.round(properties.get("cost")));
+
+                towerSprite();
+                world.deleteGameObject(enemyDetection); // Temp solution
+                enemyDetection();
+                if (upgradeNumber == 3) {
+                    System.out.println("You have achieved max upgrade.");
+                } else {
+                    System.out.println("You have upgraded your tower to level " + nextUpgrade);
+                }
+            } else {
+                // System.out.println("You do not have enough money.");
+                System.out.println(
+                        "You need €" + (Math.round(properties.get("cost")) - Currency.getCurrency()) + " more.");
+            }
+        } else {
+            System.out.println("You have already reached max upgrade.");
+        }
+    }
+
+    /**
      * Refunds 40% of the paid amount and deletes the tower.
      */
-    public int sellTower() {
+    public void sellTower() {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
         int refund = 0;
 
@@ -123,11 +150,66 @@ public class Tower extends ClickableObject {
         refund = Math.round(properties.get("refund"));
 
         // Add refund amount to currency
-        // currency.increaseCurrency(refund);
+        Currency.setCurrency(Currency.getCurrency() + refund);
 
-        // world.deleteGameObject(this);
+        world.deleteGameObject(this);
+        world.deleteGameObject(enemyDetection);
+
         System.out.println("You have sold your tower for €" + refund + ".");
-        return refund;
+    }
+
+    public HashMap<String, String> getTowerName(int towerNumber, int upgradeNumber) {
+        HashMap<String, String> output = new HashMap<String, String>();
+
+        if (towerNumber == 1) {
+            switch (upgradeNumber) {
+                case 0:
+                    output.put("name", (String) "Bulbasaur");
+                    break;
+                case 1:
+                    output.put("name", (String) "Ivysaur");
+                    break;
+                case 2:
+                    output.put("name", (String) "Venusaur");
+                    break;
+                case 3:
+                    output.put("name", (String) "Mega Venusaur");
+                    break;
+            }
+        } else {
+            if (towerNumber == 2) {
+                switch (upgradeNumber) {
+                    case 0:
+                        output.put("name", (String) "Squirtle");
+                        break;
+                    case 1:
+                        output.put("name", (String) "Wartortle");
+                        break;
+                    case 2:
+                        output.put("name", (String) "Blastoise");
+                        break;
+                    case 3:
+                        output.put("name", (String) "Mega Blastoise");
+                        break;
+                }
+            } else {
+                switch (upgradeNumber) {
+                    case 0:
+                        output.put("name", (String) "Charmander");
+                        break;
+                    case 1:
+                        output.put("name", (String) "Charmeleon");
+                        break;
+                    case 2:
+                        output.put("name", (String) "Charizard");
+                        break;
+                    case 3:
+                        output.put("name", (String) "Charizard X");
+                        break;
+                }
+            }
+        }
+        return output;
     }
 
     /**

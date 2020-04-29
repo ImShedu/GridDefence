@@ -14,13 +14,11 @@ public class EnemySpawner {
     private int currentWave = 1;
     private int waves;
 	private int spawnedEnemies = 0;
-	private Castle castle;
        
-    public EnemySpawner(GridDefence world, int waves, Castle castle) {
+    public EnemySpawner(GridDefence world, int waves) {
         this.world = world;
         this.enemiesPerSecond = 2;
 		this.waves = waves;
-		this.castle = castle;
         runGame();
 	}
     
@@ -177,7 +175,7 @@ public class EnemySpawner {
 	 */
     public void spawnEnemy(int x, int y, String type, int resistance, int speed, int damage) {
     	spawnedEnemies++;
-        Enemy temp = new Enemy(x, y, 40, speed, resistance, damage, type, world, castle);
+        Enemy temp = new Enemy(x, y, 40, speed, resistance, damage, type, world);
         world.addGameObject(temp, 40, 40);
         temp.setDirectionSpeed(90, (float)(speed/10));
         enemyList.add(temp);
