@@ -30,12 +30,10 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
         for (GameObject g : collidedGameObjects) {
             if (g == enemy) {
-                world.deleteGameObject(this);
-
                 if (!enemy.getEnemyIsAlive()) {
                     world.deleteGameObject(enemy);
                     EnemySpawner.handleEnemyDeath(enemy);
-                    Currency.setCurrency(Currency.getCurrency()+5);
+                    Currency.setCurrency(Currency.getCurrency() + 5);
                 } else {
                     world.deleteGameObject(this);
                 }
@@ -45,7 +43,12 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
 
     @Override
     public void update() {
-        setDirectionSpeed(getAngleFrom(enemy), 10);
+        if (EnemySpawner.getEnemyList().contains(enemy)) {
+            setDirectionSpeed(getAngleFrom(enemy), 10);
+        } else {
+            enemy = null;
+            world.deleteGameObject(this);
+        }
     }
 
     @Override

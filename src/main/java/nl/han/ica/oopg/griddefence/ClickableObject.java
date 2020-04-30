@@ -6,9 +6,15 @@ import processing.core.PGraphics;
 public class ClickableObject extends GameObject {
 
     private int towerNumber = 0;
+    private String name;
 
     public ClickableObject(float x, float y, float width, float height) {
         super(x, y, width, height);
+    }
+
+    public ClickableObject(float x, float y, float width, float height, String name) {
+        super(x, y, width, height);
+        this.name = name;
     }
 
     public boolean checkTowerNumber() {
@@ -17,6 +23,10 @@ public class ClickableObject extends GameObject {
         } else {
             return false;
         }
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setTowerNumber(int towerNumber) {

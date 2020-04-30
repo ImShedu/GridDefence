@@ -18,6 +18,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     private Sprite enemySprite;
     private GridDefence world;
     private boolean enemyIsAlive = true;
+    private String enemyType;
 
     /**
      * 
@@ -36,6 +37,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         this.damage = damage;
         // setDirection(speed);
         this.world = world;
+        this.enemyType = enemyType;
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/" + enemyType + ".png");
     }
 
@@ -47,6 +49,10 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
             this.hp -= damage;
             // System.out.println("Enemy has " + hp + " left.");
         }
+    }
+    
+    public String getEnemyType() {
+        return enemyType;
     }
 
     public boolean getEnemyIsAlive() {

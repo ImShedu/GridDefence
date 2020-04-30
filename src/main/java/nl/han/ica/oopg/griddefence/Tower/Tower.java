@@ -55,6 +55,14 @@ public class Tower extends ClickableObject {
                 (((properties.get("range") * world.getTileSize()) * 2) + 10),
                 (((properties.get("range") * world.getTileSize()) * 2) + 10));
         world.addGameObject(enemyDetection);
+
+        if (world.getTowerClicked() != null) {
+            isVisible();
+        }
+    }
+
+    public EnemyDetection getEnemyDetection() {
+        return enemyDetection;
     }
 
     /**
@@ -64,12 +72,13 @@ public class Tower extends ClickableObject {
      */
     public void shootProjectile(Enemy enemy) {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
-        enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
-        // System.out.println(properties.get("damage"));
 
         // X position, Y position, Width, Height, GameObject, Damage, World
-        Projectile projectile = new Projectile(x, y, world.getTileSize(), world.getTileSize(), enemy, world);
+        Projectile projectile = new Projectile(x, y, 10, 10, enemy, world);
         world.addGameObject(projectile);
+
+        enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
+        // System.out.println(properties.get("damage"));
     }
 
     /**
@@ -79,8 +88,9 @@ public class Tower extends ClickableObject {
     public void targetEnemy() {
         for (int i = 0; i < enemyDetection.getEnemyInAreaList().size(); i++) {
             Enemy target = (Enemy) enemyDetection.getEnemyInAreaList().get(i);
-            if (target.getEnemyIsAlive()) {
+            if (target.getEnemyIsAlive() && globalCD()) {
                 shootProjectile(target);
+                startTime = world.millis();
                 break;
             }
         }
@@ -100,26 +110,26 @@ public class Tower extends ClickableObject {
         return towerNumber;
     }
 
-    // public boolean affordTower() {
-    //     HashMap<String, Float> properties = getTowerProperties(towerNumber, 0);
-    //     if (Currency.getCurrency() >= properties.get("cost")) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
+    public boolean affordTower(int buildNumber) {
+        HashMap<String, Float> properties = getTowerProperties(buildNumber, 0);
+        if (Currency.getCurrency() >= properties.get("cost")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Upgrades the tower to the next level.
      */
     public void upgradeTower() {
         int nextUpgrade = ((int) getUpgradeNumber() + 1);
-        this.upgradeNumber = nextUpgrade;
 
         HashMap<String, Float> properties = getTowerProperties(towerNumber, nextUpgrade);
         if (upgradeNumber < 4) {
             if (Currency.getCurrency() >= properties.get("cost")) {
                 Currency.setCurrency(Currency.getCurrency() - Math.round(properties.get("cost")));
+                this.upgradeNumber = nextUpgrade;
 
                 towerSprite();
                 world.deleteGameObject(enemyDetection); // Temp solution
@@ -343,12 +353,10 @@ public class Tower extends ClickableObject {
 
     @Override
     public void update() {
-        if (globalCD()) {
+        if (!enemyDetection.getEnemyInAreaList().isEmpty()) {
             targetEnemy();
-            startTime = world.millis();
         }
         enemyDetection.emptyList();
-
     }
 
     // Draw towerSprite according to towerNumber & upgradeNumber

@@ -51,8 +51,7 @@ public class UserInterface extends GameObject {
             upgradeSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber
                     + "upgrade" + (upgradeNumber + 1) + ".png");
         } else {
-            upgradeSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber
-                    + "upgrade" + upgradeNumber + ".png");
+            upgradeSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/upgradeObject1.png");
         }
 
         // Text settings
@@ -86,10 +85,9 @@ public class UserInterface extends GameObject {
         g.rect(600, 680, 400, 120); // Tower choice window
 
         // Tower selection windows
-
-        g.rect(640, 720, 80, 40);
-        g.rect(760, 720, 80, 40);
-        g.rect(880, 720, 80, 40);
+        g.rect(640, 720, 80, 40); // Tower 1 selection
+        g.rect(760, 720, 80, 40); // Tower 2 selection
+        g.rect(880, 720, 80, 40); // Tower 3 selection
 
         // Tower information windows
         g.rect(0, 680, 240, 120); // Window outlining
@@ -103,6 +101,13 @@ public class UserInterface extends GameObject {
         g.rect(1480, 760, 120, 40); // Settings button
         g.rect(0, 680, 40, 40); // Sell button
         g.rect(200, 680, 40, 40); // Upgrade button
+
+        // Inventory UI buttons
+        g.rect(320, 760, 40, 40); // Inventory slot 1
+        g.rect(360, 760, 40, 40); // Inventory slot 2
+        g.rect(400, 760, 40, 40); // Inventory slot 3
+        g.rect(440, 760, 40, 40); // Inventory slot 4
+        g.rect(480, 760, 40, 40); // Inventory slot 5
 
         // Tower selection windows
         g.rect(640, 720, 80, 40);
@@ -122,7 +127,7 @@ public class UserInterface extends GameObject {
         g.textSize(20); // Textsize to 20
         g.textAlign(LEFT, CENTER); // Align text to leftside
         g.text("HP: " + Castle.getHP(), 1020, 740); // Castle HP text
-        g.text("€"+ Currency.getCurrency(), 1020, 780); // Currency text
+        g.text("€" + Currency.getCurrency(), 1020, 780); // Currency text
 
         g.textAlign(CENTER, CENTER); // Align text to center
         g.text("Wave: " + enemySpawner.getCurrentWave(), 800, 20); // Wave number text
