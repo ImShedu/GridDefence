@@ -1,6 +1,8 @@
 package nl.han.ica.oopg.griddefence.Enemy;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.han.ica.oopg.collision.CollidedTile;
 import nl.han.ica.oopg.collision.ICollidableWithTiles;
@@ -19,25 +21,24 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     private GridDefence world;
     private boolean enemyIsAlive = true;
     private String enemyType;
+    private int currency;
 
     /**
      * 
      * @param x           int X coordinate for the enemy
      * @param y           int Y coordinate for the enemy
      * @param size        int size for the enemy
-     * @param speed       int of the enemy
-     * @param hp          int health points fo the enemy
-     * @param damage      int Damage inflicted by the enemy
      * @param GridDefence World the world for the enemy to be in
+     * @param HashMap     HashMap of the enemy properties
      */
-    public Enemy(int x, int y, int size, int speed, int hp, int damage, String enemyType, GridDefence world) {
+    public Enemy(int x, int y, int size, String enemyType, GridDefence world, HashMap<String, Integer> properties) {
         super(x, y, size, size);
-        this.speed = (float) (speed / 10.0);
-        this.hp = hp;
-        this.damage = damage;
-        // setDirection(speed);
+        this.speed = (float) (properties.get("speed") / 10.0);
+        this.hp = properties.get("hp");
+        this.damage = properties.get("damage");
         this.world = world;
         this.enemyType = enemyType;
+        this.currency = properties.get("currency");
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/" + enemyType + ".png");
     }
 
@@ -50,7 +51,11 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
             // System.out.println("Enemy has " + hp + " left.");
         }
     }
-    
+
+    public int getEnemyCurrency() {
+        return currency;
+    }
+
     public String getEnemyType() {
         return enemyType;
     }
@@ -99,21 +104,24 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
 
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
-        Tile tile0 = collidedTiles.get(0).getTile();
-        Tile tile1 = collidedTiles.get(1).getTile();
+        if (collidedTiles.size() > 1) {
+            Tile tile0 = collidedTiles.get(0).getTile();
+            Tile tile1 = collidedTiles.get(1).getTile();
 
-        // Checks if next tile is castle (endtile)
-        if (world.getTileMap().findTileTypeIndex(tile0) == 3 || world.getTileMap().findTileTypeIndex(tile1) == 3) {
-            world.deleteGameObject(this);
-            EnemySpawner.handleEnemyDeath(this);
-            Castle.castleHP(damage);
-        }
+            // Checks if next tile is castle (endtile)
+            if (world.getTileMap().findTileTypeIndex(tile0) == 3 || world.getTileMap().findTileTypeIndex(tile1) == 3) {
+                world.deleteGameObject(this);
+                EnemySpawner.handleEnemyDeath(this);
+                Castle.castleHP(damage);
+            }
 
-        // Checking current position tile equal to 1 (Path tile)
-        if (world.getTileMap().findTileTypeIndex(tile0) != 1) {
-            changeDirection(tile1);
-        } else if (world.getTileMap().findTileTypeIndex(tile1) != 1) {
-            changeDirection(tile0);
+            // Checking current position tile equal to 1 (Path tile)
+
+            if (world.getTileMap().findTileTypeIndex(tile0) != 1) {
+                changeDirection(tile1);
+            } else if (world.getTileMap().findTileTypeIndex(tile1) != 1) {
+                changeDirection(tile0);
+            }
         }
     }
 

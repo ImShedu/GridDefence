@@ -7,6 +7,7 @@ import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
+import nl.han.ica.oopg.griddefence.UpgradeStone.UpgradeStone;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
@@ -18,8 +19,8 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     private Enemy enemy;
     private Sprite projectileSprite;
 
-    public Projectile(float x, float y, int width, int height, Enemy enemy, GridDefence world) {
-        super(x, y, width, height);
+    public Projectile(float x, float y, int size, Enemy enemy, GridDefence world) {
+        super(x, y, size, size);
         this.enemy = enemy;
         this.world = world;
         projectileSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Pokeball.png");
@@ -33,7 +34,8 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
                 if (!enemy.getEnemyIsAlive()) {
                     world.deleteGameObject(enemy);
                     EnemySpawner.handleEnemyDeath(enemy);
-                    Currency.setCurrency(Currency.getCurrency() + 5);
+                    UpgradeStone.stoneDropRate(); // >> Testing purpose
+                    Currency.setCurrency(Currency.getCurrency() + enemy.getEnemyCurrency()); 
                 } else {
                     world.deleteGameObject(this);
                 }

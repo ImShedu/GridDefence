@@ -7,6 +7,7 @@ public class ClickableObject extends GameObject {
 
     private int towerNumber = 0;
     private String name;
+    private int stoneNumber = 0;
 
     public ClickableObject(float x, float y, float width, float height) {
         super(x, y, width, height);
@@ -17,6 +18,10 @@ public class ClickableObject extends GameObject {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean checkTowerNumber() {
         if (towerNumber > 0) {
             return true;
@@ -25,16 +30,12 @@ public class ClickableObject extends GameObject {
         }
     }
 
-    public String getName() {
-        return name;
+    public int getTowerNumber() {
+        return towerNumber;
     }
 
     public void setTowerNumber(int towerNumber) {
         this.towerNumber = towerNumber;
-    }
-
-    public int getTowerNumber() {
-        return towerNumber;
     }
 
     public boolean mouseClicked(int mouseX, int mouseY) {
@@ -56,6 +57,6 @@ public class ClickableObject extends GameObject {
 
     @Override
     public void draw(PGraphics g) {
-        
+
     }
 }

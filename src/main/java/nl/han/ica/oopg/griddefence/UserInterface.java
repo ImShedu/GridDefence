@@ -1,9 +1,11 @@
 package nl.han.ica.oopg.griddefence;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.griddefence.Tower.Tower;
+import nl.han.ica.oopg.griddefence.UpgradeStone.UpgradeStone;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
@@ -16,6 +18,9 @@ public class UserInterface extends GameObject {
     private GridDefence world;
     private Sprite towerSprite;
     private Sprite upgradeSprite;
+    private int a = 0;
+    private int b = 0;
+    private int c = 0;
 
     public UserInterface(EnemySpawner enemySpawner, GridDefence world, Tower tower) {
         this.enemySpawner = enemySpawner;
@@ -28,7 +33,7 @@ public class UserInterface extends GameObject {
 
     }
 
-    public void towerSelection(PGraphics g) {
+    public void towerSelectionSprite(PGraphics g) {
         Sprite tower1 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower1upgrade0.png");
         Sprite tower2 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower2upgrade0.png");
         Sprite tower3 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower3upgrade0.png");
@@ -51,7 +56,8 @@ public class UserInterface extends GameObject {
             upgradeSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber
                     + "upgrade" + (upgradeNumber + 1) + ".png");
         } else {
-            upgradeSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/upgradeObject1.png");
+            upgradeSprite = new Sprite(
+                    "src/main/java/nl/han/ica/oopg/griddefence/Resource/upgradeObject" + towerNumber + ".png");
         }
 
         // Text settings
@@ -75,6 +81,42 @@ public class UserInterface extends GameObject {
         g.textSize(12); // RESET TEXTSIZE TO 12
     }
 
+    public void upgradeStoneSprite(PGraphics g) {
+        Sprite upgradeStone1 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/upgradeObject1.png");
+        Sprite upgradeStone2 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/upgradeObject2.png");
+        Sprite upgradeStone3 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/upgradeObject3.png");
+
+        g.image(upgradeStone1.getPImage(), 560, 680); // Bulbasar stone for first tower
+        g.image(upgradeStone2.getPImage(), 560, 720); // Squirtle stone for first tower
+        g.image(upgradeStone3.getPImage(), 560, 760); // Charmander stone for first tower
+    }
+
+    public void upgradeStoneCounter(PGraphics g) {
+        Random random = new Random();
+
+        if (UpgradeStone.stoneDropped()) {
+            int counter = random.nextInt(3);
+            counter += 1;
+
+            switch (counter) {
+                case 1:
+                    a += 1;
+                    break;
+                case 2:
+                    b += 1;
+                    break;
+                case 3:
+                    c += 1;
+                    break;
+            }
+            UpgradeStone.stoneFalse();
+        }
+
+        g.text(a, 540, 700);
+        g.text(b, 540, 740);
+        g.text(c, 540, 780);
+    }
+
     @Override
     public void draw(PGraphics g) {
         // Basic UI windows
@@ -96,18 +138,16 @@ public class UserInterface extends GameObject {
         g.rect(120, 720, 120, 40); // Current damage box
         g.rect(120, 760, 120, 40); // Current rate box
 
+        // upgradeStoneSprite window
+        g.rect(520, 680, 80, 40); // Upgradestone 1
+        g.rect(520, 720, 80, 40); // Upgradestone 2
+        g.rect(520, 760, 80, 40); // Upgradestone 3
+
         // Basic UI buttons
         g.fill(255, 255, 102); // Yellow background
-        g.rect(1480, 760, 120, 40); // Settings button
+        g.rect(1480, 760, 120, 40); // Pause button
         g.rect(0, 680, 40, 40); // Sell button
         g.rect(200, 680, 40, 40); // Upgrade button
-
-        // Inventory UI buttons
-        g.rect(320, 760, 40, 40); // Inventory slot 1
-        g.rect(360, 760, 40, 40); // Inventory slot 2
-        g.rect(400, 760, 40, 40); // Inventory slot 3
-        g.rect(440, 760, 40, 40); // Inventory slot 4
-        g.rect(480, 760, 40, 40); // Inventory slot 5
 
         // Tower selection windows
         g.rect(640, 720, 80, 40);
@@ -119,8 +159,11 @@ public class UserInterface extends GameObject {
             towerInformation(g, world.getTowerClicked());
         }
 
-        // Actual Tower selection
-        towerSelection(g);
+        // Tower selection Sprite
+        towerSelectionSprite(g);
+
+        // Upgradestone Sprite
+        upgradeStoneSprite(g);
 
         // Texts
         g.fill(0, 0, 0); // Textcolor to black
@@ -132,7 +175,13 @@ public class UserInterface extends GameObject {
         g.textAlign(CENTER, CENTER); // Align text to center
         g.text("Wave: " + enemySpawner.getCurrentWave(), 800, 20); // Wave number text
         g.text("$", 20, 700); // Sell text
-        g.text("Settings", 1540, 780); // Settings text
+
+        if (world.getGameIsPaused()) {
+            g.text("Resume", 1540, 780); // Pause game text
+        } else {
+            g.text("Pause", 1540, 780); // Resume game text
+        }
+        upgradeStoneCounter(g); // Upgradestones counter text
 
         if (!Castle.getCastleIsAlive()) {
             g.fill(250, 0, 0);

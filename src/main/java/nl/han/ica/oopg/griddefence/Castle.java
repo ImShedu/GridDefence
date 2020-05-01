@@ -5,7 +5,7 @@ import processing.core.PGraphics;
 
 public class Castle extends GameObject {
 
-    private static int hp = 100;
+    private static int hp = 100000;
     private static GridDefence world;
     private static boolean castleIsAlive = true;
 

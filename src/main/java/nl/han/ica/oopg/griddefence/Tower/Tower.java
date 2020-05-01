@@ -6,6 +6,7 @@ import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
+import nl.han.ica.oopg.griddefence.UpgradeStone.UpgradeStone;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -14,6 +15,7 @@ public class Tower extends ClickableObject {
 
     protected GridDefence world;
     private EnemyDetection enemyDetection;
+    private UpgradeStone upgradeStone;
     private Sprite towerSprite;
     private int towerNumber, upgradeNumber;
     private int startTime;
@@ -35,6 +37,7 @@ public class Tower extends ClickableObject {
         towerSprite();
         enemyDetection();
         startTime = 0;
+        upgradeStone = new UpgradeStone(world, this);
     }
 
     /**
@@ -55,10 +58,6 @@ public class Tower extends ClickableObject {
                 (((properties.get("range") * world.getTileSize()) * 2) + 10),
                 (((properties.get("range") * world.getTileSize()) * 2) + 10));
         world.addGameObject(enemyDetection);
-
-        if (world.getTowerClicked() != null) {
-            isVisible();
-        }
     }
 
     public EnemyDetection getEnemyDetection() {
@@ -73,8 +72,8 @@ public class Tower extends ClickableObject {
     public void shootProjectile(Enemy enemy) {
         HashMap<String, Float> properties = getTowerProperties(towerNumber, upgradeNumber);
 
-        // X position, Y position, Width, Height, GameObject, Damage, World
-        Projectile projectile = new Projectile(x, y, 10, 10, enemy, world);
+        // X & Y position, Size, GameObject, Damage, World
+        Projectile projectile = new Projectile(x, y, 10, enemy, world);
         world.addGameObject(projectile);
 
         enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
@@ -343,6 +342,15 @@ public class Tower extends ClickableObject {
         return output;
     }
 
+    public void setTowerRate(float updateNumber) {
+        HashMap<String, Float> properties = getTowerProperties(1, 3);
+        // properties.put("rate", updateNumber);
+        // System.out.println(properties.get("rate"));
+        // properties.replace("rate", updateNumber);
+        properties.put("rate", properties.get("rate") + updateNumber);
+        System.out.println(properties.get("rate"));
+    }
+
     /**
      * Cooldown timer for tower firerate.
      */
@@ -357,6 +365,12 @@ public class Tower extends ClickableObject {
             targetEnemy();
         }
         enemyDetection.emptyList();
+
+        enemyDetection.setVisible(false);
+
+        if (world.getTowerClicked() != null) {
+            isVisible();
+        }
     }
 
     // Draw towerSprite according to towerNumber & upgradeNumber
