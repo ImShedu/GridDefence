@@ -3,7 +3,6 @@ package nl.han.ica.oopg.griddefence.Enemy;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 
 public class EnemySpawner {

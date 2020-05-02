@@ -1,4 +1,4 @@
-package nl.han.ica.oopg.griddefence.Tower;
+package nl.han.ica.oopg.griddefence.Projectile;
 
 import java.util.List;
 
@@ -35,12 +35,22 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
                     world.deleteGameObject(enemy);
                     EnemySpawner.handleEnemyDeath(enemy);
                     UpgradeStone.stoneDropRate(); // >> Testing purpose
-                    Currency.setCurrency(Currency.getCurrency() + enemy.getEnemyCurrency()); 
+                    Currency.setCurrency(Currency.getCurrency() + enemy.getEnemyCurrency());
                 } else {
                     world.deleteGameObject(this);
                 }
             }
         }
+    }
+
+    public Sprite getProjectileSprite() {
+        return projectileSprite;
+    }
+
+    public void changeProjectileSprite() {
+    }
+
+    public void projectileEffect() {
     }
 
     @Override

@@ -7,7 +7,7 @@ import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
 import nl.han.ica.oopg.griddefence.Tower.Tower;
-import nl.han.ica.oopg.griddefence.UpgradeStone.UpgradeStone1;
+import nl.han.ica.oopg.griddefence.UpgradeStone.UpgradeStone;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,6 @@ public class GridDefence extends GameEngine {
     private Tile previousTile;
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
     private EnemySpawner enemySpawner;
-    private UpgradeStone1 upgradeStone1;
     private boolean gameIsPaused = false;
     private Tower towerBuild = null;
     private boolean towerClicked = false;
@@ -91,11 +90,13 @@ public class GridDefence extends GameEngine {
         cObjects.add(pauseButton);
     }
 
+
+
     // Clickable UserInterface (GameObjects)
     private void mouseClickButtons() {
         ClickableObject temp = null;
         Tower towerTemp = null;
-        UpgradeStone1 upgradeStone1 = new UpgradeStone1(this, towerBuild);
+
 
         // Checks every ClickableObject with every click
         for (ClickableObject bo : cObjects) {
@@ -113,10 +114,8 @@ public class GridDefence extends GameEngine {
                 if (towerBuild.getUpgradeNumber() != 3) {
                     towerBuild.upgradeTower();
                 } else {
-                    // Call method from upgradeStone(Number)
-                    // upgradeStone1.stoneMechanic();
-                    towerBuild.setTowerRate(10);
-                    System.out.println("STONE");
+                    // Call method from projupgrade(Number)
+                    System.out.println("Upgrade Projectile");
                 }
                 previousTile.setSprite(resetSprite);
                 previousTile = null;

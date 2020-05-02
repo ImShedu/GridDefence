@@ -2,7 +2,6 @@ package nl.han.ica.oopg.griddefence.Enemy;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import nl.han.ica.oopg.collision.CollidedTile;
 import nl.han.ica.oopg.collision.ICollidableWithTiles;
@@ -15,10 +14,11 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class Enemy extends GameObject implements ICollidableWithTiles {
+    
+    private GridDefence world;
     private int hp, damage;
     private float speed;
     private Sprite enemySprite;
-    private GridDefence world;
     private boolean enemyIsAlive = true;
     private String enemyType;
     private int currency;
@@ -50,6 +50,10 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
             this.hp -= damage;
             // System.out.println("Enemy has " + hp + " left.");
         }
+    }
+
+    public float getEnemySpeed() {
+        return speed;
     }
 
     public int getEnemyCurrency() {

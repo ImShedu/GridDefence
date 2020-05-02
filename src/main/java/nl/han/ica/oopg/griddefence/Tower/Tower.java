@@ -6,7 +6,8 @@ import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
-import nl.han.ica.oopg.griddefence.UpgradeStone.UpgradeStone;
+import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade1;
+import nl.han.ica.oopg.griddefence.Projectile.Projectile;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -15,7 +16,6 @@ public class Tower extends ClickableObject {
 
     protected GridDefence world;
     private EnemyDetection enemyDetection;
-    private UpgradeStone upgradeStone;
     private Sprite towerSprite;
     private int towerNumber, upgradeNumber;
     private int startTime;
@@ -37,7 +37,6 @@ public class Tower extends ClickableObject {
         towerSprite();
         enemyDetection();
         startTime = 0;
-        upgradeStone = new UpgradeStone(world, this);
     }
 
     /**
@@ -74,6 +73,23 @@ public class Tower extends ClickableObject {
 
         // X & Y position, Size, GameObject, Damage, World
         Projectile projectile = new Projectile(x, y, 10, enemy, world);
+
+        if (upgradeNumber == 3) {
+            switch (towerNumber) {
+                case 1:
+                    projectile = new ProjUpgrade1(x, y, 10, enemy, world);
+                    break;
+
+                case 2:
+                    // projectile = new ProjUpgrade2(x, y, 10, enemy, world);
+                    break;
+
+                case 3:
+                    // projectile = new ProjUpgrade3(x, y, 10, enemy, world);
+                    break;
+            }
+        }
+
         world.addGameObject(projectile);
 
         enemy.enemyTakeDamage(Math.round((properties.get("damage"))));
@@ -340,15 +356,6 @@ public class Tower extends ClickableObject {
             }
         }
         return output;
-    }
-
-    public void setTowerRate(float updateNumber) {
-        HashMap<String, Float> properties = getTowerProperties(1, 3);
-        // properties.put("rate", updateNumber);
-        // System.out.println(properties.get("rate"));
-        // properties.replace("rate", updateNumber);
-        properties.put("rate", properties.get("rate") + updateNumber);
-        System.out.println(properties.get("rate"));
     }
 
     /**
