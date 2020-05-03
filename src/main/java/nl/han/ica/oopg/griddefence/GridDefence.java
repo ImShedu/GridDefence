@@ -7,6 +7,7 @@ import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
 import nl.han.ica.oopg.griddefence.Tower.Tower;
+import nl.han.ica.oopg.griddefence.Tower.TowerStatistics;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,6 @@ public class GridDefence extends GameEngine {
     private Tower towerBuild = null;
     private boolean towerClicked = false;
     private Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board.jpg");
-    private Tower TowerPrebuild = new Tower(-1000, -1000, 0, 0, this, 1);
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -59,7 +59,7 @@ public class GridDefence extends GameEngine {
 
     // Non-clickable UserInterface
     private void createUI() {
-        UserInterface testUI = new UserInterface(enemySpawner, this, towerBuild);
+        UserInterface testUI = new UserInterface(this, enemySpawner, towerBuild);
         addGameObject(testUI, 1);
     }
 
@@ -109,11 +109,8 @@ public class GridDefence extends GameEngine {
             }
 
             if (bo.getName() == "ButtonUpgradeTower" && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
-                if (towerBuild.getUpgradeNumber() != 3) {
+                if (towerBuild.getUpgradeNumber() != 4) {
                     towerBuild.upgradeTower();
-                } else {
-                    // Call method from projupgrade(Number)
-                    System.out.println("Upgrade Projectile");
                 }
             }
 
@@ -147,21 +144,23 @@ public class GridDefence extends GameEngine {
 
         // Build tower on empty cell & previousTile needs to be active
         if (temp != null && previousTile != null && towerClicked == false) {
-            if (temp.checkTowerNumber()) {
-                if (TowerPrebuild.affordTower(temp.getTowerNumber()) == true) {
-                    // if (Currency.getCurrency() >= towerCost(temp.getTowerNumber())) {
-                    createTower(temp.getTowerNumber());
+            int towerNumber = temp.getTowerNumber();
+            int cost = Math.round(TowerStatistics.getTowerStats(towerNumber, 1).get("cost"));
 
-                    // Need to get getTowerProperties HashMap
-                    Currency.setCurrency(Currency.getCurrency() - TowerPrebuild.towerCost(temp.getTowerNumber()));
+            if (temp.checkTowerNumber()) {
+                if (Currency.getCurrency() >= cost) {
+                    createTower(towerNumber);
+
+                    Currency.decreaseCurrency(cost);
 
                     previousTile.setSprite(resetSprite);
                     previousTile = null;
                     towerClicked = false;
 
-                    System.out.println("You have build tower " + temp.getTowerNumber());
+                    System.out.println("You have build tower " + towerNumber + ": "
+                            + TowerStatistics.getTowerName(towerNumber, 1).get("name") + ".");
                 } else {
-                    System.out.println("You do not have enough money.");
+                    System.out.println("You need €" + (cost - Currency.getCurrency()) + " more.");
                 }
             }
         }
@@ -203,8 +202,8 @@ public class GridDefence extends GameEngine {
         TileMap TM = getTileMap();
         float[] location = TM.getTilePixelLocation(previousTile).array();
 
-        // X & Y position, Width & Height (tileSize), World, Towernumber, Upgradenumber
-        Tower newTower = new Tower(location[0], location[1], tileSize, tileSize, this, towerNumber);
+        // World, X & Y position, Width & Height (tileSize), Towernumber, Upgradenumber
+        Tower newTower = new Tower(this, location[0], location[1], tileSize, tileSize, towerNumber);
         addGameObject(newTower);
         cObjects.add(newTower);
     }

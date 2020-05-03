@@ -72,7 +72,7 @@ public class EnemySpawner {
     	HashMap<String, Integer> output = new HashMap<String, Integer>();
     	output.put("soldier", (int) (wave*1.5+Math.random()));
     	output.put("car", (int)((wave-3)*0.5+Math.random()*0.02*wave));
-    	output.put("tank",(int)((wave)*0.4+Math.random()*0.01*wave));
+    	output.put("tank",(int)((wave-8)*0.4+Math.random()*0.01*wave));
 		return output; 
     }
     
@@ -180,7 +180,7 @@ public class EnemySpawner {
 	 */
     public void spawnEnemy(int x, int y, String type, int hp, int speed, int damage) {
     	spawnedEnemies++;
-		Enemy temp = new Enemy(x, y, world.getTileSize(), type, world, getEnemyProperties(type));
+		Enemy temp = new Enemy(world, x, y, world.getTileSize(), type, getEnemyProperties(type));
         world.addGameObject(temp, 40, 40);
         enemyList.add(temp);
     }

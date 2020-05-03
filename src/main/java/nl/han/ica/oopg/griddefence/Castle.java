@@ -3,21 +3,23 @@ package nl.han.ica.oopg.griddefence;
 import nl.han.ica.oopg.objects.GameObject;
 import processing.core.PGraphics;
 
+/**
+ * Castle is an object in the game that acts as the endpoint for the enemies in
+ * the game. There's only 1 instance of Castle
+ * <p>
+ * This class is created by: Wyman Chau.
+ */
 public class Castle extends GameObject {
 
-    private static int hp = 100;
+    private static int hp = 10000;
     private static boolean castleIsAlive = true;
 
-    // Perhaps static method??
     // Check if castle is still alive
     public static void castleHP(int damage) {
         if (hp - damage <= 0) {
-            // world.pauseGame();
-            // System.out.println("The castle has fallen.");
             castleIsAlive = false;
         } else {
             hp -= damage;
-            // System.out.println("Castle has " + this.hp + " hp left.");
         }
     }
 

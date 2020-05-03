@@ -4,54 +4,59 @@ import java.util.HashMap;
 
 import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.griddefence.Tower.Tower;
+import nl.han.ica.oopg.griddefence.Tower.TowerStatistics;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+/**
+ * UserInterface contains all the drawings and text on the screen that counts as
+ * User Interface. This contains all the windows, all the text that and
+ * information that are not part of the game but part of the User Interface.
+ * <p>
+ * This class is created by: Wyman Chau.
+ */
 public class UserInterface extends GameObject {
 
-    private EnemySpawner enemySpawner;
     private GridDefence world;
+    private EnemySpawner enemySpawner;
     private Sprite towerSprite;
-    private Sprite upgradeSprite;
 
-    public UserInterface(EnemySpawner enemySpawner, GridDefence world, Tower tower) {
+    public UserInterface(GridDefence world, EnemySpawner enemySpawner, Tower tower) {
         this.enemySpawner = enemySpawner;
         this.world = world;
     }
 
-    @Override
-    public void update() {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void towerSelectionSprite(PGraphics g) {
-        Sprite tower1 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower1upgrade0.png");
-        Sprite tower2 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower2upgrade0.png");
-        Sprite tower3 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower3upgrade0.png");
+    private void towerSelectionSprite(PGraphics g) {
+        Sprite tower1 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower1upgrade1.png");
+        Sprite tower2 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower2upgrade1.png");
+        Sprite tower3 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower3upgrade1.png");
 
         g.image(tower1.getPImage(), 660, 720); // Bulbasar sprite for first tower
         g.image(tower2.getPImage(), 780, 720); // Squirtle sprite for second tower
         g.image(tower3.getPImage(), 900, 720); // Charmander sprite for third tower
     }
 
-    public void towerInformation(PGraphics g, Tower tower) {
+    private void towerInformation(PGraphics g, Tower tower) {
+        Sprite upgradeSprite;
+        HashMap<String, Float> towerStats;
+        HashMap<String, String> towerName;
+        
         int towerNumber = tower.getTowerNumber();
         int upgradeNumber = tower.getUpgradeNumber();
+        towerStats = TowerStatistics.getTowerStats(towerNumber, upgradeNumber);
+        towerName = TowerStatistics.getTowerName(towerNumber, upgradeNumber);
 
-        HashMap<String, Float> properties = tower.getTowerProperties(towerNumber, upgradeNumber);
-        HashMap<String, String> propertiesName = tower.getTowerName(towerNumber, upgradeNumber);
         towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber + "upgrade"
                 + upgradeNumber + ".png");
 
-        if (upgradeNumber < 3) {
+        if (upgradeNumber < 4) {
             upgradeSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber
                     + "upgrade" + (upgradeNumber + 1) + ".png");
         } else {
             upgradeSprite = new Sprite(
-                    "src/main/java/nl/han/ica/oopg/griddefence/Resource/upgradeObject" + towerNumber + ".png");
+                    "src/main/java/nl/han/ica/oopg/griddefence/Resource/InfoProjUpgrade" + towerNumber + ".png");
         }
 
         // Text settings
@@ -60,14 +65,14 @@ public class UserInterface extends GameObject {
         g.textAlign(LEFT, CENTER); // Align text to leftside
 
         // Tower information
-        g.text("Level: " + Math.round(properties.get("upgrade")), 20, 740);
-        g.text("Range: " + Math.round(properties.get("range")), 20, 780);
-        g.text("Dmg: " + Math.round(properties.get("damage")), 140, 740);
-        g.text("Rate: " + properties.get("rate"), 140, 780);
+        g.text("Level: " + Math.round(towerStats.get("upgrade")), 20, 740);
+        g.text("Range: " + Math.round(towerStats.get("range")), 20, 780);
+        g.text("Dmg: " + Math.round(towerStats.get("damage")), 140, 740);
+        g.text("Rate: " + towerStats.get("rate"), 140, 780);
 
         // Tower Sprite next to name
         g.image(towerSprite.getPImage(), 40, 680);
-        g.text(propertiesName.get("name"), 85, 700);
+        g.text(towerName.get("name"), 85, 700);
 
         // Upgrade tower sprite
         g.image(upgradeSprite.getPImage(), 200, 680);
@@ -143,5 +148,11 @@ public class UserInterface extends GameObject {
 
     public PImage getImage() {
         return towerSprite.getPImage();
+    }
+
+    @Override
+    public void update() {
+        // TODO Auto-generated method stub
+
     }
 }

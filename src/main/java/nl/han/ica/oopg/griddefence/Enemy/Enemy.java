@@ -14,18 +14,18 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 /**
- * Enemy is an object in the game.
+ * Enemy is an object in the game that only has one purpose. Walk from the
+ * startpoint to the endpoint (Castle) on top of the road.
  * <p>
  * This class is created by: Wyman Chau.
  */
 public class Enemy extends GameObject implements ICollidableWithTiles {
-    
+
     private GridDefence world;
-    private int hp, damage;
+    private int hp, damage, currency;
     private float speed;
     private Sprite enemySprite;
     private boolean enemyIsAlive = true;
-    private int currency;
 
     /**
      * 
@@ -35,12 +35,12 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
      * @param GridDefence World the world for the enemy to be in
      * @param HashMap     HashMap of the enemy properties
      */
-    public Enemy(int x, int y, int size, String enemyType, GridDefence world, HashMap<String, Integer> properties) {
+    public Enemy(GridDefence world, int x, int y, int size, String enemyType, HashMap<String, Integer> properties) {
         super(x, y, size, size);
-        this.speed = (float) (properties.get("speed")/10.0);
+        this.world = world;
+        this.speed = (float) (properties.get("speed") / 10.0);
         this.hp = properties.get("hp");
         this.damage = properties.get("damage");
-        this.world = world;
         this.currency = properties.get("currency");
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/" + enemyType + ".png");
         setDirectionSpeed(90, this.speed);
@@ -73,7 +73,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         return enemyIsAlive;
     }
 
-    public void changeDirection(Tile tile) {
+    private void changeDirection(Tile tile) {
 
         int x = (int) world.getTileMap().getTileIndex(tile).array()[0];
         int y = (int) world.getTileMap().getTileIndex(tile).array()[1];

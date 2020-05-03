@@ -18,19 +18,17 @@ import processing.core.PImage;
  * This class is created by: Wyman Chau.
  */
 public class Projectile extends GameObject implements ICollidableWithGameObjects {
-
     protected GridDefence world;
     protected Enemy enemy;
     protected Sprite projectileSprite;
 
-    public Projectile(float x, float y, int size, Enemy enemy, GridDefence world) {
+    public Projectile(GridDefence world, float x, float y, int size, Enemy enemy) {
         super(x, y, size, size);
-        this.enemy = enemy;
         this.world = world;
+        this.enemy = enemy;
         projectileSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Pokeball.png");
     }
 
-    // TODO Implement projectile accuracy outside of tower range (Possibility)
     @Override
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
         for (GameObject g : collidedGameObjects) {
@@ -38,7 +36,7 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
                 if (!enemy.getEnemyIsAlive()) {
                     world.deleteGameObject(enemy);
                     EnemySpawner.handleEnemyDeath(enemy);
-                    Currency.setCurrency(Currency.getCurrency() + enemy.getEnemyCurrency());
+                    Currency.addCurrency(enemy.getEnemyCurrency());
                 } else {
                     world.deleteGameObject(this);
                 }

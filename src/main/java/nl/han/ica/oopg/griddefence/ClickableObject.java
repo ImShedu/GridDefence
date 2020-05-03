@@ -3,6 +3,11 @@ package nl.han.ica.oopg.griddefence;
 import nl.han.ica.oopg.objects.GameObject;
 import processing.core.PGraphics;
 
+/**
+ * ClickableObject is used to click on methods in the game.
+ * <p>
+ * This class is created by: Wyman Chau.
+ */
 public class ClickableObject extends GameObject {
 
     private int towerNumber = 0;
@@ -43,10 +48,6 @@ public class ClickableObject extends GameObject {
         } else {
             return false;
         }
-    }
-
-    public void printLine() {
-        System.out.println(towerNumber);
     }
 
     @Override

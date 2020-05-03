@@ -2,7 +2,6 @@ package nl.han.ica.oopg.griddefence.Projectile;
 
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
-import nl.han.ica.oopg.objects.Sprite;
 
 /**
  * ProjUpgrade2 is a child of the parent Projectile.
@@ -11,17 +10,15 @@ import nl.han.ica.oopg.objects.Sprite;
  */
 public class ProjUpgrade2 extends Projectile {
 
-    Sprite newProjectile;
-
-    public ProjUpgrade2(float x, float y, int size, Enemy enemy, GridDefence world) {
-        super(x, y, size, enemy, world);
+    public ProjUpgrade2(GridDefence world, float x, float y, int size, Enemy enemy) {
+        super(world, x, y, size, enemy);
         changeProjectileSprite();
         projectileEffect();
     }
     
     @Override
     public void changeProjectileSprite() {
-        super.getProjectileSprite().setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Freeze.png");
+        super.getProjectileSprite().setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade2.png");
     }
 
     @Override
