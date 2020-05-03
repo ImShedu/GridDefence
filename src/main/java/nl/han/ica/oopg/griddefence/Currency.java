@@ -2,7 +2,7 @@ package nl.han.ica.oopg.griddefence;
 
 public class Currency {
 
-    private static int currency = 50000;
+    private static int currency = 100;
     private GridDefence world;
 
     public Currency(GridDefence world) {

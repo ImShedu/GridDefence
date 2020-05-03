@@ -5,19 +5,14 @@ import processing.core.PGraphics;
 
 public class Castle extends GameObject {
 
-    private static int hp = 100000;
-    private static GridDefence world;
+    private static int hp = 100;
     private static boolean castleIsAlive = true;
-
-    public Castle(GridDefence world) {
-        this.world = world;
-    }
 
     // Perhaps static method??
     // Check if castle is still alive
     public static void castleHP(int damage) {
         if (hp - damage <= 0) {
-            world.pauseGame();
+            // world.pauseGame();
             // System.out.println("The castle has fallen.");
             castleIsAlive = false;
         } else {

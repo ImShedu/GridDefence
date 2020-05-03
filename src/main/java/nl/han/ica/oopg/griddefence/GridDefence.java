@@ -7,7 +7,6 @@ import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
 import nl.han.ica.oopg.griddefence.Tiles.PathTile;
 import nl.han.ica.oopg.griddefence.Tiles.SpawnTile;
 import nl.han.ica.oopg.griddefence.Tower.Tower;
-import nl.han.ica.oopg.griddefence.UpgradeStone.UpgradeStone;
 
 import java.util.ArrayList;
 
@@ -28,6 +27,7 @@ public class GridDefence extends GameEngine {
     private Tower towerBuild = null;
     private boolean towerClicked = false;
     private Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board.jpg");
+    private Tower fakeTower = new Tower(-1000, -1000, 0, 0, this, 1);
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -90,13 +90,11 @@ public class GridDefence extends GameEngine {
         cObjects.add(pauseButton);
     }
 
-
-
     // Clickable UserInterface (GameObjects)
-    private void mouseClickButtons() {
+    private boolean mouseClickButtons() {
         ClickableObject temp = null;
         Tower towerTemp = null;
-
+        Tower sellTower = null;
 
         // Checks every ClickableObject with every click
         for (ClickableObject bo : cObjects) {
@@ -117,13 +115,12 @@ public class GridDefence extends GameEngine {
                     // Call method from projupgrade(Number)
                     System.out.println("Upgrade Projectile");
                 }
-                previousTile.setSprite(resetSprite);
-                previousTile = null;
             }
 
             if (bo.getName() == "sellButton" && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
                 towerBuild.sellTower();
-                cObjects.remove(towerBuild);
+                sellTower = towerBuild;
+                // cObjects.remove(towerBuild);
             }
 
             if (bo.getName() == "pauseButton" && bo.mouseClicked(mouseX, mouseY)) {
@@ -140,17 +137,23 @@ public class GridDefence extends GameEngine {
                 }
                 System.out.println("Game has been " + status + ".");
             }
+
+        }
+
+        if (sellTower != null) {
+            cObjects.remove(sellTower);
+            sellTower = null;
         }
 
         // Build tower on empty cell & previousTile needs to be active
         if (temp != null && previousTile != null && towerClicked == false) {
             if (temp.checkTowerNumber()) {
-                // if (affordTower() == true) {
-                if (Currency.getCurrency() >= towerCost(temp.getTowerNumber())) {
+                if (fakeTower.affordTower(temp.getTowerNumber()) == true) {
+                    // if (Currency.getCurrency() >= towerCost(temp.getTowerNumber())) {
                     createTower(temp.getTowerNumber());
 
                     // Need to get getTowerProperties HashMap
-                    Currency.setCurrency(Currency.getCurrency() - towerCost(temp.getTowerNumber()));
+                    Currency.setCurrency(Currency.getCurrency() - fakeTower.towerCost(temp.getTowerNumber()));
 
                     previousTile.setSprite(resetSprite);
                     previousTile = null;
@@ -170,9 +173,11 @@ public class GridDefence extends GameEngine {
             towerClicked = false;
         }
 
-        // if (towerBuild != null) {
-        // towerClicked = true;
-        // }
+        if (temp != null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public boolean getGameIsPaused() {
@@ -185,18 +190,6 @@ public class GridDefence extends GameEngine {
             return towerBuild;
         } else {
             return null;
-        }
-    }
-
-    public int towerCost(int towerNumber) {
-        if (towerNumber == 1) {
-            return (int) 20;
-        } else {
-            if (towerNumber == 2) {
-                return (int) 50;
-            } else {
-                return (int) 75;
-            }
         }
     }
 
@@ -224,7 +217,14 @@ public class GridDefence extends GameEngine {
     @Override
     public void mouseClicked() {
         // Clickable objects (Testing phase)
-        mouseClickButtons();
+
+        if (!mouseClickButtons()) {
+            if (previousTile != null) {
+                previousTile.setSprite(resetSprite);
+                previousTile = null;
+            }
+            return;
+        }
 
         TileMap TM = getTileMap();
         Tile currentTile = TM.getTileOnPosition(mouseX, mouseY);
@@ -306,19 +306,20 @@ public class GridDefence extends GameEngine {
                         0, 0, 0, 0, 0, 0 },
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0 },
-                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0,
+                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-                        -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-                        -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1 } };
+                { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1 } };
 
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-
+        if (!Castle.getCastleIsAlive()) {
+            pauseGame();
+        }
     }
 }

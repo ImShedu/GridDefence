@@ -180,7 +180,7 @@ public class EnemySpawner {
     	spawnedEnemies++;
 		Enemy temp = new Enemy(x, y, world.getTileSize(), type, world, getEnemyProperties(type));
         world.addGameObject(temp, 40, 40);
-        temp.setDirectionSpeed(90, (float)(speed/10));
+        // temp.setDirectionSpeed(90, (float)(speed/10));
         enemyList.add(temp);
     }
 }

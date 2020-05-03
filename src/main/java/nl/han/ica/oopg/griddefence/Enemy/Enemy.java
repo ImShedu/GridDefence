@@ -33,13 +33,14 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
      */
     public Enemy(int x, int y, int size, String enemyType, GridDefence world, HashMap<String, Integer> properties) {
         super(x, y, size, size);
-        this.speed = (float) (properties.get("speed") / 10.0);
+        this.speed = (float) (properties.get("speed")/10);
         this.hp = properties.get("hp");
         this.damage = properties.get("damage");
         this.world = world;
         this.enemyType = enemyType;
         this.currency = properties.get("currency");
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/" + enemyType + ".png");
+        setDirectionSpeed(90, this.speed);
     }
 
     public void enemyTakeDamage(int damage) {
@@ -56,20 +57,17 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         return speed;
     }
 
+    public void setEnemySpeed(float updateSpeed) {
+        this.speed = updateSpeed;
+        setSpeed(this.speed);
+    }
+
     public int getEnemyCurrency() {
         return currency;
     }
 
-    public String getEnemyType() {
-        return enemyType;
-    }
-
     public boolean getEnemyIsAlive() {
         return enemyIsAlive;
-    }
-
-    public void setDirection(int degree, int speed) {
-        setDirectionSpeed(degree, speed);
     }
 
     public void changeDirection(Tile tile) {

@@ -7,7 +7,6 @@ import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
-import nl.han.ica.oopg.griddefence.UpgradeStone.UpgradeStone;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
@@ -15,9 +14,9 @@ import processing.core.PImage;
 
 public class Projectile extends GameObject implements ICollidableWithGameObjects {
 
-    private GridDefence world;
-    private Enemy enemy;
-    private Sprite projectileSprite;
+    protected GridDefence world;
+    protected Enemy enemy;
+    protected Sprite projectileSprite;
 
     public Projectile(float x, float y, int size, Enemy enemy, GridDefence world) {
         super(x, y, size, size);
@@ -34,7 +33,6 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
                 if (!enemy.getEnemyIsAlive()) {
                     world.deleteGameObject(enemy);
                     EnemySpawner.handleEnemyDeath(enemy);
-                    UpgradeStone.stoneDropRate(); // >> Testing purpose
                     Currency.setCurrency(Currency.getCurrency() + enemy.getEnemyCurrency());
                 } else {
                     world.deleteGameObject(this);
@@ -56,7 +54,7 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     @Override
     public void update() {
         if (EnemySpawner.getEnemyList().contains(enemy)) {
-            setDirectionSpeed(getAngleFrom(enemy), 10);
+            setDirectionSpeed(getAngleFrom(enemy), 20);
         } else {
             enemy = null;
             world.deleteGameObject(this);

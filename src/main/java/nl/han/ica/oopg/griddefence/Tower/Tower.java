@@ -7,6 +7,8 @@ import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade1;
+import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade2;
+import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade3;
 import nl.han.ica.oopg.griddefence.Projectile.Projectile;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
@@ -81,11 +83,11 @@ public class Tower extends ClickableObject {
                     break;
 
                 case 2:
-                    // projectile = new ProjUpgrade2(x, y, 10, enemy, world);
+                    projectile = new ProjUpgrade2(x, y, 10, enemy, world);
                     break;
 
                 case 3:
-                    // projectile = new ProjUpgrade3(x, y, 10, enemy, world);
+                    projectile = new ProjUpgrade3(x, y, 10, enemy, world);
                     break;
             }
         }
@@ -132,6 +134,11 @@ public class Tower extends ClickableObject {
         } else {
             return false;
         }
+    }
+
+    public int towerCost(int buildNumber) {
+        HashMap<String, Float> properties = getTowerProperties(buildNumber, 0);
+        return Math.round(properties.get("cost"));
     }
 
     /**
