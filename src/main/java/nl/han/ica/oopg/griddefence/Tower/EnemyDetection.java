@@ -8,6 +8,11 @@ import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.objects.GameObject;
 import processing.core.PGraphics;
 
+/**
+ * EnemyDetection is an object in the game, used by the Tower.
+ * <p>
+ * This class is created by: Wyman Chau.
+ */
 public class EnemyDetection extends GameObject implements ICollidableWithGameObjects {
 
     private ArrayList<GameObject> enemyInArea = new ArrayList<>();

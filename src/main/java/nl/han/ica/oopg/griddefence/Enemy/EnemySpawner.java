@@ -5,6 +5,11 @@ import java.util.HashMap;
 
 import nl.han.ica.oopg.griddefence.GridDefence;
 
+/**
+ * EnemySpawner spawns the object Enemy into the game.
+ * <p>
+ * This class is created by: Elias Eskes.
+ */
 public class EnemySpawner {
     private GridDefence world;
     private static ArrayList<Enemy> enemyList = new ArrayList<>();

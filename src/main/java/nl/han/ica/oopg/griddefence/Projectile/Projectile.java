@@ -12,6 +12,11 @@ import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+/**
+ * Projectile is an object from the game, used by the Tower.
+ * <p>
+ * This class is created by: Wyman Chau.
+ */
 public class Projectile extends GameObject implements ICollidableWithGameObjects {
 
     protected GridDefence world;

@@ -14,6 +14,11 @@ import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+/**
+ * Tower is an object in the game.
+ * <p>
+ * This class is created by: Wyman Chau.
+ */
 public class Tower extends ClickableObject {
 
     protected GridDefence world;

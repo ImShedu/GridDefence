@@ -27,7 +27,7 @@ public class GridDefence extends GameEngine {
     private Tower towerBuild = null;
     private boolean towerClicked = false;
     private Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board.jpg");
-    private Tower fakeTower = new Tower(-1000, -1000, 0, 0, this, 1);
+    private Tower TowerPrebuild = new Tower(-1000, -1000, 0, 0, this, 1);
 
     public static void main(String[] args) {
         String[] processingArgs = { "nl.han.ica.oopg.griddefence.GridDefence" };
@@ -64,30 +64,30 @@ public class GridDefence extends GameEngine {
     }
 
     private void drawClickButtons() {
-        ClickableObject uiTowerOne = new ClickableObject(640, 720, 80, 40, "uiTowrOne");
-        uiTowerOne.setTowerNumber(1);
-        ClickableObject uiTowerTwo = new ClickableObject(760, 720, 80, 40, "uiTowerTwo");
-        uiTowerTwo.setTowerNumber(2);
-        ClickableObject uiTowerThree = new ClickableObject(880, 720, 80, 40, "uiTowerThree");
-        uiTowerThree.setTowerNumber(3);
+        ClickableObject ButtonTowerOne = new ClickableObject(640, 720, 80, 40, "ButtonTowerOne");
+        ButtonTowerOne.setTowerNumber(1);
+        ClickableObject ButtonTowerTwo = new ClickableObject(760, 720, 80, 40, "ButtonTowerTwo");
+        ButtonTowerTwo.setTowerNumber(2);
+        ClickableObject ButtonTowerThree = new ClickableObject(880, 720, 80, 40, "ButtonTowerThree");
+        ButtonTowerThree.setTowerNumber(3);
 
-        ClickableObject upgradeButton = new ClickableObject(200, 680, 40, 40, "upgradeButton");
-        ClickableObject sellButton = new ClickableObject(0, 680, 40, 40, "sellButton");
-        ClickableObject pauseButton = new ClickableObject(1480, 760, 120, 40, "pauseButton");
+        ClickableObject ButtonUpgradeTower = new ClickableObject(200, 680, 40, 40, "ButtonUpgradeTower");
+        ClickableObject ButtonSellTower = new ClickableObject(0, 680, 40, 40, "ButtonSellTower");
+        ClickableObject ButtonPause = new ClickableObject(1480, 760, 120, 40, "ButtonPause");
 
-        addGameObject(uiTowerOne);
-        addGameObject(uiTowerTwo);
-        addGameObject(uiTowerThree);
-        addGameObject(upgradeButton);
-        addGameObject(sellButton);
-        addGameObject(pauseButton);
+        addGameObject(ButtonTowerOne);
+        addGameObject(ButtonTowerTwo);
+        addGameObject(ButtonTowerThree);
+        addGameObject(ButtonUpgradeTower);
+        addGameObject(ButtonSellTower);
+        addGameObject(ButtonPause);
 
-        cObjects.add(uiTowerOne);
-        cObjects.add(uiTowerTwo);
-        cObjects.add(uiTowerThree);
-        cObjects.add(upgradeButton);
-        cObjects.add(sellButton);
-        cObjects.add(pauseButton);
+        cObjects.add(ButtonTowerOne);
+        cObjects.add(ButtonTowerTwo);
+        cObjects.add(ButtonTowerThree);
+        cObjects.add(ButtonUpgradeTower);
+        cObjects.add(ButtonSellTower);
+        cObjects.add(ButtonPause);
     }
 
     // Clickable UserInterface (GameObjects)
@@ -108,7 +108,7 @@ public class GridDefence extends GameEngine {
                 // towerBuild = (Tower) bo;
             }
 
-            if (bo.getName() == "upgradeButton" && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
+            if (bo.getName() == "ButtonUpgradeTower" && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
                 if (towerBuild.getUpgradeNumber() != 3) {
                     towerBuild.upgradeTower();
                 } else {
@@ -117,13 +117,13 @@ public class GridDefence extends GameEngine {
                 }
             }
 
-            if (bo.getName() == "sellButton" && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
+            if (bo.getName() == "ButtonSellTower" && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
                 towerBuild.sellTower();
                 sellTower = towerBuild;
                 // cObjects.remove(towerBuild);
             }
 
-            if (bo.getName() == "pauseButton" && bo.mouseClicked(mouseX, mouseY)) {
+            if (bo.getName() == "ButtonPause" && bo.mouseClicked(mouseX, mouseY)) {
                 String status; // >> Testing purpose
                 if (!gameIsPaused) {
                     pauseGame();
@@ -148,12 +148,12 @@ public class GridDefence extends GameEngine {
         // Build tower on empty cell & previousTile needs to be active
         if (temp != null && previousTile != null && towerClicked == false) {
             if (temp.checkTowerNumber()) {
-                if (fakeTower.affordTower(temp.getTowerNumber()) == true) {
+                if (TowerPrebuild.affordTower(temp.getTowerNumber()) == true) {
                     // if (Currency.getCurrency() >= towerCost(temp.getTowerNumber())) {
                     createTower(temp.getTowerNumber());
 
                     // Need to get getTowerProperties HashMap
-                    Currency.setCurrency(Currency.getCurrency() - fakeTower.towerCost(temp.getTowerNumber()));
+                    Currency.setCurrency(Currency.getCurrency() - TowerPrebuild.towerCost(temp.getTowerNumber()));
 
                     previousTile.setSprite(resetSprite);
                     previousTile = null;

@@ -13,6 +13,11 @@ import nl.han.ica.oopg.tile.Tile;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
+/**
+ * Enemy is an object in the game.
+ * <p>
+ * This class is created by: Wyman Chau.
+ */
 public class Enemy extends GameObject implements ICollidableWithTiles {
     
     private GridDefence world;

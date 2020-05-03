@@ -5,6 +5,11 @@ import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.objects.Sprite;
 
+/**
+ * ProjUpgrade2 is a child of the parent Projectile.
+ * <p>
+ * This class is created by: Wyman Chau.
+ */
 public class ProjUpgrade3 extends Projectile {
 
     Sprite newProjectile;
