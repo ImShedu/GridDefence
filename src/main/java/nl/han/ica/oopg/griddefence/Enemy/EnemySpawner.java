@@ -6,17 +6,14 @@ import java.util.HashMap;
 import nl.han.ica.oopg.griddefence.GridDefence;
 
 public class EnemySpawner {
-    private float enemiesPerSecond;
     private GridDefence world;
     private static ArrayList<Enemy> enemyList = new ArrayList<>();
-    private int x, y;
     private int currentWave = 1;
     private int waves;
 	private int spawnedEnemies = 0;
        
     public EnemySpawner(GridDefence world, int waves) {
         this.world = world;
-        this.enemiesPerSecond = 2;
 		this.waves = waves;
         runGame();
 	}
@@ -86,19 +83,19 @@ public class EnemySpawner {
     		output.put("speed",(int)((1+0.8*currentWave)*10));
     		output.put("hp",(int)(10+0.5*currentWave));
 			output.put("damage",(int)(5+0.1*currentWave));
-			output.put("currency",(int) 1);
+			output.put("currency",(int) 2);
     		break;
 		case "car":
     		output.put("speed",(int)((1.3+0.2*currentWave)*10));
     		output.put("hp",(int)(25+0.5*currentWave));
 			output.put("damage",(int)(20+0.1*currentWave));
-			output.put("currency",(int) 2);
+			output.put("currency",(int) 4);
     		break;
     	case "tank":
     		output.put("speed",(int)((1.1+0.2*currentWave)*10));
     		output.put("hp",(int)(100+0.5*currentWave));
 			output.put("damage",(int)(33+0.1*currentWave));
-			output.put("currency",(int) 5);
+			output.put("currency",(int) 10);
     		break;
     	}
 		return output;
@@ -119,7 +116,7 @@ public class EnemySpawner {
     	    // System.out.println(key+": "+value);
     	    
     	    HashMap<String, Integer> properties = getEnemyProperties(key);
-        	// System.out.println("Stats this wave:"+properties);
+        	System.out.println("Stats this wave:"+properties);
         	spawnEnemies(value, key, 1000, 500);
     	}    	
     }
@@ -180,7 +177,6 @@ public class EnemySpawner {
     	spawnedEnemies++;
 		Enemy temp = new Enemy(x, y, world.getTileSize(), type, world, getEnemyProperties(type));
         world.addGameObject(temp, 40, 40);
-        // temp.setDirectionSpeed(90, (float)(speed/10));
         enemyList.add(temp);
     }
 }

@@ -3,11 +3,6 @@ package nl.han.ica.oopg.griddefence;
 public class Currency {
 
     private static int currency = 100;
-    private GridDefence world;
-
-    public Currency(GridDefence world) {
-        this.world = world;
-    }
 
     public static int getCurrency() {
         return currency;

@@ -7,7 +7,6 @@ public class ClickableObject extends GameObject {
 
     private int towerNumber = 0;
     private String name;
-    private int stoneNumber = 0;
 
     public ClickableObject(float x, float y, float width, float height) {
         super(x, y, width, height);

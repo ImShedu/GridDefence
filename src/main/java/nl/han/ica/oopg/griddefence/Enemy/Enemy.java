@@ -20,7 +20,6 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     private float speed;
     private Sprite enemySprite;
     private boolean enemyIsAlive = true;
-    private String enemyType;
     private int currency;
 
     /**
@@ -33,11 +32,10 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
      */
     public Enemy(int x, int y, int size, String enemyType, GridDefence world, HashMap<String, Integer> properties) {
         super(x, y, size, size);
-        this.speed = (float) (properties.get("speed")/10);
+        this.speed = (float) (properties.get("speed")/10.0);
         this.hp = properties.get("hp");
         this.damage = properties.get("damage");
         this.world = world;
-        this.enemyType = enemyType;
         this.currency = properties.get("currency");
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/" + enemyType + ".png");
         setDirectionSpeed(90, this.speed);

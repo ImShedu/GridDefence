@@ -1,7 +1,6 @@
 package nl.han.ica.oopg.griddefence;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.griddefence.Tower.Tower;
@@ -12,14 +11,10 @@ import processing.core.PImage;
 
 public class UserInterface extends GameObject {
 
-    private int x, y;
     private EnemySpawner enemySpawner;
     private GridDefence world;
     private Sprite towerSprite;
     private Sprite upgradeSprite;
-    private int a = 0;
-    private int b = 0;
-    private int c = 0;
 
     public UserInterface(EnemySpawner enemySpawner, GridDefence world, Tower tower) {
         this.enemySpawner = enemySpawner;
