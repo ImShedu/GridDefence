@@ -44,9 +44,9 @@ public class GridDefence extends GameEngine {
 
         generateTileMap();
         createViewWithoutViewport(worldWidth, worldHeight);
-        createEnemySpawner();
-        createUI();
+        // createEnemySpawner();
         createClickableButtons();
+        createUI();
     }
 
     /**
@@ -62,7 +62,7 @@ public class GridDefence extends GameEngine {
      * Creates a new instance of the User Interface
      */
     private void createUI() {
-        UserInterface userInterface = new UserInterface(this, enemySpawner, towerBuild);
+        UserInterface userInterface = new UserInterface(this, towerBuild);
         addGameObject(userInterface);
     }
 
@@ -84,7 +84,7 @@ public class GridDefence extends GameEngine {
         ClickableObject ButtonPause = new ClickableObject(1480, 760, 120, 40, "ButtonPause");
 
         ClickableObject ButtonModeInf = new ClickableObject(1160, 600, 120, 40, "ButtonInfinite");
-        ClickableObject ButtonModeChl = new ClickableObject(1320, 600, 120, 40, "ButtonChallenge");
+        ClickableObject ButtonModeChl = new ClickableObject(1280, 600, 120, 40, "ButtonChallenge");
 
         addGameObject(ButtonTowerOne);
         addGameObject(ButtonTowerTwo);
@@ -157,12 +157,12 @@ public class GridDefence extends GameEngine {
             }
 
             if (bo.getName() == "ButtonInfinite" && bo.mouseClicked(mouseX, mouseY) && gameHasStarted == false) {
-                enemySpawner = new EnemySpawner(this, 1000); // Number of waves
+                this.enemySpawner = new EnemySpawner(this, 1000); // Number of waves
                 gameHasStarted = true;
             }
 
             if (bo.getName() == "ButtonChallenge" && bo.mouseClicked(mouseX, mouseY) && gameHasStarted == false) {
-                enemySpawner = new EnemySpawner(this, 20); // Number of waves
+                this.enemySpawner = new EnemySpawner(this, 20); // Number of waves
                 gameHasStarted = true;
             }
         }
@@ -216,6 +216,20 @@ public class GridDefence extends GameEngine {
      */
     public boolean getGameHasStarted() {
         return gameHasStarted;
+    }
+
+    /**
+     * Checks if enemySpawner has a valid instance, if it does it will return the
+     * enemySpawner, otherwise it returns null.
+     * 
+     * @return The valid instance of enemySpawner.
+     */
+    public EnemySpawner getEnemySpawner() {
+        if (enemySpawner != null) {
+            return enemySpawner;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -295,7 +309,7 @@ public class GridDefence extends GameEngine {
         Sprite selectedSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Selected.jpg");
 
         // Checks selectedtile = buildtile
-        if (TM.findTileTypeIndex(currentTile) == 0) {
+        if (TM.findTileTypeIndex(currentTile) == 0 && gameHasStarted == true) {
 
             // Deselects current tile
             if (previousTile == currentTile) {

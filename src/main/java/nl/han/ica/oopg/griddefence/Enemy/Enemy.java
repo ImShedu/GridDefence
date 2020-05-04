@@ -22,7 +22,8 @@ import processing.core.PImage;
 public class Enemy extends GameObject implements ICollidableWithTiles {
 
     private GridDefence world;
-    private int hp, damage, currency, maxHP;
+    private int hp, damage, currency;
+    private final int maxHP;
     private float speed;
     private Sprite enemySprite;
     private boolean enemyIsAlive = true;
@@ -39,10 +40,10 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         super(x, y, size, size);
         this.world = world;
         this.speed = (float) (properties.get("speed") / 10.0);
+        this.maxHP = properties.get("hp");
         this.hp = properties.get("hp");
         this.damage = properties.get("damage");
         this.currency = properties.get("currency");
-        this.maxHP = properties.get("hp");
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/" + enemyType + ".png");
         setDirectionSpeed(90, this.speed);
     }
@@ -192,7 +193,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         g.rect(x, y - 5, 40, 8);
 
         g.fill(0, 250, 0);
-        g.rect(x, y - 5, (40 / this.maxHP) * this.hp, 8);
+        g.rect(x, y - 5, Math.round((40.0 * this.maxHP) / this.hp), 8);
 
         g.fill(255, 255, 255);
     }

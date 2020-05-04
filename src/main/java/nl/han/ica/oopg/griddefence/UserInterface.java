@@ -20,7 +20,6 @@ import processing.core.PImage;
 public class UserInterface extends GameObject {
 
     private GridDefence world;
-    private EnemySpawner enemySpawner;
     private Sprite towerSprite;
 
     /**
@@ -30,8 +29,7 @@ public class UserInterface extends GameObject {
      *                     about.
      * @param tower        Tower The tower the interface needs information about.
      */
-    public UserInterface(GridDefence world, EnemySpawner enemySpawner, Tower tower) {
-        this.enemySpawner = enemySpawner;
+    public UserInterface(GridDefence world, Tower tower) {
         this.world = world;
     }
 
@@ -185,7 +183,10 @@ public class UserInterface extends GameObject {
             g.text("€" + Currency.getCurrency(), 1020, 780); // Currency text
 
             g.textAlign(CENTER, CENTER); // Align text to center
-            g.text("Wave: " + enemySpawner.getCurrentWave(), 800, 20); // Wave number text
+
+            if (world.getEnemySpawner() != null) {
+                g.text("Wave: " + world.getEnemySpawner().getCurrentWave(), 800, 20); // Wave number text
+            }
             g.text("$", 20, 700); // Sell text
 
             if (world.getGameIsPaused()) {
