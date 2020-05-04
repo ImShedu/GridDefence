@@ -98,10 +98,39 @@ public class UserInterface extends GameObject {
         g.textSize(12); // RESET TEXTSIZE TO 12
     }
 
-    /*
+    /**
+     * Displays the 2 gamemode options if the game has not started yet. The moment
+     * the game starts, these 2 options will not be displayed within the game.
+     * 
+     * @param g PGraphics the draw tool we use to draw.
+     */
+    public void modeSelection(PGraphics g) {
+        // Game mode selection window
+        g.fill(255, 255, 255); // White background
+        g.rect(1160, 560, 240, 40); // Window
+
+        // Button window
+        g.fill(255, 255, 102); // Yellow background
+        g.rect(1160, 600, 120, 40); // Infinite
+        g.rect(1280, 600, 120, 40); // Challenge
+
+        // Text settings
+        g.fill(0, 0, 0);
+        g.textSize(20);
+        g.textAlign(CENTER, CENTER);
+
+        // Button text
+        g.text("Select your gamemode", 1280, 580);
+        g.text("Infinite", 1220, 620);
+        g.text("Challenge", 1340, 620);
+    }
+
+    /**
      * Draws all the basic User Interface windows, boxes, images and buttons on the
      * given X and Y position. Also displays the tower information, currency, castle
      * HP and current wave on the screen.
+     * 
+     * @param g PGraphics the draw tool we use to draw.
      */
     @Override
     public void draw(PGraphics g) {
@@ -143,40 +172,46 @@ public class UserInterface extends GameObject {
         // Tower selection Sprite
         towerSelectionSprite(g);
 
-        // Texts
-        g.fill(0, 0, 0); // Textcolor to black
-        g.textSize(20); // Textsize to 20
-        g.textAlign(LEFT, CENTER); // Align text to leftside
-        g.text("HP: " + Castle.getHP(), 1020, 740); // Castle HP text
-        g.text("€" + Currency.getCurrency(), 1020, 780); // Currency text
-
-        g.textAlign(CENTER, CENTER); // Align text to center
-        g.text("Wave: " + enemySpawner.getCurrentWave(), 800, 20); // Wave number text
-        g.text("$", 20, 700); // Sell text
-
-        if (world.getGameIsPaused()) {
-            g.text("Resume", 1540, 780); // Pause game text
+        // Gamemode selection
+        if (!world.getGameHasStarted()) {
+            modeSelection(g);
         } else {
-            g.text("Pause", 1540, 780); // Resume game text
-        }
 
-        if (!Castle.getCastleIsAlive()) {
-            g.fill(250, 0, 0);
-            g.textSize(60);
-            g.text("The castle has fallen!", 800, 400);
+            // Texts
+            g.fill(0, 0, 0); // Textcolor to black
+            g.textSize(20); // Textsize to 20
+            g.textAlign(LEFT, CENTER); // Align text to leftside
+            g.text("HP: " + Castle.getHP(), 1020, 740); // Castle HP text
+            g.text("€" + Currency.getCurrency(), 1020, 780); // Currency text
+
+            g.textAlign(CENTER, CENTER); // Align text to center
+            g.text("Wave: " + enemySpawner.getCurrentWave(), 800, 20); // Wave number text
+            g.text("$", 20, 700); // Sell text
+
+            if (world.getGameIsPaused()) {
+                g.text("Resume", 1540, 780); // Pause game text
+            } else {
+                g.text("Pause", 1540, 780); // Resume game text
+            }
+
+            if (!Castle.getCastleIsAlive()) {
+                g.fill(250, 0, 0);
+                g.textSize(60);
+                g.text("The castle has fallen!", 800, 400);
+            }
+            g.textSize(12); // RESET TEXTSIZE TO 12
+            g.fill(255, 255, 255); // RESET DRAW TO WHITE
         }
-        g.textSize(12); // RESET TEXTSIZE TO 12
-        g.fill(255, 255, 255); // RESET DRAW TO WHITE
     }
 
-    /*
+    /**
      * Get the PImage object from the tower sprite.
      */
     public PImage getImage() {
         return towerSprite.getPImage();
     }
 
-    /*
+    /**
      * Implement this method to update the objects that need to be drawn.
      */
     @Override

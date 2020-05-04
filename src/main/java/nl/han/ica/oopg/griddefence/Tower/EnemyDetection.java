@@ -73,16 +73,18 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
         return enemyInArea;
     }
 
-    /*
+    /**
      * Implement this method to update the objects that need to be drawn.
      */
     @Override
     public void update() {
 
     }
-    /*
+    /**
      * Draws the enemy detection box on the given X and Y position with the given
      * width and height.
+     * 
+     * @param g PGraphics the draw tool we use to draw.
      */
     @Override
     public void draw(PGraphics g) {

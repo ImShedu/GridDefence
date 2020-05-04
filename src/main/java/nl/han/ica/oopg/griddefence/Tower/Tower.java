@@ -191,7 +191,7 @@ public class Tower extends ClickableObject {
                 - startTime > (1000 / (TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("rate")));
     }
 
-    /*
+    /**
      * Updates the enemies inside the enemylist the target can shoot at. If the list
      * is not empty the tower picks 1 enemy to shoot at and empties the list right
      * after. We also update the drawing of the enemy detection box to be visible
@@ -211,14 +211,16 @@ public class Tower extends ClickableObject {
         }
     }
 
-    /*
+    /**
      * Draws the tower sprite on the given X and Y position.
+     * 
+     * @param g PGraphics the draw tool we use to draw.
      */
     public void draw(PGraphics g) {
         g.image(towerSprite.getPImage(), x, y);
     }
 
-    /*
+    /**
      * Get the PImage object from the tower sprite.
      */
     public PImage getImage() {

@@ -24,6 +24,7 @@ public class GridDefence extends GameEngine {
     private Tile previousTile;
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
     private EnemySpawner enemySpawner;
+    private boolean gameHasStarted = false;
     private boolean gameIsPaused = false;
     private Tower towerBuild = null;
     private boolean towerClicked = false;
@@ -48,7 +49,7 @@ public class GridDefence extends GameEngine {
         createClickableButtons();
     }
 
-    /*
+    /**
      * Creates a new viewport, this will create a birds-eye view (topdown).
      */
     private void createViewWithoutViewport(int screenWidth, int screenHeight) {
@@ -57,7 +58,7 @@ public class GridDefence extends GameEngine {
         size(screenWidth, screenHeight);
     }
 
-    /*
+    /**
      * Creates a new instance of the User Interface
      */
     private void createUI() {
@@ -65,7 +66,7 @@ public class GridDefence extends GameEngine {
         addGameObject(userInterface);
     }
 
-    /*
+    /**
      * Creates all the clickable buttons and assign them an X and Y location on the
      * screen. Add the created button to the game as a GameObject and to the
      * clickable object list.
@@ -82,12 +83,17 @@ public class GridDefence extends GameEngine {
         ClickableObject ButtonSellTower = new ClickableObject(0, 680, 40, 40, "ButtonSellTower");
         ClickableObject ButtonPause = new ClickableObject(1480, 760, 120, 40, "ButtonPause");
 
+        ClickableObject ButtonModeInf = new ClickableObject(1160, 600, 120, 40, "ButtonInfinite");
+        ClickableObject ButtonModeChl = new ClickableObject(1320, 600, 120, 40, "ButtonChallenge");
+
         addGameObject(ButtonTowerOne);
         addGameObject(ButtonTowerTwo);
         addGameObject(ButtonTowerThree);
         addGameObject(ButtonUpgradeTower);
         addGameObject(ButtonSellTower);
         addGameObject(ButtonPause);
+        addGameObject(ButtonModeInf);
+        addGameObject(ButtonModeChl);
 
         cObjects.add(ButtonTowerOne);
         cObjects.add(ButtonTowerTwo);
@@ -95,6 +101,8 @@ public class GridDefence extends GameEngine {
         cObjects.add(ButtonUpgradeTower);
         cObjects.add(ButtonSellTower);
         cObjects.add(ButtonPause);
+        cObjects.add(ButtonModeInf);
+        cObjects.add(ButtonModeChl);
     }
 
     /**
@@ -147,6 +155,16 @@ public class GridDefence extends GameEngine {
                 }
                 System.out.println("Game has been " + status + ".");
             }
+
+            if (bo.getName() == "ButtonInfinite" && bo.mouseClicked(mouseX, mouseY) && gameHasStarted == false) {
+                enemySpawner = new EnemySpawner(this, 1000); // Number of waves
+                gameHasStarted = true;
+            }
+
+            if (bo.getName() == "ButtonChallenge" && bo.mouseClicked(mouseX, mouseY) && gameHasStarted == false) {
+                enemySpawner = new EnemySpawner(this, 20); // Number of waves
+                gameHasStarted = true;
+            }
         }
 
         if (tempSell != null) {
@@ -190,17 +208,27 @@ public class GridDefence extends GameEngine {
         }
     }
 
-    /*
-     * Checks if the game is currently paused. If the game is paused it returns
-     * true.
-     *
-     * @return The boolean gameIsPaused.
+    /**
+     * Checks if the game has started yet, if the game hasn't started it will return
+     * false, otherwise true.
+     * 
+     * @return The state of the boolean gameHasStarted.
+     */
+    public boolean getGameHasStarted() {
+        return gameHasStarted;
+    }
+
+    /**
+     * Checks if the game is currently paused, if the game is paused it will return
+     * true, otherwise false.
+     * 
+     * @return The state of the boolean gameIsPaused.
      */
     public boolean getGameIsPaused() {
         return gameIsPaused;
     }
 
-    /*
+    /**
      * Checks if the boolean towerClicked is true, if it's true it means we clicked
      * a tower and we set the enemy detection box drawing to visible.
      *
@@ -215,7 +243,7 @@ public class GridDefence extends GameEngine {
         }
     }
 
-    /*
+    /**
      * Gets the size of the tilesize.
      *
      * @return The size of the tilesize.
@@ -224,7 +252,7 @@ public class GridDefence extends GameEngine {
         return tileSize;
     }
 
-    /*
+    /**
      * Creates a new tower on the given X and Y position with the correct tower
      * number.
      *
@@ -241,10 +269,10 @@ public class GridDefence extends GameEngine {
     }
 
     /**
-     * Creates a new instance of the enemy spawner with the amount of waves.
+     * Creates a new instance of the enemy spawner.
      */
     public void createEnemySpawner() {
-        enemySpawner = new EnemySpawner(this, 100); // Number of waves
+        enemySpawner = new EnemySpawner(this);
     }
 
     /**
@@ -355,7 +383,7 @@ public class GridDefence extends GameEngine {
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }
 
-    /*
+    /**
      * Pauses the game when the castle is no longer alive (reached 0 HP).
      */
     @Override

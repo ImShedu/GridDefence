@@ -45,15 +45,17 @@ public class Castle extends GameObject {
         return castleIsAlive;
     }
 
-    /*
+    /**
      * Implement this method to update the objects that need to be drawn.
      */
     @Override
     public void update() {
     }
 
-    /*
+    /**
      * Implement this method to actually draw the GameObject.
+     * 
+     * @param g PGraphics the draw tool we use to draw.
      */
     @Override
     public void draw(PGraphics g) {

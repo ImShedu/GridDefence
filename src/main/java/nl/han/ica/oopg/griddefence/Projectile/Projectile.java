@@ -82,7 +82,7 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     public void projectileEffect() {
     }
 
-    /*
+    /**
      * Updates the projectile angle towards the give enemy. If there are no enemies
      * there will be no projectile.
      */
@@ -96,15 +96,17 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
         }
     }
 
-    /*
+    /**
      * Draws the projectile sprite on the given X and Y position.
+     * 
+     * @param g PGraphics the draw tool we use to draw.
      */
     @Override
     public void draw(PGraphics g) {
         g.image(projectileSprite.getPImage(), getCenterX(), getCenterY());
     }
 
-    /*
+    /**
      * Get the PImage object from the projectile sprite.
      */
     public PImage getImage() {

@@ -16,6 +16,10 @@ public class EnemySpawner {
     private int currentWave = 1;
     private int waves;
 	private int spawnedEnemies = 0;
+
+	public EnemySpawner(GridDefence world) {
+		this.world = world;
+	}
        
     public EnemySpawner(GridDefence world, int waves) {
         this.world = world;

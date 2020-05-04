@@ -22,7 +22,7 @@ import processing.core.PImage;
 public class Enemy extends GameObject implements ICollidableWithTiles {
 
     private GridDefence world;
-    private int hp, damage, currency;
+    private int hp, damage, currency, maxHP;
     private float speed;
     private Sprite enemySprite;
     private boolean enemyIsAlive = true;
@@ -42,6 +42,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         this.hp = properties.get("hp");
         this.damage = properties.get("damage");
         this.currency = properties.get("currency");
+        this.maxHP = properties.get("hp");
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/" + enemyType + ".png");
         setDirectionSpeed(90, this.speed);
     }
@@ -171,21 +172,32 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         }
     }
 
-    /*
+    /**
      * Implement this method to update the objects that need to be drawn.
      */
     @Override
     public void update() {
     }
 
-    /*
-     * Draws the enemy sprite on the given X and Y position.
+    /**
+     * Draws the enemy sprite on the given X and Y position and draws the HP bar of
+     * each enemy.
+     * 
+     * @param g PGraphics the draw tool we use to draw.
      */
     public void draw(PGraphics g) {
         g.image(enemySprite.getPImage(), x, y);
+
+        g.fill(250, 0, 0);
+        g.rect(x, y - 5, 40, 8);
+
+        g.fill(0, 250, 0);
+        g.rect(x, y - 5, (40 / this.maxHP) * this.hp, 8);
+
+        g.fill(255, 255, 255);
     }
 
-    /*
+    /**
      * Get the PImage object from the enemy sprite.
      */
     public PImage getImage() {
