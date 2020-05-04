@@ -2,7 +2,6 @@ package nl.han.ica.oopg.griddefence;
 
 import java.util.HashMap;
 
-import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.griddefence.Tower.Tower;
 import nl.han.ica.oopg.griddefence.Tower.TowerStatistics;
 import nl.han.ica.oopg.objects.GameObject;

@@ -37,6 +37,9 @@ public class GridDefence extends GameEngine {
         PApplet.runSketch(processingArgs, mySketch);
     }
 
+    /**
+     * Initializes the world height and width and calls all the necessary methods.
+     */
     @Override
     public void setupGame() {
         int worldWidth = 1600;
@@ -44,7 +47,6 @@ public class GridDefence extends GameEngine {
 
         generateTileMap();
         createViewWithoutViewport(worldWidth, worldHeight);
-        // createEnemySpawner();
         createClickableButtons();
         createUI();
     }
@@ -280,13 +282,6 @@ public class GridDefence extends GameEngine {
         Tower newTower = new Tower(this, location[0], location[1], tileSize, towerNumber);
         addGameObject(newTower);
         cObjects.add(newTower);
-    }
-
-    /**
-     * Creates a new instance of the enemy spawner.
-     */
-    public void createEnemySpawner() {
-        enemySpawner = new EnemySpawner(this);
     }
 
     /**
