@@ -13,7 +13,8 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 /**
- * Projectile is an object from the game, used by the Tower.
+ * Projectile is an object from the game, used by the Tower. The projectile
+ * spawns from the center of the tower and ends up colliding with an enemy.
  * <p>
  * This class is created by: Wyman Chau.
  */
@@ -22,6 +23,14 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     protected Enemy enemy;
     protected Sprite projectileSprite;
 
+    /**
+     * 
+     * @param world GridDefence The world for the projectile to be in.
+     * @param x     float X coordinate of the projectile.
+     * @param y     float Y coordinate of the projectile.
+     * @param size  int size of the projectile.
+     * @param enemy Enemy The enemy the projectile shoots at.
+     */
     public Projectile(GridDefence world, float x, float y, int size, Enemy enemy) {
         super(x, y, size, size);
         this.world = world;
@@ -29,6 +38,14 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
         projectileSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Pokeball.png");
     }
 
+    /**
+     * Contains a list with all the GameObjects the projectile collides at. If the
+     * projectile collides with our enemy, it will remove the projectile and the
+     * enemy if that's necessary.
+     * 
+     * @param collidedGameObjects list The list of the GameObjects the projectile
+     *                            collides with.
+     */
     @Override
     public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
         for (GameObject g : collidedGameObjects) {
@@ -44,16 +61,31 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
         }
     }
 
+    /**
+     * Gets the sprite of this projectile.
+     * 
+     * @return The sprite of this projectile.
+     */
     public Sprite getProjectileSprite() {
         return projectileSprite;
     }
 
+    /**
+     * Changes the current projectile sprite.
+     */
     public void changeProjectileSprite() {
     }
 
+    /**
+     * The effect of the projectile.
+     */
     public void projectileEffect() {
     }
 
+    /*
+     * Updates the projectile angle towards the give enemy. If there are no enemies
+     * there will be no projectile.
+     */
     @Override
     public void update() {
         if (EnemySpawner.getEnemyList().contains(enemy)) {
@@ -64,13 +96,17 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
         }
     }
 
+    /*
+     * Draws the projectile sprite on the given X and Y position.
+     */
     @Override
-    // Draw projectileSprite according to towerNumber & upgradeNumber
     public void draw(PGraphics g) {
         g.image(projectileSprite.getPImage(), getCenterX(), getCenterY());
     }
 
-    // Return projectileSprite
+    /*
+     * Get the PImage object from the projectile sprite.
+     */
     public PImage getImage() {
         return projectileSprite.getPImage();
     }

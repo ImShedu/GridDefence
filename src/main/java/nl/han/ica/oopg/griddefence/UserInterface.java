@@ -23,11 +23,21 @@ public class UserInterface extends GameObject {
     private EnemySpawner enemySpawner;
     private Sprite towerSprite;
 
+    /**
+     * 
+     * @param world        GridDefence The world for the tower to be in.
+     * @param enemySpawner EnemySpawner The spawner the interface needs information
+     *                     about.
+     * @param tower        Tower The tower the interface needs information about.
+     */
     public UserInterface(GridDefence world, EnemySpawner enemySpawner, Tower tower) {
         this.enemySpawner = enemySpawner;
         this.world = world;
     }
 
+    /**
+     * Displays the sprites of the tower inside the tower selection box.
+     */
     private void towerSelectionSprite(PGraphics g) {
         Sprite tower1 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower1upgrade1.png");
         Sprite tower2 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower2upgrade1.png");
@@ -38,11 +48,19 @@ public class UserInterface extends GameObject {
         g.image(tower3.getPImage(), 900, 720); // Charmander sprite for third tower
     }
 
+    /**
+     * Displays all the tower information of the currently selected tower inside the
+     * tower information box. If there is no tower selected, the tower information
+     * box will not display any information.
+     * 
+     * @param g     PGraphics the draw tool we use to draw.
+     * @param tower Tower The tower the interface needs information about.
+     */
     private void towerInformation(PGraphics g, Tower tower) {
         Sprite upgradeSprite;
         HashMap<String, Float> towerStats;
         HashMap<String, String> towerName;
-        
+
         int towerNumber = tower.getTowerNumber();
         int upgradeNumber = tower.getUpgradeNumber();
         towerStats = TowerStatistics.getTowerStats(towerNumber, upgradeNumber);
@@ -80,6 +98,11 @@ public class UserInterface extends GameObject {
         g.textSize(12); // RESET TEXTSIZE TO 12
     }
 
+    /*
+     * Draws all the basic User Interface windows, boxes, images and buttons on the
+     * given X and Y position. Also displays the tower information, currency, castle
+     * HP and current wave on the screen.
+     */
     @Override
     public void draw(PGraphics g) {
         // Basic UI windows
@@ -146,13 +169,17 @@ public class UserInterface extends GameObject {
         g.fill(255, 255, 255); // RESET DRAW TO WHITE
     }
 
+    /*
+     * Get the PImage object from the tower sprite.
+     */
     public PImage getImage() {
         return towerSprite.getPImage();
     }
 
+    /*
+     * Implement this method to update the objects that need to be drawn.
+     */
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-
     }
 }

@@ -29,11 +29,11 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
 
     /**
      * 
-     * @param x           int X coordinate for the enemy
-     * @param y           int Y coordinate for the enemy
-     * @param size        int size for the enemy
-     * @param GridDefence World the world for the enemy to be in
-     * @param HashMap     HashMap of the enemy properties
+     * @param world      GridDefence The world for the enemy to be in.
+     * @param x          int X coordinate of the enemy.
+     * @param y          int Y coordinate of the enemy.
+     * @param size       int size of the enemy.
+     * @param properties HashMap HashMap of the enemy properties.
      */
     public Enemy(GridDefence world, int x, int y, int size, String enemyType, HashMap<String, Integer> properties) {
         super(x, y, size, size);
@@ -46,6 +46,11 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         setDirectionSpeed(90, this.speed);
     }
 
+    /**
+     * Substracts the incoming damage from the enemy's hp.
+     * 
+     * @param damage int The incoming damage.
+     */
     public void enemyTakeDamage(int damage) {
         if (this.hp - damage <= 0) {
             enemyIsAlive = false;
@@ -56,23 +61,52 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         }
     }
 
+    /**
+     * Gets the enemy speed.
+     * 
+     * @return The enemy speed.
+     */
     public float getEnemySpeed() {
         return speed;
     }
 
+    /**
+     * Sets the given number as the new speed.
+     * 
+     * @param updateSpeed float The given number as the new speed.
+     */
     public void setEnemySpeed(float updateSpeed) {
         this.speed = updateSpeed;
         setSpeed(this.speed);
     }
 
+    /**
+     * Gets the enemy currency.
+     * 
+     * @return The enemy currency.
+     */
     public int getEnemyCurrency() {
         return currency;
     }
 
+    /**
+     * Gets the boolean enemyIsALive, which is: is the enemy still alive?
+     * 
+     * @return boolean enemyIsAlive.
+     */
     public boolean getEnemyIsAlive() {
         return enemyIsAlive;
     }
 
+    /**
+     * Changes the direction of this object depending on it's previous direction. If
+     * it's previous direction is either 90 or 270, then the next direction has to
+     * be either 180 or 0 since it cannot move forward or backwards anymore. This
+     * method will check the next available tile and changes it direction to that
+     * tile.
+     * 
+     * @param tile Tile The tile the object is colliding with.
+     */
     private void changeDirection(Tile tile) {
 
         int x = (int) world.getTileMap().getTileIndex(tile).array()[0];
@@ -107,6 +141,13 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         }
     }
 
+    /**
+     * Gets the 2 tiles this object currently collides with and checks which tile is
+     * the pathtile.
+     * 
+     * @param collidedTiles List The list of the tiles the current object collides
+     *                      with.
+     */
     @Override
     public void tileCollisionOccurred(List<CollidedTile> collidedTiles) {
         if (collidedTiles.size() > 1) {
@@ -130,16 +171,23 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         }
     }
 
+    /*
+     * Implement this method to update the objects that need to be drawn.
+     */
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-
     }
 
+    /*
+     * Draws the enemy sprite on the given X and Y position.
+     */
     public void draw(PGraphics g) {
         g.image(enemySprite.getPImage(), x, y);
     }
 
+    /*
+     * Get the PImage object from the enemy sprite.
+     */
     public PImage getImage() {
         return enemySprite.getPImage();
     }

@@ -28,15 +28,14 @@ public class Tower extends ClickableObject {
 
     /**
      * 
-     * @param x           int X coordinate for the enemy
-     * @param y           int Y coordinate for the enemy
-     * @param width       int width for the enemy
-     * @param height      int height of the enemy
-     * @param GridDefence World the world for the enemy to be in
-     * @param towerNumber int towerNumber of the tower
+     * @param world       GridDefence The world for the tower to be in.
+     * @param x           float X coordinate of the tower.
+     * @param y           float Y coordinate of the tower.
+     * @param size        float Size of the tower.
+     * @param towerNumber int TowerNumber of the tower.
      */
-    public Tower(GridDefence world, float x, float y, float width, float height, int towerNumber) {
-        super(x, y, width, height);
+    public Tower(GridDefence world, float x, float y, float size, int towerNumber) {
+        super(x, y, size, size);
         this.world = world;
         this.towerNumber = towerNumber;
         upgradeNumber = 1;
@@ -54,17 +53,22 @@ public class Tower extends ClickableObject {
     }
 
     /**
-     * Draws the enemyDetection box around the tower.
+     * Draws the enemy detection box around the tower.
      */
     private void enemyDetection() {
         float range = TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("range");
         int tileSize = world.getTileSize();
 
         this.enemyDetection = new EnemyDetection(((x - range * tileSize) + 15), ((y - range * tileSize) + 15),
-                ((range * tileSize * 2) + 10), ((range * tileSize * 2) + 10));
+                ((range * tileSize * 2) + 10));
         world.addGameObject(enemyDetection);
     }
 
+    /**
+     * Gets the enemy detection box.
+     * 
+     * @return The enemy detection box.
+     */
     public EnemyDetection getEnemyDetection() {
         return enemyDetection;
     }
@@ -72,7 +76,7 @@ public class Tower extends ClickableObject {
     /**
      * Shoots a projectile towards the enemy.
      * 
-     * @param enemy Enemy that we shoot a projectile at
+     * @param enemy Enemy that we shoot a projectile at.
      */
     private void shootProjectile(Enemy enemy) {
         // X & Y position, Size, GameObject, Damage, World
@@ -114,6 +118,8 @@ public class Tower extends ClickableObject {
 
     /**
      * Get the upgradeNumber of the tower.
+     * 
+     * @return upgradeNumber of the tower.
      */
     public int getUpgradeNumber() {
         return upgradeNumber;
@@ -121,13 +127,11 @@ public class Tower extends ClickableObject {
 
     /**
      * Get the towerNumber of the tower.
+     * 
+     * @return towerNumber of the tower.
      */
     public int getTowerNumber() {
         return towerNumber;
-    }
-
-    public int towerCost() {
-        return Math.round(TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("cost"));
     }
 
     /**
@@ -178,13 +182,21 @@ public class Tower extends ClickableObject {
     }
 
     /**
-     * Cooldown timer for tower firerate.
+     * Gets the cooldown timer for tower firerate.
+     * 
+     * @return Timer has finished.
      */
     private boolean globalCD() {
         return world.millis()
                 - startTime > (1000 / (TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("rate")));
     }
 
+    /*
+     * Updates the enemies inside the enemylist the target can shoot at. If the list
+     * is not empty the tower picks 1 enemy to shoot at and empties the list right
+     * after. We also update the drawing of the enemy detection box to be visible
+     * only when the tower is clicked.
+     */
     @Override
     public void update() {
         if (!enemyDetection.getEnemyInAreaList().isEmpty()) {
@@ -199,12 +211,16 @@ public class Tower extends ClickableObject {
         }
     }
 
-    // Draw towerSprite according to towerNumber & upgradeNumber
+    /*
+     * Draws the tower sprite on the given X and Y position.
+     */
     public void draw(PGraphics g) {
         g.image(towerSprite.getPImage(), x, y);
     }
 
-    // Return towersprite
+    /*
+     * Get the PImage object from the tower sprite.
+     */
     public PImage getImage() {
         return towerSprite.getPImage();
     }

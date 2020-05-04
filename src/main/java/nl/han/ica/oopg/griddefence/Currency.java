@@ -10,14 +10,25 @@ public class Currency {
 
     private static int currency = 10000;
 
+    /**
+     * Gets the current amount of currency.
+     * 
+     * @return The amount of currency.
+     */
     public static int getCurrency() {
         return currency;
     }
 
+    /**
+     * Adds the given number on top of the current amount of currency.
+     */
     public static void addCurrency(int plusCurrency) {
         currency += plusCurrency;
     }
 
+    /**
+     * Decreases the current amount of currency with teh given number.
+     */
     public static void decreaseCurrency(int minusCurrency) {
         currency -= minusCurrency;
     }

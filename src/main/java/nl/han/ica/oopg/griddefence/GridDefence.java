@@ -44,26 +44,33 @@ public class GridDefence extends GameEngine {
         generateTileMap();
         createViewWithoutViewport(worldWidth, worldHeight);
         createEnemySpawner();
-        drawClickButtons();
         createUI();
+        createClickableButtons();
     }
 
-    // Birds-eye view
+    /*
+     * Creates a new viewport, this will create a birds-eye view (topdown).
+     */
     private void createViewWithoutViewport(int screenWidth, int screenHeight) {
         View view = new View(screenWidth, screenHeight);
-        view.setBackground(255, 255, 255);
-
         setView(view);
         size(screenWidth, screenHeight);
     }
 
-    // Non-clickable UserInterface
+    /*
+     * Creates a new instance of the User Interface
+     */
     private void createUI() {
-        UserInterface testUI = new UserInterface(this, enemySpawner, towerBuild);
-        addGameObject(testUI, 1);
+        UserInterface userInterface = new UserInterface(this, enemySpawner, towerBuild);
+        addGameObject(userInterface);
     }
 
-    private void drawClickButtons() {
+    /*
+     * Creates all the clickable buttons and assign them an X and Y location on the
+     * screen. Add the created button to the game as a GameObject and to the
+     * clickable object list.
+     */
+    private void createClickableButtons() {
         ClickableObject ButtonTowerOne = new ClickableObject(640, 720, 80, 40, "ButtonTowerOne");
         ButtonTowerOne.setTowerNumber(1);
         ClickableObject ButtonTowerTwo = new ClickableObject(760, 720, 80, 40, "ButtonTowerTwo");
@@ -90,11 +97,19 @@ public class GridDefence extends GameEngine {
         cObjects.add(ButtonPause);
     }
 
-    // Clickable UserInterface (GameObjects)
+    /**
+     * Checks if any of the clickable objects has been clicked. This will go through
+     * the clickable object list that contains all the clickable objects and we run
+     * through all of them to see if any of the objects has been clicked. If that
+     * returns true, we continue with the action that has been given if the object
+     * has been clicked.
+     * 
+     * @return The object of we clicked.
+     */
     private boolean mouseClickButtons() {
         ClickableObject temp = null;
-        Tower towerTemp = null;
-        Tower sellTower = null;
+        Tower tempTower = null;
+        Tower tempSell = null;
 
         // Checks every ClickableObject with every click
         for (ClickableObject bo : cObjects) {
@@ -104,8 +119,7 @@ public class GridDefence extends GameEngine {
 
             // Check if click is on tower
             if (bo instanceof Tower && bo.mouseClicked(mouseX, mouseY)) {
-                towerTemp = (Tower) bo;
-                // towerBuild = (Tower) bo;
+                tempTower = (Tower) bo;
             }
 
             if (bo.getName() == "ButtonUpgradeTower" && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
@@ -116,12 +130,11 @@ public class GridDefence extends GameEngine {
 
             if (bo.getName() == "ButtonSellTower" && bo.mouseClicked(mouseX, mouseY) && towerClicked == true) {
                 towerBuild.sellTower();
-                sellTower = towerBuild;
-                // cObjects.remove(towerBuild);
+                tempSell = towerBuild;
             }
 
             if (bo.getName() == "ButtonPause" && bo.mouseClicked(mouseX, mouseY)) {
-                String status; // >> Testing purpose
+                String status;
                 if (!gameIsPaused) {
                     pauseGame();
                     status = "paused";
@@ -134,15 +147,13 @@ public class GridDefence extends GameEngine {
                 }
                 System.out.println("Game has been " + status + ".");
             }
-
         }
 
-        if (sellTower != null) {
-            cObjects.remove(sellTower);
-            sellTower = null;
+        if (tempSell != null) {
+            cObjects.remove(tempSell);
+            tempSell = null;
         }
 
-        // Build tower on empty cell & previousTile needs to be active
         if (temp != null && previousTile != null && towerClicked == false) {
             int towerNumber = temp.getTowerNumber();
             int cost = Math.round(TowerStatistics.getTowerStats(towerNumber, 1).get("cost"));
@@ -165,9 +176,9 @@ public class GridDefence extends GameEngine {
             }
         }
 
-        if (towerTemp != null) {
+        if (tempTower != null) {
             towerClicked = true;
-            towerBuild = towerTemp;
+            towerBuild = tempTower;
         } else {
             towerClicked = false;
         }
@@ -179,10 +190,22 @@ public class GridDefence extends GameEngine {
         }
     }
 
+    /*
+     * Checks if the game is currently paused. If the game is paused it returns
+     * true.
+     *
+     * @return The boolean gameIsPaused.
+     */
     public boolean getGameIsPaused() {
         return gameIsPaused;
     }
 
+    /*
+     * Checks if the boolean towerClicked is true, if it's true it means we clicked
+     * a tower and we set the enemy detection box drawing to visible.
+     *
+     * @return The tower that we clicked on.
+     */
     public Tower getTowerClicked() {
         if (towerClicked) {
             towerBuild.getEnemyDetection().setVisible(true);
@@ -192,31 +215,44 @@ public class GridDefence extends GameEngine {
         }
     }
 
-    // Return tilesize for easier calculation purpose
+    /*
+     * Gets the size of the tilesize.
+     *
+     * @return The size of the tilesize.
+     */
     public int getTileSize() {
         return tileSize;
     }
 
-    // Create tower
+    /*
+     * Creates a new tower on the given X and Y position with the correct tower
+     * number.
+     *
+     * @param towerNumber int The number of the tower.
+     */
     public void createTower(int towerNumber) {
         TileMap TM = getTileMap();
         float[] location = TM.getTilePixelLocation(previousTile).array();
 
-        // World, X & Y position, Width & Height (tileSize), Towernumber, Upgradenumber
-        Tower newTower = new Tower(this, location[0], location[1], tileSize, tileSize, towerNumber);
+        // World, X & Y position, size (tileSize), Towernumber, Upgradenumber
+        Tower newTower = new Tower(this, location[0], location[1], tileSize, towerNumber);
         addGameObject(newTower);
         cObjects.add(newTower);
     }
 
-    // Create enemy spawner from spawntile (Actual gamemechanic)
+    /**
+     * Creates a new instance of the enemy spawner with the amount of waves.
+     */
     public void createEnemySpawner() {
         enemySpawner = new EnemySpawner(this, 100); // Number of waves
     }
 
+    /**
+     * Checks if the any mouse click is within one of the tiles. If that returns
+     * true, we select that tile by changing the sprite.
+     */
     @Override
     public void mouseClicked() {
-        // Clickable objects (Testing phase)
-
         if (!mouseClickButtons()) {
             if (previousTile != null) {
                 previousTile.setSprite(resetSprite);
@@ -253,6 +289,10 @@ public class GridDefence extends GameEngine {
         }
     }
 
+    /**
+     * Generates the complete tilemap of the game with all the given tiletype and
+     * tilesprites.
+     */
     private void generateTileMap() {
         // Sprites van de tiles
         Sprite boardSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board.jpg");
@@ -315,6 +355,9 @@ public class GridDefence extends GameEngine {
         tileMap = new TileMap(tileSize, tileTypes, tilesMap);
     }
 
+    /*
+     * Pauses the game when the castle is no longer alive (reached 0 HP).
+     */
     @Override
     public void update() {
         if (!Castle.getCastleIsAlive()) {

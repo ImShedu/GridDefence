@@ -66,13 +66,13 @@ public class EnemySpawner {
     /**
      * Returns the number of a certain enemy type to spawn for a certain wave
      * @param wave int The wave for which to get the amounts
-     * @return HashMap<String, Integer> soldier, car, tank
+     * @return HashMap<String, Integer> dratini, dragonair, dragonite
      */
     public HashMap<String, Integer> getEnemies(int wave) {
     	HashMap<String, Integer> output = new HashMap<String, Integer>();
-    	output.put("soldier", (int) (wave*1.5+Math.random()));
-    	output.put("car", (int)((wave-3)*0.5+Math.random()*0.02*wave));
-    	output.put("tank",(int)((wave-8)*0.4+Math.random()*0.01*wave));
+    	output.put("dratini", (int) (wave*1.5+Math.random()));
+    	output.put("dragonair", (int)((wave-3)*0.5+Math.random()*0.02*wave));
+    	output.put("dragonite",(int)((wave-8)*0.4+Math.random()*0.01*wave));
 		return output; 
     }
     
@@ -84,19 +84,19 @@ public class EnemySpawner {
     public HashMap<String, Integer> getEnemyProperties(String type) {
     	HashMap<String, Integer> output = new HashMap<String, Integer>();
     	switch(type) {
-    	case "soldier":
+    	case "dratini":
     		output.put("speed",(int)((1+0.8*currentWave)*10));
     		output.put("hp",(int)(10+0.5*currentWave));
 			output.put("damage",(int)(5+0.1*currentWave));
 			output.put("currency",(int) 2);
     		break;
-		case "car":
+		case "dragonair":
     		output.put("speed",(int)((1.3+0.2*currentWave)*10));
     		output.put("hp",(int)(25+0.5*currentWave));
 			output.put("damage",(int)(20+0.1*currentWave));
 			output.put("currency",(int) 4);
     		break;
-    	case "tank":
+    	case "dragonite":
     		output.put("speed",(int)((1.1+0.2*currentWave)*10));
     		output.put("hp",(int)(100+0.5*currentWave));
 			output.put("damage",(int)(33+0.1*currentWave));
@@ -115,10 +115,10 @@ public class EnemySpawner {
     	announceWave();
     	HashMap<String, Integer> enemies = getEnemies(currentWave);
     	
-    	// System.out.println("Wave "+currentWave+" is starting with:");
+    	System.out.println("Wave "+currentWave+" is starting with:");
     	for(String key : enemies.keySet()) {
     	    int value = enemies.get(key);
-    	    // System.out.println(key+": "+value);
+    	    System.out.println(key+": "+value);
     	    
     	    HashMap<String, Integer> properties = getEnemyProperties(key);
         	System.out.println("Stats this wave:"+properties);
@@ -173,7 +173,7 @@ public class EnemySpawner {
 	 * Spawns a new enemy into the world.
 	 * @param x	int The X coordinate for the new enemy
 	 * @param y int The Y coordinate for the new enemy
-	 * @param type String the type of enemy to create [soldier, car, tank]
+	 * @param type String the type of enemy to create [dratini, dragonair, dragonite]
 	 * @param hp int the amount of health points the enemy will be created with
 	 * @param speed int the speed of the enemy
 	 * @param damage int the amount of damage the enemy inflicts to the castle 

@@ -14,7 +14,11 @@ public class Castle extends GameObject {
     private static int hp = 10000;
     private static boolean castleIsAlive = true;
 
-    // Check if castle is still alive
+    /**
+     * Substracts the incoming damage from the castle's hp.
+     * 
+     * @param damage int The incoming damage.
+     */
     public static void castleHP(int damage) {
         if (hp - damage <= 0) {
             castleIsAlive = false;
@@ -23,25 +27,35 @@ public class Castle extends GameObject {
         }
     }
 
-    // Return HP for text
+    /**
+     * Gets the HP of the castle.
+     * 
+     * @return The castle's HP.
+     */
     public static int getHP() {
         return hp;
     }
 
-    // Return boolean for castle
+    /**
+     * Gets the boolean castleIsAlive, which is: is the castle still alive?
+     * 
+     * @return boolean castleIsAlive.
+     */
     public static boolean getCastleIsAlive() {
         return castleIsAlive;
     }
 
+    /*
+     * Implement this method to update the objects that need to be drawn.
+     */
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-
     }
 
+    /*
+     * Implement this method to actually draw the GameObject.
+     */
     @Override
     public void draw(PGraphics g) {
-        // TODO Auto-generated method stub
-
     }
 }
