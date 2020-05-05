@@ -2,7 +2,6 @@ package nl.han.ica.oopg.griddefence.Projectile;
 
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
-import nl.han.ica.oopg.griddefence.Tower.TowerStatistics;
 
 /**
  * ProjUpgrade4 is a child of the parent Projectile.
