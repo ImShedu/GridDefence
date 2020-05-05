@@ -11,7 +11,7 @@ import processing.core.PGraphics;
  */
 public class Castle extends GameObject {
 
-    private static int hp = 10000;
+    private static int hp = 100;
     private static boolean castleIsAlive = true;
 
     /**
