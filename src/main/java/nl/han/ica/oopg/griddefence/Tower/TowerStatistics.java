@@ -514,7 +514,7 @@ public class TowerStatistics {
             case 1:
                 output.put("upgrade", 1f);
                 output.put("cost", 400f);
-                output.put("refund", 20f);
+                output.put("refund", 160f);
 
                 output.put("range", 10f);
                 output.put("damage", 80f);
@@ -524,7 +524,7 @@ public class TowerStatistics {
             case 2:
                 output.put("upgrade", 2f);
                 output.put("cost", 500f);
-                output.put("refund", 52f);
+                output.put("refund", 360f);
 
                 output.put("range", 12f);
                 output.put("damage", 90f);
@@ -533,8 +533,8 @@ public class TowerStatistics {
 
             case 3:
                 output.put("upgrade", 3f);
-                output.put("cost", 600f);
-                output.put("refund", 124f);
+                output.put("cost", 800f);
+                output.put("refund", 680f);
 
                 output.put("range", 12f);
                 output.put("damage", 150f);
@@ -543,8 +543,8 @@ public class TowerStatistics {
 
             case 4:
                 output.put("upgrade", 4f);
-                output.put("cost", 800f);
-                output.put("refund", 244f);
+                output.put("cost", 1000f);
+                output.put("refund", 1080f);
 
                 output.put("range", 14f);
                 output.put("damage", 200f);
