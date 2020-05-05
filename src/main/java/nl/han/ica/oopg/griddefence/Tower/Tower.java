@@ -148,9 +148,9 @@ public class Tower extends ClickableObject {
      * Upgrades the tower to the next level.
      */
     public void upgradeTower() {
-        float cost = TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("cost");
         int nextUpgrade = ((int) getUpgradeNumber() + 1);
-
+        float cost = TowerStatistics.getTowerStats(towerNumber, nextUpgrade).get("cost");
+        
         if (upgradeNumber <= 4) {
             if (Currency.getCurrency() >= cost) {
                 Currency.decreaseCurrency((int) cost);
