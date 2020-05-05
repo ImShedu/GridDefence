@@ -27,7 +27,7 @@ public class Currency {
     }
 
     /**
-     * Decreases the current amount of currency with teh given number.
+     * Decreases the current amount of currency with the given number.
      */
     public static void decreaseCurrency(int minusCurrency) {
         currency -= minusCurrency;

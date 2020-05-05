@@ -2,13 +2,14 @@ package nl.han.ica.oopg.griddefence.Projectile;
 
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
+import nl.han.ica.oopg.griddefence.Tower.TowerStatistics;
 
 /**
- * ProjUpgrade1 is a child of the parent Projectile.
+ * ProjUpgrade4 is a child of the parent Projectile.
  * <p>
  * This class is created by: Wyman Chau.
  */
-public class ProjUpgrade1 extends Projectile {
+public class ProjUpgrade4 extends Projectile {
 
     /**
      * 
@@ -18,7 +19,7 @@ public class ProjUpgrade1 extends Projectile {
      * @param size  int size of the projectile.
      * @param enemy Enemy The enemy the projectile shoots at.
      */
-    public ProjUpgrade1(GridDefence world, float x, float y, int size, Enemy enemy) {
+    public ProjUpgrade4(GridDefence world, float x, float y, int size, Enemy enemy) {
         super(world, x, y, size, enemy);
         changeProjectileSprite();
         projectileEffect();
@@ -29,7 +30,7 @@ public class ProjUpgrade1 extends Projectile {
      */
     @Override
     public void changeProjectileSprite() {
-        super.getProjectileSprite().setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade1.png");
+        super.getProjectileSprite().setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade4.png");
     }
 
     /**
@@ -37,6 +38,6 @@ public class ProjUpgrade1 extends Projectile {
      */
     @Override
     public void projectileEffect() {
-        enemy.setEnemySpeed(enemy.getEnemySpeed() / 4);
+        enemy.setEnemySpeed(enemy.getEnemySpeed() / 2);
     }
 }

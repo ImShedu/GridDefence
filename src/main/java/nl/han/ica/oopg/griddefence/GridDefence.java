@@ -74,12 +74,18 @@ public class GridDefence extends GameEngine {
      * clickable object list.
      */
     private void createClickableButtons() {
-        ClickableObject ButtonTowerOne = new ClickableObject(640, 720, 80, 40, "ButtonTowerOne");
+        ClickableObject ButtonTowerOne = new ClickableObject(640, 720, 40, 40, "ButtonTowerOne");
         ButtonTowerOne.setTowerNumber(1);
-        ClickableObject ButtonTowerTwo = new ClickableObject(760, 720, 80, 40, "ButtonTowerTwo");
+        ClickableObject ButtonTowerTwo = new ClickableObject(680, 720, 40, 40, "ButtonTowerTwo");
         ButtonTowerTwo.setTowerNumber(2);
-        ClickableObject ButtonTowerThree = new ClickableObject(880, 720, 80, 40, "ButtonTowerThree");
+        ClickableObject ButtonTowerThree = new ClickableObject(760, 720, 40, 40, "ButtonTowerThree");
         ButtonTowerThree.setTowerNumber(3);
+        ClickableObject ButtonTowerFour = new ClickableObject(800, 720, 40, 40, "ButtonTowerFour");
+        ButtonTowerFour.setTowerNumber(4);
+        ClickableObject ButtonTowerFive = new ClickableObject(880, 720, 40, 40, "ButtonTowerFive");
+        ButtonTowerFive.setTowerNumber(5);
+        ClickableObject ButtonTowerSix = new ClickableObject(920, 720, 40, 40, "ButtonTowerSix");
+        ButtonTowerSix.setTowerNumber(6);
 
         ClickableObject ButtonUpgradeTower = new ClickableObject(200, 680, 40, 40, "ButtonUpgradeTower");
         ClickableObject ButtonSellTower = new ClickableObject(0, 680, 40, 40, "ButtonSellTower");
@@ -91,6 +97,9 @@ public class GridDefence extends GameEngine {
         addGameObject(ButtonTowerOne);
         addGameObject(ButtonTowerTwo);
         addGameObject(ButtonTowerThree);
+        addGameObject(ButtonTowerFour);
+        addGameObject(ButtonTowerFive);
+        addGameObject(ButtonTowerSix);
         addGameObject(ButtonUpgradeTower);
         addGameObject(ButtonSellTower);
         addGameObject(ButtonPause);
@@ -100,6 +109,9 @@ public class GridDefence extends GameEngine {
         cObjects.add(ButtonTowerOne);
         cObjects.add(ButtonTowerTwo);
         cObjects.add(ButtonTowerThree);
+        cObjects.add(ButtonTowerFour);
+        cObjects.add(ButtonTowerFive);
+        cObjects.add(ButtonTowerSix);
         cObjects.add(ButtonUpgradeTower);
         cObjects.add(ButtonSellTower);
         cObjects.add(ButtonPause);

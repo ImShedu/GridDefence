@@ -39,10 +39,16 @@ public class UserInterface extends GameObject {
         Sprite tower1 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower1upgrade1.png");
         Sprite tower2 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower2upgrade1.png");
         Sprite tower3 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower3upgrade1.png");
+        Sprite tower4 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower4upgrade1.png");
+        Sprite tower5 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower5upgrade1.png");
+        Sprite tower6 = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower6upgrade1.png");
 
-        g.image(tower1.getPImage(), 660, 720); // Bulbasar sprite for first tower
-        g.image(tower2.getPImage(), 780, 720); // Squirtle sprite for second tower
-        g.image(tower3.getPImage(), 900, 720); // Charmander sprite for third tower
+        g.image(tower1.getPImage(), 640, 720); // Bulbasar sprite for first tower
+        g.image(tower2.getPImage(), 680, 720); // Squirtle sprite for second tower
+        g.image(tower3.getPImage(), 760, 720); // Charmander sprite for third tower
+        g.image(tower4.getPImage(), 800, 720); // Pidgey sprite for fourth tower
+        g.image(tower5.getPImage(), 880, 720); // Abra sprite for fifth tower
+        g.image(tower6.getPImage(), 920, 720); // Zapdos sprite for sixth tower
     }
 
     /**
@@ -139,9 +145,12 @@ public class UserInterface extends GameObject {
         g.rect(600, 680, 400, 120); // Tower choice window
 
         // Tower selection windows
-        g.rect(640, 720, 80, 40); // Tower 1 selection
-        g.rect(760, 720, 80, 40); // Tower 2 selection
-        g.rect(880, 720, 80, 40); // Tower 3 selection
+        g.rect(640, 720, 40, 40); // Tower 1 selection
+        g.rect(680, 720, 40, 40); // Tower 2 selection
+        g.rect(760, 720, 40, 40); // Tower 3 selection
+        g.rect(800, 720, 40, 40); // Tower 4 selection
+        g.rect(880, 720, 40, 40); // Tower 5 selection
+        g.rect(920, 720, 40, 40); // Tower 6 selection
 
         // Tower information windows
         g.rect(0, 680, 240, 120); // Window outlining
@@ -157,9 +166,12 @@ public class UserInterface extends GameObject {
         g.rect(200, 680, 40, 40); // Upgrade button
 
         // Tower selection windows
-        g.rect(640, 720, 80, 40);
-        g.rect(760, 720, 80, 40);
-        g.rect(880, 720, 80, 40);
+        g.rect(640, 720, 40, 40); // Tower 1 actual button
+        g.rect(680, 720, 40, 40); // Tower 2 actual button
+        g.rect(760, 720, 40, 40); // Tower 3 actual button
+        g.rect(800, 720, 40, 40); // Tower 4 actual button
+        g.rect(880, 720, 40, 40); // Tower 5 actual button
+        g.rect(920, 720, 40, 40); // Tower 6 actual button
 
         // Actual Tower information
         if (world.getTowerClicked() != null) {

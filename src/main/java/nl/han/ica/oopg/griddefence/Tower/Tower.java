@@ -7,6 +7,9 @@ import nl.han.ica.oopg.griddefence.Enemy.Enemy;
 import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade1;
 import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade2;
 import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade3;
+import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade4;
+import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade5;
+import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade6;
 import nl.han.ica.oopg.griddefence.Projectile.Projectile;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
@@ -87,13 +90,20 @@ public class Tower extends ClickableObject {
                 case 1:
                     projectile = new ProjUpgrade1(world, x, y, 10, enemy);
                     break;
-
                 case 2:
                     projectile = new ProjUpgrade2(world, x, y, 10, enemy);
                     break;
-
                 case 3:
                     projectile = new ProjUpgrade3(world, x, y, 10, enemy);
+                    break;
+                case 4:
+                    projectile = new ProjUpgrade4(world, x, y, 10, enemy);
+                    break;
+                case 5:
+                    projectile = new ProjUpgrade5(world, x, y, 10, enemy);
+                    break;
+                case 6:
+                    projectile = new ProjUpgrade6(world, x, y, 10, enemy);
                     break;
             }
         }

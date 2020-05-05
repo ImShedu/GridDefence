@@ -108,6 +108,7 @@ public class EnemySpawner {
 		output.put("dratini", (int) (wave * 1.5 + Math.random()));
 		output.put("dragonair", (int) ((wave - 3) * 0.5 + Math.random() * 0.02 * wave));
 		output.put("dragonite", (int) ((wave - 8) * 0.4 + Math.random() * 0.01 * wave));
+		output.put("megapinsir", (int) ((wave - 10) * 0.2 + Math.random() * 0.01 * wave));
 		return output;
 	}
 
@@ -137,6 +138,12 @@ public class EnemySpawner {
 				output.put("hp", (int) (100 + 0.5 * currentWave));
 				output.put("damage", (int) (33 + 0.1 * currentWave));
 				output.put("currency", (int) 10);
+				break;
+				case "megapinsir":
+				output.put("speed", (int) ((0.8 + 0.2 * currentWave) * 10));
+				output.put("hp", (int) (500 + 0.5 * currentWave));
+				output.put("damage", (int) (50 + 0.1 * currentWave));
+				output.put("currency", (int) 20);
 				break;
 		}
 		return output;

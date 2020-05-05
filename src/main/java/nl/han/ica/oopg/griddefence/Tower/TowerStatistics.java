@@ -29,8 +29,17 @@ public class TowerStatistics {
             case 3:
                 output = towerThreeStats(upgradeNumber);
                 break;
+            case 4:
+                output = towerFourStats(upgradeNumber);
+                break;
+            case 5:
+                output = towerFiveStats(upgradeNumber);
+                break;
+            case 6:
+                output = towerSixStats(upgradeNumber);
+                break;
             default:
-                System.out.println("Beep boop error");
+                System.out.println("Beep boop error stats");
                 break;
         }
         return output;
@@ -55,8 +64,17 @@ public class TowerStatistics {
             case 3:
                 output = towerThreeName(upgradeNumber);
                 break;
+            case 4:
+                output = towerFourName(upgradeNumber);
+                break;
+            case 5:
+                output = towerFiveName(upgradeNumber);
+                break;
+            case 6:
+                output = towerSixName(upgradeNumber);
+                break;
             default:
-                System.out.println("Beep boop error");
+                System.out.println("Beep boop error name");
                 break;
         }
         return output;
@@ -135,6 +153,84 @@ public class TowerStatistics {
                 break;
             case 4:
                 output.put("name", "Charizard X");
+                break;
+        }
+        return output;
+    }
+
+    /**
+     * Gets the exact name of the tower 4.
+     * 
+     * @param upgradeNumber int upgradeNumber of the tower
+     * @return HashMap with the name of the tower.
+     */
+    private static HashMap<String, String> towerFourName(int upgradeNumber) {
+        HashMap<String, String> output = new HashMap<String, String>();
+
+        switch (upgradeNumber) {
+            case 1:
+                output.put("name", "Pidgey");
+                break;
+            case 2:
+                output.put("name", "Pidgeotto");
+                break;
+            case 3:
+                output.put("name", "Pidgeot");
+                break;
+            case 4:
+                output.put("name", "Mega Pidgeot");
+                break;
+        }
+        return output;
+    }
+
+    /**
+     * Gets the exact name of the tower 5.
+     * 
+     * @param upgradeNumber int upgradeNumber of the tower
+     * @return HashMap with the name of the tower.
+     */
+    private static HashMap<String, String> towerFiveName(int upgradeNumber) {
+        HashMap<String, String> output = new HashMap<String, String>();
+
+        switch (upgradeNumber) {
+            case 1:
+                output.put("name", "Abra");
+                break;
+            case 2:
+                output.put("name", "Kadabra");
+                break;
+            case 3:
+                output.put("name", "Alakazam");
+                break;
+            case 4:
+                output.put("name", "Mega Alakazam");
+                break;
+        }
+        return output;
+    }
+
+        /**
+     * Gets the exact name of the tower 6.
+     * 
+     * @param upgradeNumber int upgradeNumber of the tower
+     * @return HashMap with the name of the tower.
+     */
+    private static HashMap<String, String> towerSixName(int upgradeNumber) {
+        HashMap<String, String> output = new HashMap<String, String>();
+
+        switch (upgradeNumber) {
+            case 1:
+                output.put("name", "Zapdos");
+                break;
+            case 2:
+                output.put("name", "Moltres");
+                break;
+            case 3:
+                output.put("name", "Articuno");
+                break;
+            case 4:
+                output.put("name", "Mewtwo");
                 break;
         }
         return output;
@@ -294,6 +390,165 @@ public class TowerStatistics {
                 output.put("range", 12f);
                 output.put("damage", 100f);
                 output.put("rate", 1.0f);
+                break;
+        }
+        return output;
+    }
+
+    /**
+     * Gets the upgrade, cost, refund, range, damage and rate of tower 4.
+     * 
+     * @param upgradeNumber int upgradeNumber of the tower
+     * @return HashMap with upgrade, cost, refund, range, damage and rate floats.
+     */
+    private static HashMap<String, Float> towerFourStats(int upgradeNumber) {
+        HashMap<String, Float> output = new HashMap<String, Float>();
+
+        switch (upgradeNumber) {
+            case 1:
+                output.put("upgrade", 1f);
+                output.put("cost", 30f);
+                output.put("refund", 12f);
+
+                output.put("range", 3f);
+                output.put("damage", 10f);
+                output.put("rate", 1.0f);
+                break;
+
+            case 2:
+                output.put("upgrade", 2f);
+                output.put("cost", 45f);
+                output.put("refund", 30f);
+
+                output.put("range", 3f);
+                output.put("damage", 15f);
+                output.put("rate", 1.0f);
+                break;
+
+            case 3:
+                output.put("upgrade", 3f);
+                output.put("cost", 100f);
+                output.put("refund", 70f);
+
+                output.put("range", 4f);
+                output.put("damage", 20f);
+                output.put("rate", 1.5f);
+                break;
+
+            case 4:
+                output.put("upgrade", 4f);
+                output.put("cost", 200f);
+                output.put("refund", 150f);
+
+                output.put("range", 5f);
+                output.put("damage", 25f);
+                output.put("rate", 1.5f);
+                break;
+        }
+        return output;
+    }
+
+    /**
+     * Gets the upgrade, cost, refund, range, damage and rate of tower 5.
+     * 
+     * @param upgradeNumber int upgradeNumber of the tower
+     * @return HashMap with upgrade, cost, refund, range, damage and rate floats.
+     */
+    private static HashMap<String, Float> towerFiveStats(int upgradeNumber) {
+        HashMap<String, Float> output = new HashMap<String, Float>();
+
+        switch (upgradeNumber) {
+            case 1:
+                output.put("upgrade", 1f);
+                output.put("cost", 50f);
+                output.put("refund", 20f);
+
+                output.put("range", 5f);
+                output.put("damage", 25f);
+                output.put("rate", 2.0f);
+                break;
+
+            case 2:
+                output.put("upgrade", 2f);
+                output.put("cost", 80f);
+                output.put("refund", 52f);
+
+                output.put("range", 6f);
+                output.put("damage", 25f);
+                output.put("rate", 2.0f);
+                break;
+
+            case 3:
+                output.put("upgrade", 3f);
+                output.put("cost", 180f);
+                output.put("refund", 124f);
+
+                output.put("range", 8f);
+                output.put("damage", 30f);
+                output.put("rate", 2.0f);
+                break;
+
+            case 4:
+                output.put("upgrade", 4f);
+                output.put("cost", 300f);
+                output.put("refund", 244f);
+
+                output.put("range", 10f);
+                output.put("damage", 45f);
+                output.put("rate", 2.0f);
+                break;
+        }
+        return output;
+    }
+
+        /**
+     * Gets the upgrade, cost, refund, range, damage and rate of tower 6.
+     * 
+     * @param upgradeNumber int upgradeNumber of the tower
+     * @return HashMap with upgrade, cost, refund, range, damage and rate floats.
+     */
+    private static HashMap<String, Float> towerSixStats(int upgradeNumber) {
+        HashMap<String, Float> output = new HashMap<String, Float>();
+
+        switch (upgradeNumber) {
+            case 1:
+                output.put("upgrade", 1f);
+                output.put("cost", 400f);
+                output.put("refund", 20f);
+
+                output.put("range", 10f);
+                output.put("damage", 80f);
+                output.put("rate", 3.0f);
+                break;
+
+            case 2:
+                output.put("upgrade", 2f);
+                output.put("cost", 500f);
+                output.put("refund", 52f);
+
+                output.put("range", 12f);
+                output.put("damage", 90f);
+                output.put("rate", 3.0f);
+                break;
+
+            case 3:
+                output.put("upgrade", 3f);
+                output.put("cost", 600f);
+                output.put("refund", 124f);
+
+                output.put("range", 12f);
+                output.put("damage", 150f);
+                output.put("rate", 3.0f);
+                break;
+
+            case 4:
+                output.put("upgrade", 4f);
+                output.put("cost", 800f);
+                output.put("refund", 244f);
+
+                output.put("range", 14f);
+                output.put("damage", 200f);
+                output.put("rate", 4.0f);
                 break;
         }
         return output;
