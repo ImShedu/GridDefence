@@ -149,7 +149,7 @@ public class Tower extends ClickableObject {
      */
     public void upgradeTower() {
         int nextUpgrade = ((int) getUpgradeNumber() + 1);
-        float cost = TowerStatistics.getTowerStats(towerNumber, nextUpgrade).get("cost");
+        int cost = Math.round(TowerStatistics.getTowerStats(towerNumber, nextUpgrade).get("cost"));
         
         if (upgradeNumber <= 4) {
             if (Currency.getCurrency() >= cost) {
