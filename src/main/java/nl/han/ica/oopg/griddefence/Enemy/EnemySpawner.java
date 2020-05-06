@@ -54,7 +54,7 @@ public class EnemySpawner {
 	}
 
 	/**
-	 * 
+	 * Calls the waveDoneHandler() after spawning all the enemies in this wave.
 	 */
 	public void spawnerDoneHandler() {
 		spawnedEnemies = 0;
@@ -80,7 +80,7 @@ public class EnemySpawner {
 	}
 
 	/**
-	 * This handles the waves, checks every second if there are still enemies.I If
+	 * This handles the waves, checks every second if there are still enemies. If
 	 * there are none, the next wave is started.
 	 */
 	public void waveDoneHandler() { // Would be nice to do this event based
@@ -139,7 +139,7 @@ public class EnemySpawner {
 				output.put("damage", (int) (33 + 0.1 * currentWave));
 				output.put("currency", (int) 10);
 				break;
-				case "megapinsir":
+			case "megapinsir":
 				output.put("speed", (int) ((0.8 + 0.2 * currentWave) * 10));
 				output.put("hp", (int) (500 + 0.5 * currentWave));
 				output.put("damage", (int) (50 + 0.1 * currentWave));

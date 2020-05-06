@@ -24,8 +24,6 @@ public class UserInterface extends GameObject {
     /**
      * 
      * @param world        GridDefence The world for the tower to be in.
-     * @param enemySpawner EnemySpawner The spawner the interface needs information
-     *                     about.
      * @param tower        Tower The tower the interface needs information about.
      */
     public UserInterface(GridDefence world, Tower tower) {

@@ -34,6 +34,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
      * @param x          int X coordinate of the enemy.
      * @param y          int Y coordinate of the enemy.
      * @param size       int size of the enemy.
+     * @param enemyType  String The name of the enemy type.
      * @param properties HashMap HashMap of the enemy properties.
      */
     public Enemy(GridDefence world, int x, int y, int size, String enemyType, HashMap<String, Integer> properties) {
