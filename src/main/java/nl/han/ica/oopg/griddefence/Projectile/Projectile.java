@@ -10,7 +10,6 @@ import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 /**
  * Projectile is an object from the game, used by the Tower. The projectile
