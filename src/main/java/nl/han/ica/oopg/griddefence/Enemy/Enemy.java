@@ -11,7 +11,6 @@ import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import nl.han.ica.oopg.tile.Tile;
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 /**
  * Enemy is an object in the game that only has one purpose. Walk from the
@@ -23,7 +22,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
 
     private GridDefence world;
     private int hp, damage, currency;
-    private final int maxHP;
+    private final int MAXHP;
     private float speed;
     private Sprite enemySprite;
     private boolean enemyIsAlive = true;
@@ -41,7 +40,7 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         super(x, y, size, size);
         this.world = world;
         this.speed = (float) (properties.get("speed") / 10.0);
-        this.maxHP = properties.get("hp");
+        this.MAXHP = properties.get("hp");
         this.hp = properties.get("hp");
         this.damage = properties.get("damage");
         this.currency = properties.get("currency");
@@ -194,15 +193,8 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         g.rect(x, y - 5, 40, 8);
 
         g.fill(0, 250, 0);
-        g.rect(x, y - 5, Math.round((40.0 * this.maxHP) / this.hp), 8);
+        g.rect(x, y - 5, Math.round((40.0 * this.MAXHP) / this.hp), 8);
 
         g.fill(255, 255, 255);
-    }
-
-    /**
-     * Get the PImage object from the enemy sprite.
-     */
-    public PImage getImage() {
-        return enemySprite.getPImage();
     }
 }

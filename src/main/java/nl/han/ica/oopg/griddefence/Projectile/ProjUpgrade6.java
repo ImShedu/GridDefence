@@ -29,7 +29,7 @@ public class ProjUpgrade6 extends Projectile {
      * Changes the current projectile sprite.
      */
     @Override
-    public void changeProjectileSprite() {
+    protected void changeProjectileSprite() {
         super.getProjectileSprite().setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade6.png");
     }
 
@@ -37,7 +37,7 @@ public class ProjUpgrade6 extends Projectile {
      * The effect of the projectile.
      */
     @Override
-    public void projectileEffect() {
+    protected void projectileEffect() {
         enemy.setEnemySpeed(0);
         Currency.addCurrency(enemy.getEnemyCurrency());
     }

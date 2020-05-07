@@ -45,7 +45,7 @@ public class EnemyDetection extends GameObject implements ICollidableWithGameObj
     }
 
     /**
-     * Gets teh first object (enemy) in the list (enemyInArea).
+     * Gets the first object (enemy) in the list (enemyInArea).
      * 
      * @return The first object (enemy) in the list (enemyInArea).
      */

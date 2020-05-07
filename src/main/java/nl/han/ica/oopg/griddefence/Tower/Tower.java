@@ -50,7 +50,7 @@ public class Tower extends ClickableObject {
     /**
      * Selects the sprite with the given towerNumber and upgradeNumber.
      */
-    public void towerSprite() {
+    private void towerSprite() {
         towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber + "upgrade"
                 + upgradeNumber + ".png");
     }

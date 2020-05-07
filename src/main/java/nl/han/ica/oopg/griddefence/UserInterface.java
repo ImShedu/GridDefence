@@ -105,7 +105,7 @@ public class UserInterface extends GameObject {
      * 
      * @param g PGraphics the draw tool we use to draw.
      */
-    public void modeSelection(PGraphics g) {
+    private void modeSelection(PGraphics g) {
         // Game mode selection window
         g.fill(255, 255, 255); // White background
         g.rect(1160, 560, 240, 40); // Window

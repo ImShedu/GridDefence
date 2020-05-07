@@ -39,7 +39,7 @@ public class EnemySpawner {
 	/**
 	 * This will start running the wave system by calling two other methods.
 	 */
-	public void runGame() {
+	private void runGame() {
 		announceWave();
 		startWave();
 	}
@@ -56,7 +56,7 @@ public class EnemySpawner {
 	/**
 	 * Calls the waveDoneHandler() after spawning all the enemies in this wave.
 	 */
-	public void spawnerDoneHandler() {
+	private void spawnerDoneHandler() {
 		spawnedEnemies = 0;
 		waveDoneHandler(); // Start running the waveDoneHandler
 	}
@@ -83,7 +83,7 @@ public class EnemySpawner {
 	 * This handles the waves, checks every second if there are still enemies. If
 	 * there are none, the next wave is started.
 	 */
-	public void waveDoneHandler() { // Would be nice to do this event based
+	private void waveDoneHandler() { // Would be nice to do this event based
 		if (enemyList.size() != 0) {
 			// System.out.println("The wave is not done yet, waiting another second");
 			setTimeout(() -> waveDoneHandler(), 1000);
@@ -103,7 +103,7 @@ public class EnemySpawner {
 	 * @param wave int The wave for which to get the amounts
 	 * @return HashMap<String, Integer> dratini, dragonair, dragonite
 	 */
-	public HashMap<String, Integer> getEnemies(int wave) {
+	private HashMap<String, Integer> getEnemies(int wave) {
 		HashMap<String, Integer> output = new HashMap<String, Integer>();
 		output.put("dratini", (int) (wave * 1.5 + Math.random()));
 		output.put("dragonair", (int) ((wave - 3) * 0.5 + Math.random() * 0.02 * wave));
@@ -154,7 +154,7 @@ public class EnemySpawner {
 	 * there are none, the next wave is started. Starts a wave uses the currentWave
 	 * integer to get which enemies should be created
 	 */
-	public void startWave() {
+	private void startWave() {
 		announceWave();
 		HashMap<String, Integer> enemies = getEnemies(currentWave);
 
@@ -172,14 +172,14 @@ public class EnemySpawner {
 	/**
 	 * Makes a println when all the waves have been defeated.
 	 */
-	public void wavesDone() {
+	private void wavesDone() {
 		System.out.println("All (" + waves + ") waves have been completed.");
 	}
 
 	/**
 	 * Makes a println stating the current wave.
 	 */
-	public void announceWave() {
+	private void announceWave() {
 		System.out.println("Staring wave " + currentWave + "!");
 	}
 
@@ -191,10 +191,9 @@ public class EnemySpawner {
 	 * @param interval int The time (in milliseconds))to wait between the enemies.
 	 * @param random   int The amount of milliseconds to randomise the spawner by.
 	 */
-	public void spawnEnemies(int amount, String type, int interval, int random) {
-		HashMap<String, Integer> properties = getEnemyProperties(type);
+	private void spawnEnemies(int amount, String type, int interval, int random) {
 		if (spawnedEnemies < amount) {
-			spawnEnemy(1, 1, type, properties.get("hp"), properties.get("speed"), properties.get("damage"));
+			spawnEnemy(1, 1, type);
 			setTimeout(() -> spawnEnemies(amount, type, interval, random), (int) (interval + random * Math.random()));
 		} else {
 			spawnerDoneHandler();
@@ -209,7 +208,7 @@ public class EnemySpawner {
 	 * @param delay    Time to wait in milliseconds
 	 */
 
-	public static void setTimeout(Runnable runnable, int delay) {
+	private void setTimeout(Runnable runnable, int delay) {
 		new Thread(() -> {
 			try {
 				Thread.sleep(delay);
@@ -223,18 +222,15 @@ public class EnemySpawner {
 	/**
 	 * Spawns a new enemy into the world.
 	 * 
-	 * @param x      int The X coordinate for the new enemy
-	 * @param y      int The Y coordinate for the new enemy
-	 * @param type   String the type of enemy to create [dratini, dragonair,
-	 *               dragonite]
-	 * @param hp     int the amount of health points the enemy will be created with
-	 * @param speed  int the speed of the enemy
-	 * @param damage int the amount of damage the enemy inflicts to the castle
+	 * @param x    int The X coordinate for the new enemy
+	 * @param y    int The Y coordinate for the new enemy
+	 * @param type String the type of enemy to create [dratini, dragonair,
+	 *             dragonite]
 	 */
-	public void spawnEnemy(int x, int y, String type, int hp, int speed, int damage) {
+	private void spawnEnemy(int x, int y, String type) {
 		spawnedEnemies++;
-		Enemy temp = new Enemy(world, x, y, world.getTileSize(), type, getEnemyProperties(type));
-		world.addGameObject(temp, 40, 40);
-		enemyList.add(temp);
+		Enemy newEnemy = new Enemy(world, x, y, world.getTileSize(), type, getEnemyProperties(type));
+		world.addGameObject(newEnemy, 40, 40);
+		enemyList.add(newEnemy);
 	}
 }

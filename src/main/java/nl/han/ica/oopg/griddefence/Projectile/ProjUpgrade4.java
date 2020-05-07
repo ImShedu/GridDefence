@@ -28,7 +28,7 @@ public class ProjUpgrade4 extends Projectile {
      * Changes the current projectile sprite.
      */
     @Override
-    public void changeProjectileSprite() {
+    protected void changeProjectileSprite() {
         super.getProjectileSprite().setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade4.png");
     }
 
@@ -36,7 +36,7 @@ public class ProjUpgrade4 extends Projectile {
      * The effect of the projectile.
      */
     @Override
-    public void projectileEffect() {
+    protected void projectileEffect() {
         enemy.setEnemySpeed(enemy.getEnemySpeed() / 2);
     }
 }

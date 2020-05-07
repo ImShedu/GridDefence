@@ -19,9 +19,9 @@ import processing.core.PImage;
  * This class is created by: Wyman Chau.
  */
 public class Projectile extends GameObject implements ICollidableWithGameObjects {
-    protected GridDefence world;
+    private GridDefence world;
     protected Enemy enemy;
-    protected Sprite projectileSprite;
+    private Sprite projectileSprite;
 
     /**
      * 
@@ -66,20 +66,20 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
      * 
      * @return The sprite of this projectile.
      */
-    public Sprite getProjectileSprite() {
+    protected Sprite getProjectileSprite() {
         return projectileSprite;
     }
 
     /**
      * Changes the current projectile sprite.
      */
-    public void changeProjectileSprite() {
+    protected void changeProjectileSprite() {
     }
 
     /**
      * The effect of the projectile.
      */
-    public void projectileEffect() {
+    protected void projectileEffect() {
     }
 
     /**

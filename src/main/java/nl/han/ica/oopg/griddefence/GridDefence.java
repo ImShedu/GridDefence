@@ -20,7 +20,7 @@ import processing.core.PApplet;
 import nl.han.ica.oopg.view.View;
 
 public class GridDefence extends GameEngine {
-    private final int tileSize = 40;
+    private final int TILESIZE = 40;
     private Tile previousTile;
     private ArrayList<ClickableObject> cObjects = new ArrayList<>();
     private EnemySpawner enemySpawner;
@@ -28,6 +28,7 @@ public class GridDefence extends GameEngine {
     private boolean gameIsPaused = false;
     private Tower towerBuild = null;
     private boolean towerClicked = false;
+    private ClickableObject buttonModeInf, buttonModeChl;
     private Sprite resetSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Board.jpg");
 
     public static void main(String[] args) {
@@ -91,8 +92,8 @@ public class GridDefence extends GameEngine {
         ClickableObject ButtonSellTower = new ClickableObject(0, 680, 40, 40, "ButtonSellTower");
         ClickableObject ButtonPause = new ClickableObject(1480, 760, 120, 40, "ButtonPause");
 
-        ClickableObject ButtonModeInf = new ClickableObject(1160, 600, 120, 40, "ButtonInfinite");
-        ClickableObject ButtonModeChl = new ClickableObject(1280, 600, 120, 40, "ButtonChallenge");
+        buttonModeInf = new ClickableObject(1160, 600, 120, 40, "ButtonInfinite");
+        buttonModeChl = new ClickableObject(1280, 600, 120, 40, "ButtonChallenge");
 
         addGameObject(ButtonTowerOne);
         addGameObject(ButtonTowerTwo);
@@ -103,8 +104,8 @@ public class GridDefence extends GameEngine {
         addGameObject(ButtonUpgradeTower);
         addGameObject(ButtonSellTower);
         addGameObject(ButtonPause);
-        addGameObject(ButtonModeInf);
-        addGameObject(ButtonModeChl);
+        addGameObject(buttonModeInf);
+        addGameObject(buttonModeChl);
 
         cObjects.add(ButtonTowerOne);
         cObjects.add(ButtonTowerTwo);
@@ -115,8 +116,8 @@ public class GridDefence extends GameEngine {
         cObjects.add(ButtonUpgradeTower);
         cObjects.add(ButtonSellTower);
         cObjects.add(ButtonPause);
-        cObjects.add(ButtonModeInf);
-        cObjects.add(ButtonModeChl);
+        cObjects.add(buttonModeInf);
+        cObjects.add(buttonModeChl);
     }
 
     /**
@@ -173,11 +174,15 @@ public class GridDefence extends GameEngine {
             if (bo.getName() == "ButtonInfinite" && bo.mouseClicked(mouseX, mouseY) && gameHasStarted == false) {
                 this.enemySpawner = new EnemySpawner(this, 1000); // Number of waves
                 gameHasStarted = true;
+                deleteGameObject(buttonModeInf);
+                cObjects.remove(buttonModeInf);
             }
 
             if (bo.getName() == "ButtonChallenge" && bo.mouseClicked(mouseX, mouseY) && gameHasStarted == false) {
                 this.enemySpawner = new EnemySpawner(this, 20); // Number of waves
                 gameHasStarted = true;
+                deleteGameObject(buttonModeChl);
+                cObjects.remove(buttonModeChl);
             }
         }
 
@@ -272,12 +277,12 @@ public class GridDefence extends GameEngine {
     }
 
     /**
-     * Gets the size of the tilesize.
+     * Gets the size of the TILESIZE.
      *
-     * @return The size of the tilesize.
+     * @return The size of the TILESIZE.
      */
     public int getTileSize() {
-        return tileSize;
+        return TILESIZE;
     }
 
     /**
@@ -286,12 +291,12 @@ public class GridDefence extends GameEngine {
      *
      * @param towerNumber int The number of the tower.
      */
-    public void createTower(int towerNumber) {
+    private void createTower(int towerNumber) {
         TileMap TM = getTileMap();
         float[] location = TM.getTilePixelLocation(previousTile).array();
 
-        // World, X & Y position, size (tileSize), Towernumber, Upgradenumber
-        Tower newTower = new Tower(this, location[0], location[1], tileSize, towerNumber);
+        // World, X & Y position, size (TILESIZE), Towernumber, Upgradenumber
+        Tower newTower = new Tower(this, location[0], location[1], TILESIZE, towerNumber);
         addGameObject(newTower);
         cObjects.add(newTower);
     }
@@ -358,7 +363,7 @@ public class GridDefence extends GameEngine {
 
         // TILEMAP
         TileType[] tileTypes = { boardTileType, pathTileType, noBuildTileType, castleTileType, spawnTileType };
-        // int tileSize = 40;
+        // int TILESIZE = 40;
         int tilesMap[][] = {
                 { 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                         0, 0, 0, 0, 0, 0, 0 },
@@ -401,7 +406,7 @@ public class GridDefence extends GameEngine {
                 { -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
                         0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1 } };
 
-        tileMap = new TileMap(tileSize, tileTypes, tilesMap);
+        tileMap = new TileMap(TILESIZE, tileTypes, tilesMap);
     }
 
     /**
