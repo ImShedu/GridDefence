@@ -7,7 +7,6 @@ import nl.han.ica.oopg.griddefence.Tower.TowerStatistics;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 /**
  * UserInterface contains all the drawings and text on the screen that counts as

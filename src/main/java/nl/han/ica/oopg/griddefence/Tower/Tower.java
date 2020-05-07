@@ -13,7 +13,6 @@ import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade6;
 import nl.han.ica.oopg.griddefence.Projectile.Projectile;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 /**
  * Tower is an object in the game that you can build, upgrade and sell. The
