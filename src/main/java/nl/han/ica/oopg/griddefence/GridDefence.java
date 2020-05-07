@@ -174,16 +174,19 @@ public class GridDefence extends GameEngine {
             if (bo.getName() == "ButtonInfinite" && bo.mouseClicked(mouseX, mouseY) && gameHasStarted == false) {
                 this.enemySpawner = new EnemySpawner(this, 1000); // Number of waves
                 gameHasStarted = true;
-                deleteGameObject(buttonModeInf);
-                cObjects.remove(buttonModeInf);
             }
 
             if (bo.getName() == "ButtonChallenge" && bo.mouseClicked(mouseX, mouseY) && gameHasStarted == false) {
                 this.enemySpawner = new EnemySpawner(this, 20); // Number of waves
                 gameHasStarted = true;
-                deleteGameObject(buttonModeChl);
-                cObjects.remove(buttonModeChl);
             }
+        }
+
+        if (gameHasStarted == true) {
+            deleteGameObject(buttonModeChl);
+            cObjects.remove(buttonModeChl);
+            deleteGameObject(buttonModeInf);
+            cObjects.remove(buttonModeInf);
         }
 
         if (tempSell != null) {
