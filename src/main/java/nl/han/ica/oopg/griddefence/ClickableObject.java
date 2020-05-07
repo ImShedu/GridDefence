@@ -73,6 +73,8 @@ public class ClickableObject extends GameObject {
 
     /**
      * Sets the number of the tower to the given number.
+     * 
+     * @param towerNumber int The number of the tower.
      */
     public void setTowerNumber(int towerNumber) {
         this.towerNumber = towerNumber;
@@ -82,6 +84,8 @@ public class ClickableObject extends GameObject {
      * Checks if the mouseclick is within the clickable object. If it is, it returns
      * true, otherwise false.
      * 
+     * @param mouseX int The x position for the mouse.
+     * @param mouseY int The y position for the mouse.
      * @return The mouseclick is within the clickable object.
      */
     public boolean mouseClicked(int mouseX, int mouseY) {

@@ -21,6 +21,8 @@ public class Currency {
 
     /**
      * Adds the given number on top of the current amount of currency.
+     * 
+     * @param plusCurrency int The currency added on top of the current amount.
      */
     public static void addCurrency(int plusCurrency) {
         currency += plusCurrency;
@@ -28,6 +30,8 @@ public class Currency {
 
     /**
      * Decreases the current amount of currency with the given number.
+     * 
+     * @param minusCurrency int The currency taken from the current amount.
      */
     public static void decreaseCurrency(int minusCurrency) {
         currency -= minusCurrency;
