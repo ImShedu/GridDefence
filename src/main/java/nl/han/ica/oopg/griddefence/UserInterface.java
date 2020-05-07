@@ -215,13 +215,6 @@ public class UserInterface extends GameObject {
     }
 
     /**
-     * Get the PImage object from the tower sprite.
-     */
-    public PImage getImage() {
-        return towerSprite.getPImage();
-    }
-
-    /**
      * Implement this method to update the objects that need to be drawn.
      */
     @Override

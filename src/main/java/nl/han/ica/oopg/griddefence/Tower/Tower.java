@@ -229,11 +229,4 @@ public class Tower extends ClickableObject {
     public void draw(PGraphics g) {
         g.image(towerSprite.getPImage(), x, y);
     }
-
-    /**
-     * Get the PImage object from the tower sprite.
-     */
-    public PImage getImage() {
-        return towerSprite.getPImage();
-    }
 }

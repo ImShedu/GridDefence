@@ -105,11 +105,4 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
     public void draw(PGraphics g) {
         g.image(projectileSprite.getPImage(), getCenterX(), getCenterY());
     }
-
-    /**
-     * Get the PImage object from the projectile sprite.
-     */
-    public PImage getImage() {
-        return projectileSprite.getPImage();
-    }
 }
