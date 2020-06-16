@@ -9,6 +9,89 @@ import java.util.HashMap;
  * This class is created by: Wyman Chau.
  */
 public class TowerStatistics {
+    // { TowerNumber / UpgradeNumber / Cost / Refund / Range / Damage / Rate } >>
+    // Name???
+    public static float[][] towerStats1 = new float[][] { { 1f, 1f, 20f, 8f, 3f, 15f, 1.0f },
+            { 1f, 2f, 20f, 16f, 5f, 15f, 1.5f }, { 1f, 3f, 50f, 36f, 5f, 25f, 2.0f },
+            { 1f, 4f, 185f, 110f, 6f, 35f, 5.0f }, { 2f, 1f, 50f, 20f, 10f, 5f, 0.5f }, //35
+            { 2f, 2f, 30f, 32f, 12f, 35f, 0.5f }, { 2f, 3f, 55f, 54f, 15f, 35f, 1.0f },
+            { 2f, 4f, 210f, 138f, 20f, 50f, 1.5f }, { 3f, 1f, 75f, 30f, 6f, 85f, 0.3f },
+            { 3f, 2f, 100f, 70f, 10f, 85f, 0.3f }, { 3f, 3f, 120f, 118f, 10f, 85f, 0.9f },
+            { 3f, 4f, 250f, 218f, 12f, 100f, 1.0f }, { 4f, 1f, 30f, 12f, 3f, 10f, 1.0f },
+            { 4f, 2f, 45f, 30f, 3f, 15f, 1.0f }, { 4f, 3f, 100f, 70f, 4f, 20f, 1.5f },
+            { 4f, 4f, 200f, 150f, 5f, 25f, 1.5f }, { 5f, 1f, 50f, 20f, 5f, 25f, 2.0f },
+            { 5f, 2f, 80f, 52f, 6f, 25f, 2.0f }, { 5f, 3f, 180f, 124f, 8f, 30f, 2.0f },
+            { 5f, 4f, 300f, 244f, 10f, 45f, 2.0f }, { 6f, 1f, 400f, 160f, 10f, 80f, 3.0f },
+            { 6f, 2f, 500f, 360f, 12f, 90f, 3.0f }, { 6f, 3f, 800f, 680f, 12f, 150f, 3.0f },
+            { 6f, 4f, 1000f, 1080f, 14f, 200f, 4.0f } };
+
+    public static String[][] towerName1 = new String[][] { { "1", "Bulbasaur", "Ivysaur", "Venusaur", "Mega Venusaur" },
+            { "2", "Squirtle", "Wartortle", "Blastoise", "Mega Blastoise" },
+            { "3", "Charmander", "Charmeleon", "Charizard", "Charizard X" },
+            { "4", "Pidgey", "Pidgeotto", "Pidgeot", "Mega Pidgeot" },
+            { "5", "Abra", "Kadabra", "Alakazam", "Mega Alakazam" },
+            { "6", "Zapdos", "Moltres", "Articuno", "Mewtwo" } };
+
+    /**
+     * Gets the exact name of the given tower.
+     * 
+     * @param towerNumber   int towerNumber of the tower.
+     * @param upgradeNumber int upgradeNumber of the tower.
+     */
+    public static String getTowerName(int towerNumber, int upgradeNumber) {
+        String name = null;
+
+        for (int i = 0; i < towerName1.length; i++) {
+            if (towerName1[i][0].equals("" + towerNumber)) {
+                name = towerName1[i][upgradeNumber];
+            }
+        }
+        return name;
+    }
+
+    /**
+     * Gets the exact statistic of the given tower.
+     * 
+     * @param statistic     String required statistic of the tower.
+     * @param towerNumber   int towerNumber of the tower.
+     * @param upgradeNumber int upgradeNumber of the tower.
+     */
+    public static float getTowerStats(String statistic, int towerNumber, int upgradeNumber) {
+        float output = 0;
+
+        for (int i = 0; i < towerStats1.length; i++) {
+            // for (int j = 0; j < towerStats1[i].length; j++) {
+            if (towerStats1[i][0] == towerNumber) {
+                if (towerStats1[i][1] == upgradeNumber) {
+                    // System.out.println("TN:"+towerNumber+" UN:"+upgradeNumber+" /
+                    // "+towerStats1[i][2]);
+                    switch (statistic) {
+                        case "cost":
+                            output = towerStats1[i][2];
+                            break;
+
+                        case "refund":
+                            output = towerStats1[i][3];
+                            break;
+
+                        case "range":
+                            output = towerStats1[i][4];
+                            break;
+
+                        case "damage":
+                            output = towerStats1[i][5];
+                            break;
+
+                        case "rate":
+                            output = towerStats1[i][6];
+                            break;
+                    }
+                }
+            }
+        }
+        // }
+        return output;
+    }
 
     /**
      * Gets the correct method for the tower.
@@ -17,7 +100,7 @@ public class TowerStatistics {
      * @param upgradeNumber int upgradeNumber of the tower.
      * @return HashMap with the tower statistics method of the tower.
      */
-    public static HashMap<String, Float> getTowerStats(int towerNumber, int upgradeNumber) {
+    public static HashMap<String, Float> getTowerStats1(int towerNumber, int upgradeNumber) {
         HashMap<String, Float> output = new HashMap<String, Float>();
         switch (towerNumber) {
             case 1:
@@ -52,7 +135,7 @@ public class TowerStatistics {
      * @param upgradeNumber int upgradeNumber of the tower.
      * @return HashMap with the tower name method of the tower.
      */
-    public static HashMap<String, String> getTowerName(int towerNumber, int upgradeNumber) {
+    public static HashMap<String, String> getTowerName1(int towerNumber, int upgradeNumber) {
         HashMap<String, String> output = new HashMap<String, String>();
         switch (towerNumber) {
             case 1:
@@ -210,7 +293,7 @@ public class TowerStatistics {
         return output;
     }
 
-        /**
+    /**
      * Gets the exact name of the tower 6.
      * 
      * @param upgradeNumber int upgradeNumber of the tower
@@ -501,7 +584,7 @@ public class TowerStatistics {
         return output;
     }
 
-        /**
+    /**
      * Gets the upgrade, cost, refund, range, damage and rate of tower 6.
      * 
      * @param upgradeNumber int upgradeNumber of the tower

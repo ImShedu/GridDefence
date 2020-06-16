@@ -4,12 +4,6 @@ import nl.han.ica.oopg.griddefence.ClickableObject;
 import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
-import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade1;
-import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade2;
-import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade3;
-import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade4;
-import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade5;
-import nl.han.ica.oopg.griddefence.Projectile.ProjUpgrade6;
 import nl.han.ica.oopg.griddefence.Projectile.Projectile;
 import nl.han.ica.oopg.objects.Sprite;
 import processing.core.PGraphics;
@@ -58,7 +52,7 @@ public class Tower extends ClickableObject {
      * Draws the enemy detection box around the tower.
      */
     private void enemyDetection() {
-        float range = TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("range");
+        float range = TowerStatistics.getTowerStats("range", towerNumber, upgradeNumber);
         int tileSize = world.getTileSize();
 
         this.enemyDetection = new EnemyDetection(((x - range * tileSize) + 15), ((y - range * tileSize) + 15),
@@ -82,32 +76,9 @@ public class Tower extends ClickableObject {
      */
     private void shootProjectile(Enemy enemy) {
         // X & Y position, Size, GameObject, Damage, World
-        Projectile projectile = new Projectile(world, x, y, 10, enemy);
-
-        if (upgradeNumber == 4) {
-            switch (towerNumber) {
-                case 1:
-                    projectile = new ProjUpgrade1(world, x, y, 10, enemy);
-                    break;
-                case 2:
-                    projectile = new ProjUpgrade2(world, x, y, 10, enemy);
-                    break;
-                case 3:
-                    projectile = new ProjUpgrade3(world, x, y, 10, enemy);
-                    break;
-                case 4:
-                    projectile = new ProjUpgrade4(world, x, y, 10, enemy);
-                    break;
-                case 5:
-                    projectile = new ProjUpgrade5(world, x, y, 10, enemy);
-                    break;
-                case 6:
-                    projectile = new ProjUpgrade6(world, x, y, 10, enemy);
-                    break;
-            }
-        }
+        Projectile projectile = new Projectile(world, x, y, 10, enemy, towerNumber, upgradeNumber);
         world.addGameObject(projectile);
-        enemy.enemyTakeDamage(Math.round((TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("damage"))));
+        enemy.enemyTakeDamage(Math.round((TowerStatistics.getTowerStats("damage", towerNumber, upgradeNumber))));
     }
 
     /**
@@ -148,8 +119,8 @@ public class Tower extends ClickableObject {
      */
     public void upgradeTower() {
         int nextUpgrade = ((int) getUpgradeNumber() + 1);
-        int cost = Math.round(TowerStatistics.getTowerStats(towerNumber, nextUpgrade).get("cost"));
-        
+        int cost = Math.round(TowerStatistics.getTowerStats("cost", towerNumber, nextUpgrade));
+
         if (upgradeNumber <= 4) {
             if (Currency.getCurrency() >= cost) {
                 Currency.decreaseCurrency((int) cost);
@@ -179,7 +150,7 @@ public class Tower extends ClickableObject {
         int refund = 0;
 
         // Refund amount
-        refund = Math.round(TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("refund"));
+        refund = Math.round(TowerStatistics.getTowerStats("refund", towerNumber, upgradeNumber));
 
         // Add refund amount to currency
         Currency.addCurrency(refund);
@@ -197,7 +168,7 @@ public class Tower extends ClickableObject {
      */
     private boolean globalCD() {
         return world.millis()
-                - startTime > (1000 / (TowerStatistics.getTowerStats(towerNumber, upgradeNumber).get("rate")));
+                - startTime > (1000 / (TowerStatistics.getTowerStats("rate", towerNumber, upgradeNumber)));
     }
 
     /**

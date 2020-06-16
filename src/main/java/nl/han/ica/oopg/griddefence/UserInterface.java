@@ -58,13 +58,9 @@ public class UserInterface extends GameObject {
      */
     private void towerInformation(PGraphics g, Tower tower) {
         Sprite upgradeSprite;
-        HashMap<String, Float> towerStats;
-        HashMap<String, String> towerName;
 
         int towerNumber = tower.getTowerNumber();
         int upgradeNumber = tower.getUpgradeNumber();
-        towerStats = TowerStatistics.getTowerStats(towerNumber, upgradeNumber);
-        towerName = TowerStatistics.getTowerName(towerNumber, upgradeNumber);
 
         towerSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/tower" + towerNumber + "upgrade"
                 + upgradeNumber + ".png");
@@ -83,14 +79,14 @@ public class UserInterface extends GameObject {
         g.textAlign(LEFT, CENTER); // Align text to leftside
 
         // Tower information
-        g.text("Level: " + Math.round(towerStats.get("upgrade")), 20, 740);
-        g.text("Range: " + Math.round(towerStats.get("range")), 20, 780);
-        g.text("Dmg: " + Math.round(towerStats.get("damage")), 140, 740);
-        g.text("Rate: " + towerStats.get("rate"), 140, 780);
+        g.text("Level: " + Math.round(TowerStatistics.getTowerStats("upgrade", towerNumber, upgradeNumber)), 20, 740);
+        g.text("Range: " + Math.round(TowerStatistics.getTowerStats("range", towerNumber, upgradeNumber)), 20, 780);
+        g.text("Dmg: " + Math.round(TowerStatistics.getTowerStats("damage", towerNumber, upgradeNumber)), 140, 740);
+        g.text("Rate: " + TowerStatistics.getTowerStats("rate", towerNumber, upgradeNumber), 140, 780);
 
         // Tower Sprite next to name
         g.image(towerSprite.getPImage(), 40, 680);
-        g.text(towerName.get("name"), 85, 700);
+        g.text(TowerStatistics.getTowerName(towerNumber, upgradeNumber), 85, 700);
 
         // Upgrade tower sprite
         g.image(upgradeSprite.getPImage(), 200, 680);

@@ -1,8 +1,5 @@
 package nl.han.ica.oopg.griddefence.Projectile;
 
-import java.util.List;
-
-import nl.han.ica.oopg.collision.ICollidableWithGameObjects;
 import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
 import nl.han.ica.oopg.griddefence.Enemy.Enemy;
@@ -17,68 +14,111 @@ import processing.core.PGraphics;
  * <p>
  * This class is created by: Wyman Chau.
  */
-public class Projectile extends GameObject implements ICollidableWithGameObjects {
-    private GridDefence world;
-    protected Enemy enemy;
-    private Sprite projectileSprite;
+public class Projectile extends GameObject {
+    protected GridDefence world;
+    private Enemy enemy;
+    private int towerNumber, upgradeNumber;
+    protected Sprite objectSprite;
 
     /**
      * 
-     * @param world GridDefence The world for the projectile to be in.
-     * @param x     float X coordinate of the projectile.
-     * @param y     float Y coordinate of the projectile.
-     * @param size  int size of the projectile.
-     * @param enemy Enemy The enemy the projectile shoots at.
+     * @param world         GridDefence The world for the projectile to be in.
+     * @param x             float X coordinate of the projectile.
+     * @param y             float Y coordinate of the projectile.
+     * @param size          int size of the projectile.
+     * @param enemy         Enemy The enemy the projectile shoots at.
+     * @param towerNumber   int Towernumber of the tower.
+     * @param upgradeNumber int Upgradenumber of the tower.
      */
-    public Projectile(GridDefence world, float x, float y, int size, Enemy enemy) {
+    public Projectile(GridDefence world, float x, float y, int size, Enemy enemy, int towerNumber, int upgradeNumber) {
         super(x, y, size, size);
         this.world = world;
         this.enemy = enemy;
-        projectileSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Pokeball.png");
+        this.towerNumber = towerNumber;
+        this.upgradeNumber = upgradeNumber;
+        objectSprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/Pokeball.png");
+        changeProjectileSprite();
+        objectEffect();
+    }
+
+    public Enemy getEnemyTarget() {
+        return enemy;
+    }
+
+    public void despawnObject(GameObject object) {
+        // if (enemy.getEnemyIsAlive()) {
+        // System.out.println("TEST0");
+        // world.deleteGameObject(this);
+        // }
+
+        if (EnemySpawner.getEnemyList().contains(enemy)) {
+            setDirectionSpeed(getAngleFrom(enemy), 20);
+            // System.out.println("TEST1");
+            // world.deleteGameObject(this);
+        } else {
+            // System.out.println("TEST23");
+            enemy = null;
+            world.deleteGameObject(this);
+        }
+
     }
 
     /**
-     * Contains a list with all the GameObjects the projectile collides at. If the
-     * projectile collides with our enemy, it will remove the projectile and the
-     * enemy if that's necessary.
-     * 
-     * @param collidedGameObjects list The list of the GameObjects the projectile
-     *                            collides with.
+     * The effect of the projectile based on the towerNumber.
      */
-    @Override
-    public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
-        for (GameObject g : collidedGameObjects) {
-            if (g == enemy) {
-                if (!enemy.getEnemyIsAlive()) {
-                    world.deleteGameObject(enemy);
-                    EnemySpawner.handleEnemyDeath(enemy);
+    protected void objectEffect() {
+        if (upgradeNumber == 4) {
+            switch (towerNumber) {
+                case 1: // Enemy speed 50%
+                    enemy.setEnemySpeed(enemy.getEnemySpeed() / 2);
+                    break;
+                case 2: // Enemy speed 0%
+                    enemy.setEnemySpeed(0);
+                    break;
+                case 3: // Enemy currency per shot
                     Currency.addCurrency(enemy.getEnemyCurrency());
-                } else {
-                    world.deleteGameObject(this);
-                }
+                    break;
+                case 4: // Enemy speed 25%
+                    enemy.setEnemySpeed(enemy.getEnemySpeed() / 4);
+                    break;
+                case 5: // Enemy speed 300% & currency per shot
+                    enemy.setEnemySpeed(enemy.getEnemySpeed() * 3);
+                    Currency.addCurrency(enemy.getEnemyCurrency() * 3);
+                    break;
+                case 6: // Enemy speed 0% & currency per shot
+                    enemy.setEnemySpeed(0);
+                    Currency.addCurrency(enemy.getEnemyCurrency());
+                    break;
             }
         }
     }
 
     /**
-     * Gets the sprite of this projectile.
-     * 
-     * @return The sprite of this projectile.
+     * Changes the current projectile sprite based on the towerNumber.
      */
-    protected Sprite getProjectileSprite() {
-        return projectileSprite;
-    }
-
-    /**
-     * Changes the current projectile sprite.
-     */
-    protected void changeProjectileSprite() {
-    }
-
-    /**
-     * The effect of the projectile.
-     */
-    protected void projectileEffect() {
+    private void changeProjectileSprite() {
+        if (upgradeNumber == 4) {
+            switch (towerNumber) {
+                case 1:
+                    objectSprite.setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade1.png");
+                    break;
+                case 2:
+                    objectSprite.setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade2.png");
+                    break;
+                case 3:
+                    objectSprite.setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade3.png");
+                    break;
+                case 4:
+                    objectSprite.setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade4.png");
+                    break;
+                case 5:
+                    objectSprite.setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade5.png");
+                    break;
+                case 6:
+                    objectSprite.setSprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/ProjUpgrade6.png");
+                    break;
+            }
+        }
     }
 
     /**
@@ -87,12 +127,7 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
      */
     @Override
     public void update() {
-        if (EnemySpawner.getEnemyList().contains(enemy)) {
-            setDirectionSpeed(getAngleFrom(enemy), 20);
-        } else {
-            enemy = null;
-            world.deleteGameObject(this);
-        }
+        despawnObject(this);
     }
 
     /**
@@ -102,6 +137,6 @@ public class Projectile extends GameObject implements ICollidableWithGameObjects
      */
     @Override
     public void draw(PGraphics g) {
-        g.image(projectileSprite.getPImage(), getCenterX(), getCenterY());
+        g.image(objectSprite.getPImage(), getCenterX(), getCenterY());
     }
 }

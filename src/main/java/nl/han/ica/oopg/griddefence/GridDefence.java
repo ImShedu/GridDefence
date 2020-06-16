@@ -1,6 +1,7 @@
 package nl.han.ica.oopg.griddefence;
 
 import nl.han.ica.oopg.griddefence.Enemy.EnemySpawner;
+import nl.han.ica.oopg.griddefence.Projectile.Wall;
 import nl.han.ica.oopg.griddefence.Tiles.BoardsTile;
 import nl.han.ica.oopg.griddefence.Tiles.CastleTile;
 import nl.han.ica.oopg.griddefence.Tiles.NoBuildTile;
@@ -196,7 +197,7 @@ public class GridDefence extends GameEngine {
 
         if (temp != null && previousTile != null && towerClicked == false) {
             int towerNumber = temp.getTowerNumber();
-            int cost = Math.round(TowerStatistics.getTowerStats(towerNumber, 1).get("cost"));
+            int cost = Math.round(TowerStatistics.getTowerStats("cost", towerNumber, 1));
 
             if (temp.checkTowerNumber()) {
                 if (Currency.getCurrency() >= cost) {
@@ -209,7 +210,7 @@ public class GridDefence extends GameEngine {
                     towerClicked = false;
 
                     System.out.println("You have build tower " + towerNumber + ": "
-                            + TowerStatistics.getTowerName(towerNumber, 1).get("name") + ".");
+                            + TowerStatistics.getTowerName(towerNumber, 1) + ".");
                 } else {
                     System.out.println("You need €" + (cost - Currency.getCurrency()) + " more.");
                 }

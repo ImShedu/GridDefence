@@ -2,11 +2,16 @@ package nl.han.ica.oopg.griddefence.Enemy;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import nl.han.ica.oopg.collision.CollidedTile;
+import nl.han.ica.oopg.collision.ICollidableWithGameObjects;
 import nl.han.ica.oopg.collision.ICollidableWithTiles;
 import nl.han.ica.oopg.griddefence.Castle;
+import nl.han.ica.oopg.griddefence.Currency;
 import nl.han.ica.oopg.griddefence.GridDefence;
+import nl.han.ica.oopg.griddefence.Projectile.Projectile;
+import nl.han.ica.oopg.griddefence.Projectile.Wall;
 import nl.han.ica.oopg.objects.GameObject;
 import nl.han.ica.oopg.objects.Sprite;
 import nl.han.ica.oopg.tile.Tile;
@@ -18,12 +23,13 @@ import processing.core.PGraphics;
  * <p>
  * This class is created by: Wyman Chau.
  */
-public class Enemy extends GameObject implements ICollidableWithTiles {
+public class Enemy extends GameObject implements ICollidableWithTiles, ICollidableWithGameObjects {
 
     private GridDefence world;
-    private int hp, damage, currency;
+    private int hp, damage, currency, startTime;
     private final int MAXHP;
     private float speed;
+    private final float MAXSPEED;
     private Sprite enemySprite;
     private boolean enemyIsAlive = true;
 
@@ -39,11 +45,13 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     public Enemy(GridDefence world, int x, int y, int size, String enemyType, HashMap<String, Integer> properties) {
         super(x, y, size, size);
         this.world = world;
+        this.MAXSPEED = (float) (properties.get("speed") / 10.0);
         this.speed = (float) (properties.get("speed") / 10.0);
         this.MAXHP = properties.get("hp");
         this.hp = properties.get("hp");
         this.damage = properties.get("damage");
         this.currency = properties.get("currency");
+        startTime = 0;
         enemySprite = new Sprite("src/main/java/nl/han/ica/oopg/griddefence/Resource/" + enemyType + ".png");
         setDirectionSpeed(90, this.speed);
     }
@@ -98,6 +106,58 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
      */
     public boolean getEnemyIsAlive() {
         return enemyIsAlive;
+    }
+
+    /**
+     * Contains a list with all the GameObjects the enemy collides at. If the
+     * enemy collides with our projectile, it will remove the projectile and the
+     * enemy if that's necessary.
+     * 
+     * @param collidedGameObjects list The list of the GameObjects the enemy
+     *                            collides with.
+     */
+    @Override
+    public void gameObjectCollisionOccurred(List<GameObject> collidedGameObjects) {
+        for (GameObject g : collidedGameObjects) {
+            // System.out.println(collidedGameObjects);
+            if (g instanceof Projectile) {
+                if (((Projectile) g).getEnemyTarget() == this) {
+                    if (!getEnemyIsAlive()) {
+                        world.deleteGameObject(this);
+                        EnemySpawner.handleEnemyDeath(this);
+                        Currency.addCurrency(getEnemyCurrency());
+
+                        Random random = new Random();
+                        int number = random.nextInt(2);
+                
+                        System.out.println("RNG: "+number);
+                        if (number == 1) {
+                            Wall newWall = new Wall(world, (this.getCenterX() - 40), (this.getCenterY() - 40), 40, this, 1, 1);
+                            world.addGameObject(newWall);
+                        }
+                    } else {
+                        // ((Projectile) g).despawnObject(((Projectile) g));
+                        world.deleteGameObject(((Projectile) g));
+                    }
+                }
+            }
+
+            if (g instanceof Wall) {
+                if (((Wall) g).getWallIsAlive()) {
+                    this.setEnemySpeed(0);
+
+                    if (globalCD()) {
+                        ((Wall) g).wallDamage(damage);
+                        // System.out.println("ATTACK: "+world.millis());
+                        startTime = world.millis();
+                    }
+                }
+
+                if (!((Wall) g).getWallIsAlive()) {
+                    this.setEnemySpeed(MAXSPEED);
+                }
+            }
+        }
     }
 
     /**
@@ -174,6 +234,15 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
     }
 
     /**
+     * Gets the cooldown timer for tower firerate.
+     * 
+     * @return Timer has finished.
+     */
+    private boolean globalCD() {
+        return world.millis() - startTime > 1000;
+    }
+
+    /**
      * Implement this method to update the objects that need to be drawn.
      */
     @Override
@@ -193,7 +262,8 @@ public class Enemy extends GameObject implements ICollidableWithTiles {
         g.rect(x, y - 5, 40, 8);
 
         g.fill(0, 250, 0);
-        g.rect(x, y - 5, Math.round((40.0 * this.MAXHP) / this.hp), 8);
+        // g.rect(x, y - 5, Math.round((40.0 * this.MAXHP) / this.hp), 8);
+        g.rect(x, y - 5, Math.round((40.0 * this.hp) / this.MAXHP), 8);
 
         g.fill(255, 255, 255);
     }

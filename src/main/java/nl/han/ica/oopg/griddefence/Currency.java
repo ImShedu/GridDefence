@@ -8,7 +8,7 @@ package nl.han.ica.oopg.griddefence;
  */
 public class Currency {
 
-    private static int currency = 100;
+    private static int currency = 10000;
 
     /**
      * Gets the current amount of currency.
