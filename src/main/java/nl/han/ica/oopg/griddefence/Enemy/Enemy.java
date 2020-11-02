@@ -128,15 +128,14 @@ public class Enemy extends GameObject implements ICollidableWithTiles, ICollidab
                         Currency.addCurrency(getEnemyCurrency());
 
                         Random random = new Random();
-                        int number = random.nextInt(2);
+                        int number = random.nextInt(9);
                 
                         System.out.println("RNG: "+number);
                         if (number == 1) {
-                            Wall newWall = new Wall(world, (this.getCenterX() - 40), (this.getCenterY() - 40), 40, this, 1, 1);
-                            world.addGameObject(newWall);
+                            g = new Wall(world, (this.getCenterX() - 40), (this.getCenterY() - 40), 40, this, 1, 1);
+                            world.addGameObject(g);
                         }
                     } else {
-                        // ((Projectile) g).despawnObject(((Projectile) g));
                         world.deleteGameObject(((Projectile) g));
                     }
                 }
